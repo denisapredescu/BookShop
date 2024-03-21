@@ -11,5 +11,4 @@ public interface IAuthorService {
     void deleteAuthor(String token, int id);
     List<Author> getAuthors();
     Author getAuthor(String firstName, String lastName);
-
 }

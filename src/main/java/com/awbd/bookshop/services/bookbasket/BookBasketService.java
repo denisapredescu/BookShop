@@ -1,4 +1,75 @@
 package com.awbd.bookshop.services.bookbasket;
 
-public class BookBasketService {
+import com.awbd.bookshop.models.Basket;
+import com.awbd.bookshop.models.Book;
+import com.awbd.bookshop.models.BookBasket;
+import com.awbd.bookshop.repositories.BookBasketRepository;
+import com.awbd.bookshop.services.book.BookService;
+import com.awbd.bookshop.services.book.IBookService;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
+
+@Service
+public class BookBasketService implements IBookBasketService {
+    private final BookBasketRepository bookBasketRepository;
+    private final IBookService bookService;
+
+    public BookBasketService(BookBasketRepository bookBasketRepository,
+                             IBookService bookService) {
+        this.bookBasketRepository = bookBasketRepository;
+        this.bookService = bookService;
+    }
+
+    @Transactional
+    @Override
+    public Integer addBookToBasket(Integer bookId, Basket basket) {
+        Book book = bookService.getBookById(bookId);
+
+        BookBasket bookBasket = bookBasketRepository.findBookInBasket(book.getId(), basket.getId()).orElse(null);
+
+        if(bookBasket == null) {
+            bookBasket = bookBasketRepository.save(new BookBasket(
+                    0,
+                    1,
+                    book.getPrice(),
+                    book,
+                    basket
+            ));
+        } else {
+            bookBasket.setCopies(bookBasket.getCopies() + 1);
+            bookBasketRepository.save(bookBasket);
+        }
+
+        return bookBasket.getPrice();
+    }
+
+    @Transactional
+    @Override
+    public Integer removeBookToBasket(int bookId, int basketId) {
+        BookBasket bookBasket = bookBasketRepository.findBookInBasket(bookId, basketId).orElseThrow(
+                () -> new NoSuchElementException("The book is not in this basket"));
+
+        bookBasketRepository.delete(bookBasket);
+
+        return bookBasket.getPrice() * bookBasket.getCopies();
+    }
+
+    @Transactional
+    @Override
+    public Integer decrementBookFromBasket(int bookId, int basketId) {
+        BookBasket bookBasket = bookBasketRepository.findBookInBasket(bookId, basketId).orElseThrow(
+                () -> new NoSuchElementException("The book is not in this basket"));
+
+        if (bookBasket.getCopies() > 1)
+        {
+            bookBasket.setCopies(bookBasket.getCopies() - 1);
+            bookBasketRepository.save(bookBasket);
+        } else {
+            bookBasketRepository.delete(bookBasket);
+        }
+
+        return bookBasket.getPrice();
+    }
 }

@@ -1,4 +1,7 @@
 package com.awbd.bookshop.services.cupon;
 
-public class CuponService {
+import org.springframework.stereotype.Service;
+
+@Service
+public class CuponService implements ICuponService {
 }
