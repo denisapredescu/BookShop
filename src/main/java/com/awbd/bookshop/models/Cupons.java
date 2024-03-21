@@ -1,4 +1,4 @@
-package com.awbd.bookshop.repositories;
+package com.awbd.bookshop.models;
 
 import jakarta.persistence.*;
 
