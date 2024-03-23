@@ -1,5 +1,6 @@
 package com.awbd.bookshop.services.basket;
 
+import com.awbd.bookshop.dtos.BasketDetails;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.repositories.BasketRepository;
 import com.awbd.bookshop.services.bookbasket.IBookBasketService;
@@ -67,9 +68,9 @@ public class BasketService implements IBasketService {
 //    @Transactional
 //    @Override
 //    public BasketDetails getBasket(String token, int userId) {
-//        JwtUtil.verifyIsLoggedIn(token);
+////        JwtUtil.verifyIsLoggedIn(token);
 //
-//        Basket basket =  basketRepository.findByUserId(userId).orElse(null);
+//        Basket basket = basketRepository.findByUserId(userId).orElse(null);
 //
 //        if (basket == null)
 //            basket = basketRepository.save(new Basket(
