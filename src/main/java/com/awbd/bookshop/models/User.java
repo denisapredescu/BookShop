@@ -1,4 +1,4 @@
-package com.awbd.bookshop.model;
+package com.awbd.bookshop.models;
 import jakarta.persistence.*;
 @Entity
 @Table(name = "users")

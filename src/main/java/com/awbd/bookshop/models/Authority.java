@@ -1,4 +1,4 @@
-package com.awbd.bookshop.model;
+package com.awbd.bookshop.models;
 import jakarta.persistence.*;
 @Entity
 @Table(name = "authorities")
@@ -10,10 +10,14 @@ public class Authority {
     @Column(name = "authority", nullable = false, length = 50)
     private String authority;
 
-    @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
+//    @ManyToOne
+//    @JoinColumn(name = "id", referencedColumnName = "id")
+//    private User user;
 
+    @ManyToOne(targetEntity = User.class)
+    @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
+
     public Authority() {
     }
 
