@@ -27,6 +27,11 @@ public class Authority {
         this.user = user;
     }
 
+    public Authority(String authority, User user) {
+        this.authority = authority;
+        this.user = user;
+    }
+
     public Authority(int id, String authority) {
         this.id = id;
         this.authority = authority;
