@@ -27,7 +27,8 @@ public class Book {
     @Positive(message = "Price should be greater than zero")
     private int price;
 
-    @Column(name = "year")
+    //la book a trebuit sa schimb year in year_date
+    @Column(name = "year_date")
     @Min(value = 0)
     private int year;
 
