@@ -1,5 +1,8 @@
 package com.awbd.bookshop.apis;
 
+import com.awbd.bookshop.dtos.BookResponse;
+import com.awbd.bookshop.dtos.RequestBook;
+import com.awbd.bookshop.mappers.BookMapper;
 import com.awbd.bookshop.models.Author;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.Category;
@@ -13,72 +16,98 @@ import java.util.List;
 @RestController
 @RequestMapping("/book")
 public class BookController {
-    IBookService bookService;
+    final IBookService bookService;
+    final BookMapper mapper;
 
-    public BookController(IBookService bookService) {
+    public BookController(IBookService bookService, BookMapper mapper) {
         this.bookService = bookService;
+        this.mapper = mapper;
     }
 
     @PostMapping("/add")
     public ResponseEntity<Book> addBook(
-            @RequestHeader(name = "userToken") String token,
-            @Valid @RequestBody Book newBook) {
-        return ResponseEntity.ok(bookService.addBook(token, newBook));
+            @Valid @RequestBody RequestBook newBook) {
+        return ResponseEntity.ok(
+                bookService.addBook(mapper.requestBook(newBook))
+        );
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Book> updateBook(
+    public ResponseEntity<BookResponse> updateBook(
             @PathVariable int id,
-            @RequestHeader(name = "userToken") String token,
-            @Valid @RequestBody Book updateBook)  {
-        return ResponseEntity.ok(bookService.updateBook(token, updateBook, id));
+            @Valid @RequestBody RequestBook updateBook)  {
+        return ResponseEntity.ok(
+            mapper.bookDto(bookService.updateBook(mapper.requestBook(updateBook), id))
+        );
     }
 
     @PatchMapping("/addAuthorToBook/{bookId}")
-    public ResponseEntity<Book> addAuthorToBook(
-            @RequestHeader(name = "userToken") String token,
+    public ResponseEntity<BookResponse> addAuthorToBook(
             @PathVariable int bookId,
             @Valid @RequestBody Author newAuthor) {
-        return ResponseEntity.ok(bookService.addAuthorToBook(token, bookId, newAuthor));
+        return ResponseEntity.ok(
+                mapper.bookDto(bookService.addAuthorToBook(bookId, newAuthor))
+        );
     }
 
     @PatchMapping("/addCategoriesToBook/{bookId}")
-    public ResponseEntity<Book> addCategoriesToBook(
-            @RequestHeader(name = "userToken") String token,
+    public ResponseEntity<BookResponse> addCategoriesToBook(
             @PathVariable int bookId,
             @Valid @RequestBody List<Category> newCategories) {
-        return ResponseEntity.ok(bookService.addCategoriesToBook(token, bookId, newCategories));
+        return ResponseEntity.ok(
+                mapper.bookDto(bookService.addCategoriesToBook(bookId, newCategories))
+        );
     }
 
     @PatchMapping("/delete/{id}")
     public ResponseEntity<Void> deleteBook(
-            @PathVariable int id,
-            @RequestHeader(name = "userToken") String token) {
-        bookService.deleteBook(token, id);
+            @PathVariable int id) {
+        bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/getAllByAdmin")
-    public ResponseEntity<List<Book>> getAllBooks(
-            @RequestHeader(name = "userToken") String token) {
-        return ResponseEntity.ok(bookService.getBooks(token));
+    public ResponseEntity<List<BookResponse>> getAllBooks() {
+        List<Book> books = bookService.getBooks();
+        return ResponseEntity.ok(
+            books.stream().map(
+                mapper::bookDto
+            ).toList()
+        );
     }
 
     @GetMapping("/getAvailable")
-    public ResponseEntity<List<Book>> getAvailableBooks(){
-        return ResponseEntity.ok(bookService.getAvailableBooks());
+    public ResponseEntity<List<BookResponse>> getAvailableBooks(){
+        List<Book> books = bookService.getAvailableBooks();
+        return ResponseEntity.ok(
+                books.stream().map(
+                        mapper::bookDto
+                ).toList()
+        );
     }
 
     @GetMapping("/getBooksByAuthor/{firstname}/{lastName}")
-    public ResponseEntity<List<Book>> getBooksByAuthor(
+    public ResponseEntity<List<BookResponse>> getBooksByAuthor(
             @PathVariable String firstname,
             @PathVariable String lastName) {
-        return ResponseEntity.ok(bookService.getBooksByAuthor(firstname, lastName));
+//        return ResponseEntity.ok(bookService.getBooksByAuthor(firstname, lastName));
+        List<Book> books = bookService.getBooksByAuthor(firstname, lastName);
+        return ResponseEntity.ok(
+                books.stream().map(
+                        mapper::bookDto
+                ).toList()
+        );
     }
 
     @GetMapping("/getBooksByCategory/{category}")
-    public ResponseEntity<List<Book>> getBooksByCategory(
+    public ResponseEntity<List<BookResponse>> getBooksByCategory(
             @PathVariable String category) {
-        return ResponseEntity.ok(bookService.getBooksByCategory(category));
+//        return ResponseEntity.ok(bookService.getBooksByCategory(category));
+        List<Book> books = bookService.getBooksByCategory(category);
+        return ResponseEntity.ok(
+                books.stream().map(
+                        mapper::bookDto
+                ).toList()
+        );
     }
 }

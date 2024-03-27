@@ -16,7 +16,6 @@ public class Cupons {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-
     public Cupons(Integer id, Double discount) {
         this.id = id;
         this.discount = discount;

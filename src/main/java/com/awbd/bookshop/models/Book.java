@@ -27,7 +27,6 @@ public class Book {
     @Positive(message = "Price should be greater than zero")
     private int price;
 
-    //la book a trebuit sa schimb year in year_date
     @Column(name = "year_date")
     @Min(value = 0)
     private int year;
@@ -90,6 +89,15 @@ public class Book {
         this.is_deleted = is_deleted;
         this.author = author;
         this.bookCategories = bookCategories;
+    }
+
+    public Book(String name, int price, int year, int volume, String series_name, Boolean is_deleted) {
+        this.name = name;
+        this.price = price;
+        this.year = year;
+        this.volume = volume;
+        this.series_name = series_name;
+        this.is_deleted = is_deleted;
     }
 
     public int getId() {

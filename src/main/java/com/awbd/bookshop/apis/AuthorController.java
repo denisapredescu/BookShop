@@ -1,6 +1,8 @@
 package com.awbd.bookshop.apis;
 
 
+import com.awbd.bookshop.dtos.RequestAuthor;
+import com.awbd.bookshop.mappers.AuthorMapper;
 import com.awbd.bookshop.models.Author;
 import com.awbd.bookshop.services.author.IAuthorService;
 import jakarta.validation.Valid;
@@ -12,32 +14,31 @@ import java.util.List;
 @RestController
 @RequestMapping("/author")
 public class AuthorController {
-    IAuthorService authorService;
+    final IAuthorService authorService;
+    final AuthorMapper mapper;
 
-    public AuthorController(IAuthorService authorService) {
+    public AuthorController(IAuthorService authorService, AuthorMapper mapper) {
         this.authorService = authorService;
+        this.mapper = mapper;
     }
 
     @PostMapping("/add")
     public ResponseEntity<Author> addAuthor(
-            @RequestHeader(name = "userToken") String token,
-            @Valid @RequestBody Author newAuthor) {
-        return ResponseEntity.ok(authorService.addAuthor(token, newAuthor));
+            @Valid @RequestBody RequestAuthor newAuthor) {
+        return ResponseEntity.ok(authorService.addAuthor(mapper.requestAuthor(newAuthor)));
     }
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<Author> updateAuthor(
             @PathVariable int id,
-            @RequestHeader(name = "userToken") String token,
-            @Valid @RequestBody Author updateAuthor) {
-        return ResponseEntity.ok(authorService.updateAuthor(token, updateAuthor, id));
+            @Valid @RequestBody RequestAuthor updateAuthor) {
+        return ResponseEntity.ok(authorService.updateAuthor(mapper.requestAuthor(updateAuthor), id));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteAuthor(
-            @PathVariable int id,
-            @RequestHeader(name = "userToken") String token) {
-        authorService.deleteAuthor(token, id);
+            @PathVariable int id) {
+        authorService.deleteAuthor(id);
         return ResponseEntity.noContent().build();
     }
 

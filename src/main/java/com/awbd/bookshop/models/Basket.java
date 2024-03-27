@@ -18,7 +18,7 @@ public class Basket {
     @Column(name = "cost")
     private int cost = 0;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class)
     @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
 
