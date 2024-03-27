@@ -5,20 +5,18 @@ public class UserDetails {
     private Integer id;
     private String firstName = "";
     private String lastName = "";
-    private String birthday;
+    private String username;
     private String email;
-    private String role;
 
     public UserDetails() {
     }
 
-    public UserDetails(Integer id, String firstName, String lastName, String birthday, String email, String role) {
+    public UserDetails(Integer id, String firstName, String lastName, String username, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthday = birthday;
+        this.username = username;
         this.email = email;
-        this.role = role;
     }
 
     public Integer getId() {
@@ -33,15 +31,11 @@ public class UserDetails {
         return lastName;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public String getUsername() {
+        return username;
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public String getRole() {
-        return role;
     }
 }

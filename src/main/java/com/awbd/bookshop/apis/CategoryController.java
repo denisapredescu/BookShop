@@ -1,6 +1,7 @@
 package com.awbd.bookshop.apis;
 
 
+import com.awbd.bookshop.mappers.CategoryMapper;
 import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.services.category.ICategoryService;
 import jakarta.validation.Valid;
@@ -15,38 +16,43 @@ import java.util.List;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
-    ICategoryService categoryService;
+    final ICategoryService categoryService;
+    final CategoryMapper mapper;
 
-    public CategoryController(ICategoryService categoryService) {
+    public CategoryController(ICategoryService categoryService, CategoryMapper mapper) {
         this.categoryService = categoryService;
+        this.mapper = mapper;
     }
 
     @PostMapping("/add")
     public ResponseEntity<Category> addCategory(
-            @RequestHeader(name = "userToken") String token,
-            @Valid @RequestBody Category newCategory){
-        return ResponseEntity.ok(categoryService.addCategory(token, newCategory));
+            @Valid @RequestBody String newCategory){
+        return ResponseEntity.ok(
+                categoryService.addCategory(mapper.requestCategory(newCategory))
+        );
     }
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<Category> updateCategory(
             @PathVariable int id,
-            @RequestHeader(name = "userToken") String token,
-            @Valid @RequestBody Category updateCategory){
-        return ResponseEntity.ok(categoryService.updateCategory(token, updateCategory, id));
+            @Valid @RequestBody String updateCategory){
+        return ResponseEntity.ok(
+                categoryService.updateCategory(
+                        mapper.requestCategory(updateCategory),
+                        id
+                )
+        );
     }
 
     @DeleteMapping("/delete/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<Void> deleteCategory(
             @PathVariable int id,
             @RequestHeader(name = "userToken") String token){
-        categoryService.deleteCategory(token, id);
+        categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/getCategories")
-    @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<List<Category>> getCategories(){
         return ResponseEntity.ok(categoryService.getCategories());
     }

@@ -1,5 +1,8 @@
 package com.awbd.bookshop.models;
 import jakarta.persistence.*;
+
+import java.util.Set;
+
 @Entity
 @Table(name = "authorities")
 public class Authority {
@@ -14,27 +17,17 @@ public class Authority {
 //    @JoinColumn(name = "id", referencedColumnName = "id")
 //    private User user;
 
-    @ManyToOne(targetEntity = User.class)
+    @OneToMany(targetEntity = User.class)
     @PrimaryKeyJoinColumn(name = "user_id")
-    private User user;
+    private Set<User> users;
 
     public Authority() {
     }
 
-    public Authority(int id, String authority, User user) {
+    public Authority(int id, String authority, Set<User> users) {
         this.id = id;
         this.authority = authority;
-        this.user = user;
-    }
-
-    public Authority(String authority, User user) {
-        this.authority = authority;
-        this.user = user;
-    }
-
-    public Authority(int id, String authority) {
-        this.id = id;
-        this.authority = authority;
+        this.users = users;
     }
 
     public int getId() {
@@ -53,11 +46,51 @@ public class Authority {
         this.authority = authority;
     }
 
-    public User getUser() {
-        return user;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
+
+    //    public Authority(int id, String authority, User user) {
+//        this.id = id;
+//        this.authority = authority;
+//        this.user = user;
+//    }
+//
+//    public Authority(String authority, User user) {
+//        this.authority = authority;
+//        this.user = user;
+//    }
+//
+//    public Authority(int id, String authority) {
+//        this.id = id;
+//        this.authority = authority;
+//    }
+//
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+//
+//    public String getAuthority() {
+//        return authority;
+//    }
+//
+//    public void setAuthority(String authority) {
+//        this.authority = authority;
+//    }
+//
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 }

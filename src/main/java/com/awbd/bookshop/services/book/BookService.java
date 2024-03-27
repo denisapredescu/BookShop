@@ -26,15 +26,13 @@ public class BookService implements IBookService {
 
     @Transactional
     @Override
-    public Book addBook(String token, Book newBook) {
-//        JwtUtil.verifyAdmin(token);
+    public Book addBook(Book newBook) {
         return bookRepository.save(newBook);
     }
 
     @Transactional
     @Override
-    public Book addAuthorToBook(String token, Integer bookId, Author newAuthor) {
-//        JwtUtil.verifyAdmin(token);
+    public Book addAuthorToBook(Integer bookId, Author newAuthor) {
         Book book = getBookById(bookId);
 
         if (book.getIs_deleted())
@@ -48,8 +46,7 @@ public class BookService implements IBookService {
 
     @Transactional
     @Override
-    public Book addCategoriesToBook(String token, Integer bookId, List<Category> newCategories) {
-//        JwtUtil.verifyAdmin(token);
+    public Book addCategoriesToBook(Integer bookId, List<Category> newCategories) {
         Book book = getBookById(bookId);
 
         if (book.getIs_deleted())
@@ -68,8 +65,7 @@ public class BookService implements IBookService {
 
     @Transactional
     @Override
-    public Book updateBook(String token, Book bookToUpdate, Integer id) {
-//        JwtUtil.verifyAdmin(token);
+    public Book updateBook(Book bookToUpdate, Integer id) {
         Book book = getBookById(id);
 
         if (book.getIs_deleted())
@@ -86,9 +82,7 @@ public class BookService implements IBookService {
 
     @Transactional
     @Override
-    public void deleteBook(String token, Integer id) {
-//        JwtUtil.verifyAdmin(token);
-
+    public void deleteBook(Integer id) {
         Book book = getBookById(id);
         book.setIs_deleted(true);
 
@@ -97,8 +91,7 @@ public class BookService implements IBookService {
 
     @Transactional
     @Override
-    public List<Book> getBooks(String token) {
-//        JwtUtil.verifyAdmin(token);
+    public List<Book> getBooks() {
         return bookRepository.findAll();
     }
 
