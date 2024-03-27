@@ -24,7 +24,7 @@ public class BookBasketService implements IBookBasketService {
 
     @Transactional
     @Override
-    public Integer addBookToBasket(Integer bookId, Basket basket) {
+    public Double addBookToBasket(Integer bookId, Basket basket) {
         Book book = bookService.getBookById(bookId);
 
         BookBasket bookBasket = bookBasketRepository.findBookInBasket(book.getId(), basket.getId()).orElse(null);
@@ -47,7 +47,7 @@ public class BookBasketService implements IBookBasketService {
 
     @Transactional
     @Override
-    public Integer removeBookToBasket(int bookId, int basketId) {
+    public Double removeBookToBasket(int bookId, int basketId) {
         BookBasket bookBasket = bookBasketRepository.findBookInBasket(bookId, basketId).orElseThrow(
                 () -> new NoSuchElementException("The book is not in this basket"));
 
@@ -58,7 +58,7 @@ public class BookBasketService implements IBookBasketService {
 
     @Transactional
     @Override
-    public Integer decrementBookFromBasket(int bookId, int basketId) {
+    public Double decrementBookFromBasket(int bookId, int basketId) {
         BookBasket bookBasket = bookBasketRepository.findBookInBasket(bookId, basketId).orElseThrow(
                 () -> new NoSuchElementException("The book is not in this basket"));
 

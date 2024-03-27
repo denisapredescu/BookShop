@@ -16,7 +16,7 @@ public class BookBasket {
     private int copies;
 
     @Column(name = "price")
-    private int price = 0;
+    private double price = 0;
 
     @ManyToOne(targetEntity = Book.class)
     @PrimaryKeyJoinColumn(name = "book_id")
@@ -29,7 +29,7 @@ public class BookBasket {
     public BookBasket() {
     }
 
-    public BookBasket(int id, int copies, int price, Book book, Basket basket) {
+    public BookBasket(int id, int copies, double price, Book book, Basket basket) {
         this.id = id;
         this.copies = copies;
         this.price = price;
@@ -53,11 +53,11 @@ public class BookBasket {
         this.copies = copies;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

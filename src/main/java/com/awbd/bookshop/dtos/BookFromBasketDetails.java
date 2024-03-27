@@ -2,10 +2,10 @@ package com.awbd.bookshop.dtos;
 
 public class BookFromBasketDetails {
     private String name;
-    private int price;
+    private double price;
     private int copies;
 
-    public BookFromBasketDetails(String name, int price, int copies) {
+    public BookFromBasketDetails(String name, double price, int copies) {
         this.name = name;
         this.price = price;
         this.copies = copies;
@@ -15,7 +15,7 @@ public class BookFromBasketDetails {
         return name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

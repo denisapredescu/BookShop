@@ -16,7 +16,7 @@ public class Basket {
     private Boolean sent = false;
 
     @Column(name = "cost")
-    private int cost = 0;
+    private double cost = 0;
 
     @ManyToOne(targetEntity = User.class)
     @PrimaryKeyJoinColumn(name = "user_id")
@@ -25,7 +25,7 @@ public class Basket {
     public Basket() {
     }
 
-    public Basket(int id, Boolean sent, int cost, User user) {
+    public Basket(int id, Boolean sent, double cost, User user) {
         this.id = id;
         this.sent = sent;
         this.cost = cost;
@@ -48,11 +48,11 @@ public class Basket {
         this.sent = sent;
     }
 
-    public int getCost() {
+    public double getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 
