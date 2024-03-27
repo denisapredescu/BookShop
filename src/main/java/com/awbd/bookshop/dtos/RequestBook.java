@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Positive;
 public class RequestBook {
     private String name;
 
-    private int price;
+    private double price;
 
     private int year;
 
@@ -17,7 +17,7 @@ public class RequestBook {
 
     private String series_name = null;
 
-    public RequestBook(String name, int price, int year, int volume, String series_name) {
+    public RequestBook(String name, double price, int year, int volume, String series_name) {
         this.name = name;
         this.price = price;
         this.year = year;
@@ -29,7 +29,7 @@ public class RequestBook {
         return name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

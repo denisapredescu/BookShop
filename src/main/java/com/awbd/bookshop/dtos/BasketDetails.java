@@ -9,10 +9,10 @@ public class BasketDetails {
     private String sent;
     private int userId;
     private String email;
-    private int cost;
+    private double cost;
     private List<BookFromBasketDetails> books;
 
-    public BasketDetails(int id, String sent, int userId, String email, int cost, List<BookFromBasketDetails> books) {
+    public BasketDetails(int id, String sent, int userId, String email, double cost, List<BookFromBasketDetails> books) {
         this.id = id;
         this.sent = sent;
         this.userId = userId;
@@ -33,7 +33,7 @@ public class BasketDetails {
         return email;
     }
 
-    public int getCost() {
+    public double getCost() {
         return cost;
     }
 
