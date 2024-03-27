@@ -46,8 +46,8 @@ public class CategoryController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteCategory(
-            @PathVariable int id,
-            @RequestHeader(name = "userToken") String token){
+            @PathVariable int id
+    ){
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }
