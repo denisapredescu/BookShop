@@ -16,7 +16,7 @@ public class BookResponse {
 
     private String name;
 
-    private int price;
+    private double price;
 
     private int year;
 
@@ -28,7 +28,7 @@ public class BookResponse {
 
     private List<Category> categories;
 
-    public BookResponse(int id, String name, int price, int year, int volume, String series_name, String author, List<Category> categories) {
+    public BookResponse(int id, String name, double price, int year, int volume, String series_name, String author, List<Category> categories) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -47,7 +47,7 @@ public class BookResponse {
         return name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 

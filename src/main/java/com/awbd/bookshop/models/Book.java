@@ -25,7 +25,7 @@ public class Book {
     @Min(value = 0)
     @NotNull(message = "The price must be set!")
     @Positive(message = "Price should be greater than zero")
-    private int price;
+    private double price;
 
     @Column(name = "year_date")
     @Min(value = 0)
@@ -51,7 +51,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(int id, String name, int price, int year, int volume, String series_name, Boolean is_deleted) {
+    public Book(int id, String name, double price, int year, int volume, String series_name, Boolean is_deleted) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -63,7 +63,7 @@ public class Book {
 
     public Book(int id,
                 String name,
-                int price,
+                double price,
                 int year,
                 Boolean is_deleted,
                 int volume,
@@ -79,7 +79,7 @@ public class Book {
         this.author = author;
     }
 
-    public Book(int id, String name, int price, int year, int volume, String series_name, Boolean is_deleted, Author author, List<Category> bookCategories) {
+    public Book(int id, String name, double price, int year, int volume, String series_name, Boolean is_deleted, Author author, List<Category> bookCategories) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -91,7 +91,7 @@ public class Book {
         this.bookCategories = bookCategories;
     }
 
-    public Book(String name, int price, int year, int volume, String series_name, Boolean is_deleted) {
+    public Book(String name, double price, int year, int volume, String series_name, Boolean is_deleted) {
         this.name = name;
         this.price = price;
         this.year = year;
@@ -116,11 +116,11 @@ public class Book {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "cupons")
-public class Cupons {
+public class Coupon {
     @Id
     @GeneratedValue
     private Integer id;
@@ -16,18 +16,22 @@ public class Cupons {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public Cupons(Integer id, Double discount) {
-        this.id = id;
-        this.discount = discount;
-    }
-
-    public Cupons(Integer id, Double discount, User user) {
+    public Coupon(Integer id, Double discount, User user) {
         this.id = id;
         this.discount = discount;
         this.user = user;
     }
 
-    public Cupons() {
+    public Coupon() {
 
+    }
+
+    public Coupon(Double discount, User user) {
+        this.discount = discount;
+        this.user = user;
+    }
+
+    public Double getDiscount() {
+        return discount;
     }
 }
