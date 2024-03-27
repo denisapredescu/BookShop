@@ -1,61 +1,78 @@
 package com.awbd.bookshop.apis;
 
+import com.awbd.bookshop.dtos.BasketDetails;
+import com.awbd.bookshop.dtos.BookFromBasketDetails;
+import com.awbd.bookshop.mappers.BasketMapper;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.services.basket.IBasketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/basket")
 public class BasketController {
-    IBasketService basketService;
+    final IBasketService basketService;
+    final BasketMapper mapper;
 
-    public BasketController(IBasketService basketService) {
+    public BasketController(IBasketService basketService, BasketMapper mapper) {
         this.basketService = basketService;
+        this.mapper = mapper;
     }
 
     @PostMapping("/createBasket/{userId}")
-    public ResponseEntity<Basket> createBasket(
-            @RequestHeader(name = "userToken") String token,
-            @PathVariable int userId) {
-        return ResponseEntity.ok(basketService.createBasket(token, userId));
+    public ResponseEntity<BasketDetails> createBasket(
+            @PathVariable int userId
+    ) {
+        Basket basket = basketService.createBasket(userId);
+        return ResponseEntity.ok(mapper.bookResponse(basket, null));
     }
 
     @PatchMapping("/sentOrder/{userId}")
-    public ResponseEntity<Basket> sentOrder(
-            @RequestHeader(name = "userToken") String token,
-            @PathVariable int userId) {
-        return ResponseEntity.ok(basketService.sentOrder(token, userId));
+    public ResponseEntity<BasketDetails> sentOrder(
+            @PathVariable int userId
+    ) {
+        Basket basket = basketService.sentOrder(userId);
+        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basket.getId());
+        return ResponseEntity.ok(mapper.bookResponse(basket, books));
     }
 
-//    @GetMapping("/getBasket/{userId}")
-//    public ResponseEntity<BasketDetails> getBasket(
-//            @RequestHeader(name = "userToken") String token,
-//            @PathVariable int userId) {
-//        return ResponseEntity.ok(basketService.getBasket(token, userId));
-//    }
+    @GetMapping("/getBasket/{userId}")
+    public ResponseEntity<BasketDetails> getBasket(
+            @PathVariable int userId
+    ) {
+        Basket basket = basketService.sentOrder(userId);
+        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basket.getId());
+        return ResponseEntity.ok(mapper.bookResponse(basket, books));
+    }
 
     @PostMapping("/addBookToBasket/{bookId}/{basketId}")
-    public  ResponseEntity<Basket> addBookToBasket(
-            @RequestHeader(name = "userToken") String token,
+    public  ResponseEntity<BasketDetails> addBookToBasket(
             @PathVariable int bookId,
-            @PathVariable int basketId) {
-        return  ResponseEntity.ok(basketService.addBookToBasket(token, bookId, basketId));
+            @PathVariable int basketId
+    ) {
+        Basket basket = basketService.addBookToBasket(bookId, basketId);
+        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basketId);
+        return  ResponseEntity.ok(mapper.bookResponse(basket, books));
     }
 
     @DeleteMapping("/removeBookFromBasket/{bookId}/{basketId}")
-    public  ResponseEntity<Basket> removeBookFromBasket(
-            @RequestHeader(name = "userToken") String token,
+    public  ResponseEntity<BasketDetails> removeBookFromBasket(
             @PathVariable int bookId,
             @PathVariable int basketId) {
-        return  ResponseEntity.ok(basketService.removeBookFromBasket(token, bookId, basketId));
+        Basket basket = basketService.removeBookFromBasket(bookId, basketId);
+        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basketId);
+        return  ResponseEntity.ok(mapper.bookResponse(basket, books));
     }
 
     @PatchMapping("/decrementBookFromBasket/{bookId}/{basketId}")
-    public ResponseEntity<Basket> decrementBookFromBasket(
-            @RequestHeader(name = "userToken") String token,
+    public ResponseEntity<BasketDetails> decrementBookFromBasket(
             @PathVariable int bookId,
-            @PathVariable int basketId) {
-        return ResponseEntity.ok(basketService.decrementBookFromBasket(token, bookId, basketId));
+            @PathVariable int basketId
+    ) {
+        Basket basket = basketService.decrementBookFromBasket(bookId, basketId);
+        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basketId);
+        return  ResponseEntity.ok(mapper.bookResponse(basket, books));
     }
 }

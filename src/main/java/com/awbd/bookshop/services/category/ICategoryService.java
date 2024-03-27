@@ -5,10 +5,9 @@ import com.awbd.bookshop.models.Category;
 import java.util.List;
 
 public interface ICategoryService {
-    Category addCategory(String token, Category newCategory);
-    Category updateCategory(String token, Category updateCategory, int id);
-    void deleteCategory(String token, int id);
+    Category addCategory(Category newCategory);
+    Category updateCategory(Category updateCategory, int id);
+    void deleteCategory(int id);
     List<Category> getCategories();
-
     Category save(Category newCategory);
 }

@@ -18,8 +18,7 @@ public class CategoryService implements ICategoryService {
 
     @Transactional
     @Override
-    public Category addCategory(String token, Category newCategory) {
-//        JwtUtil.verifyAdmin(token);
+    public Category addCategory(Category newCategory) {
         return save(newCategory);
     }
 
@@ -40,8 +39,7 @@ public class CategoryService implements ICategoryService {
 
     @Transactional
     @Override
-    public Category updateCategory(String token, Category updateCategory, int id) {
-//        JwtUtil.verifyAdmin(token);
+    public Category updateCategory(Category updateCategory, int id) {
         Category category = categoryRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Category with this id not found"));
 
@@ -51,8 +49,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public void deleteCategory(String token, int id) {
-//        JwtUtil.verifyAdmin(token);
+    public void deleteCategory(int id) {
         categoryRepository.deleteById(id);
     }
 

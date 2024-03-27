@@ -16,9 +16,7 @@ public class AuthorService implements IAuthorService{
     }
 
     @Override
-    public Author addAuthor(String token, Author newAuthor) {
-//        JwtUtil.verifyAdmin(token);
-
+    public Author addAuthor(Author newAuthor) {
         return save(newAuthor);
     }
 
@@ -36,8 +34,7 @@ public class AuthorService implements IAuthorService{
     }
 
     @Override
-    public Author updateAuthor(String token, Author newAuthor, int id) {
-//        JwtUtil.verifyAdmin(token);
+    public Author updateAuthor(Author newAuthor, int id) {
         Author author = authorRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Author with this id not found"));
 
@@ -48,8 +45,7 @@ public class AuthorService implements IAuthorService{
     }
 
     @Override
-    public void deleteAuthor(String token, int id) {
-//        JwtUtil.verifyAdmin(token);
+    public void deleteAuthor(int id) {
         authorRepository.deleteById(id);
     }
 
