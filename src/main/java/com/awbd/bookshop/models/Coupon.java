@@ -2,6 +2,8 @@ package com.awbd.bookshop.models;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "cupons")
 public class Coupon {
@@ -33,5 +35,26 @@ public class Coupon {
 
     public Double getDiscount() {
         return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coupon coupon = (Coupon) o;
+        return Objects.equals(id, coupon.id) && Objects.equals(discount, coupon.discount) && Objects.equals(user, coupon.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, discount, user);
     }
 }
