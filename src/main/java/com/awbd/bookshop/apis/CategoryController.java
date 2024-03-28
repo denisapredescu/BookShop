@@ -5,8 +5,11 @@ import com.awbd.bookshop.mappers.CategoryMapper;
 import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.services.category.ICategoryService;
 import jakarta.validation.Valid;
+import org.h2.engine.Mode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -24,36 +27,72 @@ public class CategoryController {
         this.mapper = mapper;
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Category> addCategory(
-            @Valid @RequestBody String newCategory){
-        return ResponseEntity.ok(
-                categoryService.addCategory(mapper.requestCategory(newCategory))
-        );
-    }
+//    @PostMapping("/add")
+//    public ResponseEntity<Category> addCategory(
+//            @Valid @RequestBody String newCategory){
+//        return ResponseEntity.ok(
+//                categoryService.addCategory(mapper.requestCategory(newCategory))
+//        );
+//    }
+@PostMapping("")
+public ModelAndView addCategory(
+        @Valid @ModelAttribute Category category){
+        categoryService.addCategory(category);
+        return new ModelAndView("redirect:/category");
+}
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<Category> updateCategory(
-            @PathVariable int id,
-            @Valid @RequestBody String updateCategory){
-        return ResponseEntity.ok(
-                categoryService.updateCategory(
-                        mapper.requestCategory(updateCategory),
-                        id
-                )
-        );
-    }
+//    @PatchMapping("/update/{id}")
+//    public ResponseEntity<Category> updateCategory(
+//            @PathVariable int id,
+//            @Valid @RequestBody String updateCategory){
+//        return ResponseEntity.ok(
+//                categoryService.updateCategory(
+//                        mapper.requestCategory(updateCategory),
+//                        id
+//                )
+//        );
+//    }
+@RequestMapping("/add")
+public ModelAndView addCategory(
+        @Valid Model model,
+        @Valid String newCategory){
+    model.addAttribute("category",mapper.requestCategory(newCategory));
+    return new ModelAndView("categoryAddForm");
+}
+@RequestMapping("/update/{id}") //cand merg pe ruta asta doar se afiseaza categoryForm
+public ModelAndView updateCategory(
+        @PathVariable int id,
+        @Valid Model model){
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteCategory(
-            @PathVariable int id
-    ){
-        categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
-    }
+        model.addAttribute("category",categoryService.getCategoryById(id));
 
-    @GetMapping("/getCategories")
-    public ResponseEntity<List<Category>> getCategories(){
-        return ResponseEntity.ok(categoryService.getCategories());
-    }
+
+    return new ModelAndView("categoryForm");
+}
+
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<Void> deleteCategory(
+//            @PathVariable int id
+//    ){
+//        categoryService.deleteCategory(id);
+//        return ResponseEntity.noContent().build();
+//    }
+@RequestMapping("/delete/{id}")
+public ModelAndView deleteCategory(
+        @PathVariable int id
+){
+    categoryService.deleteCategory(id);
+    return new ModelAndView("redirect:/category");
+}
+
+//    @GetMapping("/getCategories")
+//    public ResponseEntity<List<Category>> getCategories(){
+//        return ResponseEntity.ok(categoryService.getCategories());
+//    }
+@RequestMapping("")
+public ModelAndView getCategories(Model model){
+        List<Category> categories = categoryService.getCategories();
+        model.addAttribute("categories",categories);
+        return new ModelAndView ("categoryList");
+}
 }
