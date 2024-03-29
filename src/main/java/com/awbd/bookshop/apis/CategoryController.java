@@ -35,7 +35,7 @@ public class CategoryController {
 //        );
 //    }
 @PostMapping("")
-public ModelAndView addCategory(
+public ModelAndView save(
         @Valid @ModelAttribute Category category){
         categoryService.addCategory(category);
         return new ModelAndView("redirect:/category");

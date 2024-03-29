@@ -1,6 +1,7 @@
 package com.awbd.bookshop.services.author;
 
 import com.awbd.bookshop.models.Author;
+import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.repositories.AuthorRepository;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +58,11 @@ public class AuthorService implements IAuthorService{
     @Override
     public Author getAuthor(String firstName, String lastName) {
         return authorRepository.getAuthor(firstName, lastName).orElse(null);
+    }
+    @Override
+    public Author getAuthorById(int id) {
+        Author author = authorRepository.findById(id).orElseThrow(
+                () -> new NoSuchElementException("Author with this id not found"));
+        return author;
     }
 }
