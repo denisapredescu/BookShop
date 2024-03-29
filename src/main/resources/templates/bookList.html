@@ -28,9 +28,8 @@
                     <a class="nav-link" th:href="@{'/category'}">Categories</a>
                 </li>
                 <li class="nav-item">
-                    <!--                    formular pentru adaugare carti-->
-                    <a class="nav-link btn-primary" th:href="@{'/category/add'}">
-                        <i class="fas fa-plus-circle"></i> Add Category
+                    <a class="nav-link btn-primary" th:href="@{'/book/add'}">
+                        <i class="fas fa-plus-circle"></i> Add Book
                     </a>
                 </li>
             </ul>
@@ -50,41 +49,43 @@
     </nav>
 </div>
 
-<form enctype="multipart/form-data" method="post" th:action="@{/category}" th:object="${category}">
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading text-center mt-3">
-                <h3>Add new category</h3>
-            </div>
-        </div>
+<div class="container">
+    <table class="table table-hover ">
+        <thead class="thead-inverse">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Year</th>
+            <th>Volume</th>
+            <th>Series Name</th>
+            <th>Still exists?</th>
+            <th>ID Author</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Add Author</th>
+            <th>Add Categ</th>
+        </tr>
+        </thead>
+        <tr th:each="book, stat : ${books}"
+            th:class="${stat.odd}? 'table-light':''">
+            <td th:text="${book.id}">1</td>
+            <td th:text="${book.name}">1</td>
+            <td th:text="${book.price}">20.1</td>
+            <td th:text="${book.year}">2000</td>
+            <td th:text="${book.volume}">1</td>
+            <td th:text="${book.series_name}">Series 1</td>
+            <td th:text="${!book.is_deleted}">deleted 1</td>
+            <td th:text="${book.author != null} ? ${book.author.id} : ''"></td>
 
-<!--        <div class="row justify-content-center">-->
-<!--            <div class="col-md-5 ">-->
-<!--                <div class="form-row">-->
-<!--                    <label for="id">Category Id:</label>-->
-<!--                    <input id="id" class="form-control" th:field="*{id}" th:readonly="true"/>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-        <br>
+            <td><a th:if="${!book.is_deleted}" href="#" th:href="@{'/book/update/' + ${book.id}}"><i class="fa-solid fa-pen"></i></a></td>
+            <td><a th:if="${!book.is_deleted}" href="#" th:href="@{'/book/delete/' + ${book.id}}"><i class="fa-solid fa-trash"></i></a></td>
+            <td><a th:if="${!book.is_deleted}" href="#" th:href="@{'/book/addAuthorToBook/' + ${book.id}}"><i class="fa-solid fa-gear"></i></a></td>
+            <td><a th:if="${!book.is_deleted}" href="#" th:href="@{'/book/addCategBook/' + ${book.id}}"><i class="fa-solid fa-pen-nib"></i></a></td>
+        </tr>
+    </table>
+</div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-5 ">
-                <div class="form-row">
-                    <label for="name">Category Name:</label>
-                    <input id="name" class="form-control" th:field="*{name}" type="text" placeholder="category name"/>
-                    <label for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</label>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center mt-3">
-        <div class="col-md-1 ml-md-auto">
-            <button class="btn btn-primary" type="submit">Submit</button>
-        </div>
-    </div>
-</form>
 
 </body>
 </html>
-

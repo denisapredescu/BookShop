@@ -28,11 +28,11 @@
                     <a class="nav-link" th:href="@{'/category'}">Categories</a>
                 </li>
                 <li class="nav-item">
-                    <!--                    formular pentru adaugare carti-->
-                    <a class="nav-link btn-primary" th:href="@{'/category/add'}">
-                        <i class="fas fa-plus-circle"></i> Add Category
+                    <a class="nav-link btn-primary" th:href="@{'/book/add'}">
+                        <i class="fas fa-plus-circle"></i> Add book
                     </a>
                 </li>
+
             </ul>
             <ul class="navbar-nav ms-auto topnav">
                 <li class="nav-item">
@@ -50,41 +50,52 @@
     </nav>
 </div>
 
-<form enctype="multipart/form-data" method="post" th:action="@{/category}" th:object="${category}">
+<form enctype="multipart/form-data" method="post" th:action="@{/book/addAuthBook/{bookId}(bookId=${book.id})}" th:object="${author}">
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading text-center mt-3">
-                <h3>Add new category</h3>
+                <h3>Add the author of the chosen book</h3>
             </div>
         </div>
 
-<!--        <div class="row justify-content-center">-->
-<!--            <div class="col-md-5 ">-->
-<!--                <div class="form-row">-->
-<!--                    <label for="id">Category Id:</label>-->
-<!--                    <input id="id" class="form-control" th:field="*{id}" th:readonly="true"/>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
         <br>
 
         <div class="row justify-content-center">
             <div class="col-md-5 ">
                 <div class="form-row">
-                    <label for="name">Category Name:</label>
-                    <input id="name" class="form-control" th:field="*{name}" type="text" placeholder="category name"/>
-                    <label for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</label>
+                    <label for="firstName">First Name:</label>
+                    <input id="firstName" class="form-control" th:field="*{firstName}" type="text" placeholder="first name"  th:disabled="${book.author != null}"/>
+                    <label for="firstName" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Error</label>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-5 ">
+                <div class="form-row">
+                    <label for="lastName">Last Name:</label>
+                    <input id="lastName" class="form-control" th:field="*{lastName}" type="text" placeholder="last name"  th:disabled="${book.author != null}"/>
+                    <label for="lastName" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error</label>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-5 ">
+                <div class="form-row">
+                    <label for="nationality">Nationality:</label>
+                    <input id="nationality" class="form-control" th:field="*{nationality}" type="text" placeholder="nationality"  th:disabled="${book.author != null}"/>
+                    <label for="nationality" th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}">Error</label>
                 </div>
             </div>
         </div>
     </div>
     <div class="row justify-content-center mt-3">
         <div class="col-md-1 ml-md-auto">
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit"  th:disabled="${book.author != null}">Submit</button>
         </div>
     </div>
 </form>
 
 </body>
 </html>
-

@@ -11,5 +11,6 @@ public interface ICategoryService {
     List<Category> getCategories();
     Category save(Category newCategory);
     Category getCategoryById(int id);
+    List<Category> getCategoriesByIds(List<Integer> categoryIds);
 
 }

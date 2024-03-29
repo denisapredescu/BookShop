@@ -65,4 +65,8 @@ public class CategoryService implements ICategoryService {
                 () -> new NoSuchElementException("Category with this id not found"));
         return category;
     }
+    @Override
+    public List<Category> getCategoriesByIds(List<Integer> categoryIds) {
+        return categoryRepository.findAllById(categoryIds);
+    }
 }
