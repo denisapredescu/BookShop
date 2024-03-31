@@ -10,6 +10,7 @@ import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.services.book.IBookService;
 import com.awbd.bookshop.services.category.ICategoryService;
 import jakarta.validation.Valid;
+import org.h2.engine.Mode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -117,11 +118,10 @@ public class BookController {
         model.addAttribute("book",bookService.getBookById(bookId));
         List<Category> categoriesAll = categoryService.getCategories();
 
-        model.addAttribute("categoriesAll", categoriesAll); // Assuming you have a method to get all categories
+        model.addAttribute("categoriesAll", categoriesAll);
         return new ModelAndView("bookAddCategoriesToBook");
     }
 
-    // Method to handle the form submission
     @PostMapping("/addCategoriesToBook/{bookId}")
     public ModelAndView addCategoriesToBook(
             @PathVariable int bookId,
@@ -163,43 +163,75 @@ public class BookController {
         return new ModelAndView ("bookList");
     }
 
-    
-    // TODO: 3/30/2024  
-
-    @GetMapping("/getAvailable")
-    public ResponseEntity<List<BookResponse>> getAvailableBooks(){
+//    @GetMapping("/getAvailable")
+//    public ResponseEntity<List<BookResponse>> getAvailableBooks(){
+//        List<Book> books = bookService.getAvailableBooks();
+//        return ResponseEntity.ok(
+//                books.stream().map(
+//                        mapper::bookDto
+//                ).toList()
+//        );
+//    }
+    @RequestMapping("/getAvailable")
+    public ModelAndView getAvailableBooks(Model model){
+        List<Category> categoriesAll = categoryService.getCategories();
+        model.addAttribute("categoriesAll", categoriesAll);
         List<Book> books = bookService.getAvailableBooks();
-        return ResponseEntity.ok(
-                books.stream().map(
-                        mapper::bookDto
-                ).toList()
-        );
+        model.addAttribute("books",books);
+        return new ModelAndView ("bookAvailableList");
     }
 
-    // TODO: 3/30/2024  
+//    @GetMapping("/getBooksByAuthor/{firstname}/{lastName}")
+//    public ResponseEntity<List<BookResponse>> getBooksByAuthor(
+//            @PathVariable String firstname,
+//            @PathVariable String lastName) {
+////        return ResponseEntity.ok(bookService.getBooksByAuthor(firstname, lastName));
+//        List<Book> books = bookService.getBooksByAuthor(firstname, lastName);
+//        return ResponseEntity.ok(
+//                books.stream().map(
+//                        mapper::bookDto
+//                ).toList()
+//        );
+//    }
+
+
+//    @GetMapping("/getBooksByCategory/{category}")
+//    public ResponseEntity<List<BookResponse>> getBooksByCategory(
+//            @PathVariable String category) {
+////        return ResponseEntity.ok(bookService.getBooksByCategory(category));
+//        List<Book> books = bookService.getBooksByCategory(category);
+//        return ResponseEntity.ok(
+//                books.stream().map(
+//                        mapper::bookDto
+//                ).toList()
+//        );
+//    }
+    @GetMapping("/getBooksByCategory")
+    public ModelAndView getBooksByCategory(
+            @RequestParam(name = "selectedCategory") String category,
+            Model model) {
+//        return ResponseEntity.ok(bookService.getBooksByCategory(category));
+        List<Category> categoriesAll = categoryService.getCategories();
+        model.addAttribute("categoriesAll", categoriesAll);
+        List<Book> books = bookService.getBooksByCategory(category);
+        model.addAttribute("books",books);
+        model.addAttribute("selectedCategory", category);
+        return new ModelAndView("booksByCateg");
+    }
+
     @GetMapping("/getBooksByAuthor/{firstname}/{lastName}")
-    public ResponseEntity<List<BookResponse>> getBooksByAuthor(
+    public ModelAndView getBooksByAuthor(
             @PathVariable String firstname,
-            @PathVariable String lastName) {
+            @PathVariable String lastName,
+            Model model) {
 //        return ResponseEntity.ok(bookService.getBooksByAuthor(firstname, lastName));
         List<Book> books = bookService.getBooksByAuthor(firstname, lastName);
-        return ResponseEntity.ok(
-                books.stream().map(
-                        mapper::bookDto
-                ).toList()
-        );
+        model.addAttribute("books",books);
+        List<Category> categoriesAll = categoryService.getCategories();
+        model.addAttribute("categoriesAll", categoriesAll);
+        model.addAttribute("firstname",firstname);
+        model.addAttribute("lastname",lastName);
+        return new ModelAndView("booksByAuthor");
     }
 
-    // TODO: 3/30/2024  
-    @GetMapping("/getBooksByCategory/{category}")
-    public ResponseEntity<List<BookResponse>> getBooksByCategory(
-            @PathVariable String category) {
-//        return ResponseEntity.ok(bookService.getBooksByCategory(category));
-        List<Book> books = bookService.getBooksByCategory(category);
-        return ResponseEntity.ok(
-                books.stream().map(
-                        mapper::bookDto
-                ).toList()
-        );
-    }
 }
