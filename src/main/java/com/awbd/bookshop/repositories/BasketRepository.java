@@ -14,7 +14,7 @@ public interface BasketRepository extends JpaRepository<Basket, Integer> {
     @Query("SELECT b FROM Basket b WHERE b.user.id = :userId AND b.sent = false")
     Optional<Basket> findByUserId(Integer userId);
 
-    @Query("SELECT new com.awbd.bookshop.dtos.BookFromBasketDetails(bookBasket.book.name, bookBasket.price, bookBasket.copies) " +
+    @Query("SELECT new com.awbd.bookshop.dtos.BookFromBasketDetails(bookBasket.book.name, bookBasket.price, bookBasket.copies, bookBasket.book.id) " +
             "FROM BookBasket bookBasket " +
             "WHERE bookBasket.basket.id = :basketId")
     List<BookFromBasketDetails> findBooksFromCurrentBasket(Integer basketId);

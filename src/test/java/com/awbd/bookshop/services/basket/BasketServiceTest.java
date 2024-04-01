@@ -270,8 +270,8 @@ class BasketServiceTest {
     @Test
     void getBasket() {
         List<BookFromBasketDetails> books = List.of(
-                new BookFromBasketDetails("book 1", 50, 1),
-                new BookFromBasketDetails("book 2", 25, 2)
+                new BookFromBasketDetails("book 1", 50, 1,1),//am pus id=1
+                new BookFromBasketDetails("book 2", 25, 2,2)//am pus id=2
         );
         when(basketRepository.findByUserId(USER_ID)).thenReturn(Optional.of(BASKET));
 //        when(basketRepository.findBooksFromCurrentBasket(BASKET_ID)).thenReturn(books);
@@ -549,8 +549,8 @@ class BasketServiceTest {
     public void testFindBooksFromCurrentBasket_WithBooks() {
         int basketId = 123;
         List<BookFromBasketDetails> expectedBooks = new ArrayList<>();
-        expectedBooks.add(new BookFromBasketDetails("Book1", 20.0, 2));
-        expectedBooks.add(new BookFromBasketDetails("Book2", 30.0, 1));
+        expectedBooks.add(new BookFromBasketDetails("Book1", 20.0, 2,1));//am pus id=1
+        expectedBooks.add(new BookFromBasketDetails("Book2", 30.0, 1,2));//am pus id=2
 
         when(basketRepository.findBooksFromCurrentBasket(basketId)).thenReturn(expectedBooks);
 

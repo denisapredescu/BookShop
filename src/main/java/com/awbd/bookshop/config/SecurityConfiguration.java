@@ -42,7 +42,8 @@ public class SecurityConfiguration {
 
                 .authorizeRequests(requests -> requests.requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                 )
                 .headers((headers) -> headers.disable())

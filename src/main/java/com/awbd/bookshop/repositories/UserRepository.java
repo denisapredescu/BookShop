@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     @Query("SELECT NEW com.awbd.bookshop.dtos.UserDetails(user.id, user.firstName, user.lastName, user.username, user.email) FROM User user")
     List<UserDetails> getUsers();
+
+    @Query("SELECT user.id FROM User user WHERE user.username = :username")
+    int findByUserName(String username);
 }
