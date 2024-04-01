@@ -1,17 +1,18 @@
 package com.awbd.bookshop.apis;
 
-import com.awbd.bookshop.dtos.BookCategory;
-import com.awbd.bookshop.dtos.BookResponse;
 import com.awbd.bookshop.dtos.RequestBook;
 import com.awbd.bookshop.mappers.BookMapper;
 import com.awbd.bookshop.models.Author;
+import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.Category;
+import com.awbd.bookshop.services.basket.IBasketService;
 import com.awbd.bookshop.services.book.IBookService;
 import com.awbd.bookshop.services.category.ICategoryService;
+import com.awbd.bookshop.services.user.IUserService;
 import jakarta.validation.Valid;
-import org.h2.engine.Mode;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,11 +25,15 @@ public class BookController {
     final IBookService bookService;
     final BookMapper mapper;
     final ICategoryService categoryService;
+    final IBasketService basketService;
+    final IUserService userService;
 
-    public BookController(IBookService bookService, BookMapper mapper, ICategoryService categoryService) {
+    public BookController(IBookService bookService, BookMapper mapper, ICategoryService categoryService, IBasketService basketService, IUserService userService) {
         this.bookService = bookService;
         this.mapper = mapper;
         this.categoryService = categoryService;
+        this.basketService = basketService;
+        this.userService = userService;
     }
 
 //    @PostMapping("/add")
@@ -178,9 +183,19 @@ public class BookController {
         model.addAttribute("categoriesAll", categoriesAll);
         List<Book> books = bookService.getAvailableBooks();
         model.addAttribute("books",books);
+        int userId = getCurrentUserId();
+        Basket basket = basketService.getBasket(userId);
+        model.addAttribute("basket",basket);
+
         return new ModelAndView ("bookAvailableList");
     }
-
+    private Integer getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return userService.getId(authentication.getName());
+        }
+        return 0;
+    }
 //    @GetMapping("/getBooksByAuthor/{firstname}/{lastName}")
 //    public ResponseEntity<List<BookResponse>> getBooksByAuthor(
 //            @PathVariable String firstname,

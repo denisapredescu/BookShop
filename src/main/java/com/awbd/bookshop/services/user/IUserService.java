@@ -14,4 +14,5 @@ public interface IUserService {
     List<UserDetails> getUsers();
     User delete(Integer id);
     User getUser(int userId);
+    int getId(String username);
 }

@@ -78,4 +78,9 @@ public class UserService implements IUserService {
                 () -> new NoSuchElementException("User not found")
         );
     }
+
+    @Override
+    public int getId(String username){
+        return userRepository.findByUserName(username);
+    }
 }

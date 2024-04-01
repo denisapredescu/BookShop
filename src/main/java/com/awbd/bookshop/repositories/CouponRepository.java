@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface CouponRepository extends JpaRepository<Coupon, Integer>  {
     @Query("SELECT coupon FROM Coupon coupon WHERE coupon.user.id = :userId")
     Optional<Coupon> findByUser(int userId);
+
+    @Query("SELECT coupon FROM Coupon coupon WHERE coupon.user.id = :userId")
+    void delete(int userId);
 }

@@ -55,6 +55,7 @@ public class BasketService implements IBasketService {
     @Transactional
     @Override
     public Basket sentOrder(int userId) {
+        int ok=0;
         Basket basket = basketRepository.findByUserId(userId).orElseThrow(
                 () -> new NoSuchElementException("User does not have a current basket"));
 
@@ -66,6 +67,7 @@ public class BasketService implements IBasketService {
 
         if (coupon != null) {
             basket.setCost((1 - coupon.getDiscount()/100) * basket.getCost());
+            coupon.setUser(null);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! first set the id to null (else it was error with FK)
             couponService.delete(coupon);
         }
 
