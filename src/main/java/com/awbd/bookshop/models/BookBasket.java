@@ -13,7 +13,7 @@ public class BookBasket {
 
     @Column(name = "copies")
     @Min(value = 1)
-    private int copies;
+    private int copies = 1;
 
     @Column(name = "price")
     private double price = 0;
@@ -31,6 +31,13 @@ public class BookBasket {
 
     public BookBasket(int id, int copies, double price, Book book, Basket basket) {
         this.id = id;
+        this.copies = copies;
+        this.price = price;
+        this.book = book;
+        this.basket = basket;
+    }
+
+    public BookBasket(int copies, double price, Book book, Basket basket) {
         this.copies = copies;
         this.price = price;
         this.book = book;

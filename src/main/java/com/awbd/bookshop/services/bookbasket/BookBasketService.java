@@ -1,14 +1,15 @@
 package com.awbd.bookshop.services.bookbasket;
 
+import com.awbd.bookshop.dtos.BookFromBasketDetails;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.BookBasket;
 import com.awbd.bookshop.repositories.BookBasketRepository;
-import com.awbd.bookshop.services.book.BookService;
 import com.awbd.bookshop.services.book.IBookService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
