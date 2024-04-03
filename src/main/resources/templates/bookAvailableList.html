@@ -22,7 +22,7 @@
                     <a class="nav-link" th:href="@{'/author'}">Authors</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/book/getAvailable'}">Books available</a>
+                    <a class="nav-link" th:href="@{'/book/getAvailable/0'}">Books available</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/book'}">Books</a>
@@ -107,7 +107,11 @@
         </tr>
     </table>
 </div>
-
+<div style="text-align: center;">
+    <span th:each="pageNumber : ${#numbers.sequence(0, totalPages)}">
+        <a th:href="@{'/book/getAvailable/' + ${pageNumber}}" style="text-decoration: none;" >[[${pageNumber}+1]]</a>&nbsp;&nbsp;
+    </span>
+</div>
 
 </body>
 </html>
