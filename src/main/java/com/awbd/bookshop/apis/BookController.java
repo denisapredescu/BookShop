@@ -177,16 +177,33 @@ public class BookController {
 //                ).toList()
 //        );
 //    }
-    @RequestMapping("/getAvailable")
-    public ModelAndView getAvailableBooks(Model model){
+//    @RequestMapping("/getAvailable")
+//    public ModelAndView getAvailableBooks(Model model){
+//        List<Category> categoriesAll = categoryService.getCategories();
+//        model.addAttribute("categoriesAll", categoriesAll);
+//        List<Book> books = bookService.getAvailableBooks(0, 5);
+//        model.addAttribute("books",books);
+//        int userId = getCurrentUserId();
+//        Basket basket = basketService.getBasket(userId);
+//        model.addAttribute("basket",basket);
+//
+//        return new ModelAndView ("bookAvailableList");
+//    }
+    @RequestMapping("/getAvailable/{pageNo}")
+    public ModelAndView getAvailableBooks(Model model,
+                                          @PathVariable Integer pageNo
+                                          ){
         List<Category> categoriesAll = categoryService.getCategories();
         model.addAttribute("categoriesAll", categoriesAll);
-        List<Book> books = bookService.getAvailableBooks(0, 5);
+        List<Book> books = bookService.getAvailableBooks(pageNo, 5);
         model.addAttribute("books",books);
         int userId = getCurrentUserId();
         Basket basket = basketService.getBasket(userId);
         model.addAttribute("basket",basket);
-
+        model.addAttribute(pageNo);
+        model.addAttribute("totalPages",(int) Math.ceil((double) books.size() / 5));
+        int currentPage = pageNo > 0 ? pageNo : 0;
+        model.addAttribute(currentPage);
         return new ModelAndView ("bookAvailableList");
     }
     private Integer getCurrentUserId() {
