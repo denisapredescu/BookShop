@@ -8,6 +8,10 @@ import com.awbd.bookshop.repositories.BookRepository;
 import com.awbd.bookshop.services.author.IAuthorService;
 import com.awbd.bookshop.services.category.ICategoryService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -95,9 +99,21 @@ public class BookService implements IBookService {
         return bookRepository.findAll();
     }
 
+//    @Override
+//    public List<Book> getAvailableBooks() {
+//        return bookRepository.getAvailableBooks();
+//    }
+
     @Override
-    public List<Book> getAvailableBooks() {
-        return bookRepository.getAvailableBooks();
+    public List<Book> getAvailableBooks(Integer pageNo, Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());
+        Page<Book> pagedResult =  bookRepository.getAvailableBooks(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Book>();
+        }
     }
 
     @Override

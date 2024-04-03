@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -385,20 +386,48 @@ class BookServiceTest {
         assertThrows(DatabaseError.class, () -> bookServiceUnderTest.getBooks());
     }
 
+//    @Test
+//    void getAvailableBooks() {
+//        Page<Book> books = new Page(new Book(), new Book(), new Book());
+//        Pageable paging = PageRequest.of(0, 5, Sort.by("name").ascending());
+//
+//        when(bookRepository.getAvailableBooks(paging)).thenReturn(books);
+//
+//        var result = bookServiceUnderTest.getAvailableBooks(0, 5);
+//        assertEquals(books, result);
+//        assertEquals(books.size(), result.size());
+//    }
+//
     @Test
-    void getAvailableBooks() {
-        List<Book> books = List.of(new Book(), new Book(), new Book());
-        when(bookRepository.getAvailableBooks()).thenReturn(books);
+    public void getAvailableBooks() {
+        List<Book> books = new ArrayList<>();
+        books.add(new Book());
+        books.add(new Book());
 
-        var result = bookServiceUnderTest.getAvailableBooks();
+        // Mocking Pageable object for the first page with 10 results per page
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("name").ascending());
+        Page<Book> mockPage = new PageImpl<>(books, pageable, books.size());
+
+        when(bookRepository.getAvailableBooks(pageable)).thenReturn(mockPage);
+
+        List<Book> result = bookServiceUnderTest.getAvailableBooks(0, 10);
         assertEquals(books, result);
-        assertEquals(books.size(), result.size());
     }
 
     @Test
     void getAvailableBooks_DatabaseError() {
-        when(bookRepository.getAvailableBooks()).thenThrow(DatabaseError.class);
-        assertThrows(DatabaseError.class, () -> bookServiceUnderTest.getAvailableBooks());
+        List<Book> books = new ArrayList<>();
+        books.add(new Book());
+        books.add(new Book());
+
+        // Mocking Pageable object for the first page with 10 results per page
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("name").ascending());
+
+        // Mocking Page object with mockBooks as content
+        Page<Book> page = new PageImpl<>(books, pageable, books.size());
+
+        when(bookRepository.getAvailableBooks(pageable)).thenThrow(DatabaseError.class);
+        assertThrows(DatabaseError.class, () -> bookServiceUnderTest.getAvailableBooks(0, 10));
     }
 
     @Test

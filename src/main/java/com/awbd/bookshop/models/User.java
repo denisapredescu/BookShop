@@ -94,20 +94,6 @@ public class User {
     public User() {
     }
 
-//    public User(int id, String username, String password, boolean enabled) {
-//        this.id = id;
-//        this.username = username;
-//        this.password = password;
-//        this.enabled = enabled;
-//    }
-//
-//    public User(String username, String password, boolean enabled) {
-//        this.username = username;
-//        this.password = password;
-//        this.enabled = enabled;
-//    }
-
-
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
@@ -131,5 +117,16 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.enabled = enabled;
+    }
+
+    public User(int id, String username, String email, String password, String firstName, String lastName, boolean enabled, Authority authority) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.enabled = enabled;
+        this.authority = authority;
     }
 }

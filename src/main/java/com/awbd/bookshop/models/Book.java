@@ -29,7 +29,7 @@ public class Book {
 
     @Column(name = "year_date")
     @Min(value = 0)
-    private int year;
+    private int year = 0;
 
     @Column(name = "volume")
     @Min(value = 0)
@@ -98,6 +98,17 @@ public class Book {
         this.volume = volume;
         this.series_name = series_name;
         this.is_deleted = is_deleted;
+    }
+
+    public Book(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public Book(int id, String name, double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
     }
 
     public int getId() {

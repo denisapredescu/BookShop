@@ -181,7 +181,7 @@ public class BookController {
     public ModelAndView getAvailableBooks(Model model){
         List<Category> categoriesAll = categoryService.getCategories();
         model.addAttribute("categoriesAll", categoriesAll);
-        List<Book> books = bookService.getAvailableBooks();
+        List<Book> books = bookService.getAvailableBooks(0, 5);
         model.addAttribute("books",books);
         int userId = getCurrentUserId();
         Basket basket = basketService.getBasket(userId);
