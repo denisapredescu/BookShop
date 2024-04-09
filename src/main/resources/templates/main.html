@@ -54,6 +54,13 @@
           </a>
         </li>
         <li class="nav-item">
+          <form id="logout-form" th:action="@{/logout}" method="post">
+            <button type="submit" class="nav-link btn-primary">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </form>
+        </li>
+        <li class="nav-item">
           <a class="nav-link btn-primary" th:href="@{'/user/form'}">
             <i class="fas fa-user-plus"></i> Register
           </a>

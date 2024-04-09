@@ -9,12 +9,14 @@ import com.awbd.bookshop.services.author.IAuthorService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @RestController
+@Validated
 @RequestMapping("/author")
 public class AuthorController {
     final IAuthorService authorService;
@@ -33,6 +35,7 @@ public class AuthorController {
     @PostMapping("")
     public ModelAndView save(
             @Valid @ModelAttribute Author author){
+//        System.out.println(author);
         authorService.addAuthor(author);
         return new ModelAndView("redirect:/author");
     }

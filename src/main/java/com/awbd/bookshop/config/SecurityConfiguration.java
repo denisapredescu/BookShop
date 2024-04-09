@@ -1,13 +1,14 @@
 package com.awbd.bookshop.config;
 
 
+import com.awbd.bookshop.services.security.JpaUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
@@ -23,38 +24,57 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfiguration {
     private final DataSource dataSource;
+    //nouuuuuuuuu
+    private final JpaUserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfiguration(DataSource dataSource) {
+    public SecurityConfiguration(DataSource dataSource, JpaUserDetailsService userDetailsService) {
         this.dataSource = dataSource;
+        this.userDetailsService = userDetailsService;///////////nouu
     }
-    @Bean
-    public UserDetailsManager users(DataSource dataSource) {
-        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-        users.setUsersByUsernameQuery("SELECT username,password,enabled from users where username = ?");
-        users.setAuthoritiesByUsernameQuery("SELECT u.username, a.authority FROM users u JOIN authorities a ON u.authority_id = a.id WHERE u.username = ?");
-        return users;
-    }
+    //varianta mea
+//    @Bean
+//    public UserDetailsManager users(DataSource dataSource) {
+//        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+//        users.setUsersByUsernameQuery("SELECT username,password,enabled from users where username = ?");
+//        users.setAuthoritiesByUsernameQuery("SELECT u.username, a.authority FROM users u JOIN authorities a ON u.authority_id = a.id WHERE u.username = ?");
+//        return users;
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
 
-                .authorizeRequests(requests -> requests.requestMatchers("/admin").hasRole("ADMIN")
-                        .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/").hasAnyRole("ADMIN", "USER")
+                .authorizeRequests(requests -> requests//.requestMatchers("/admin").hasRole("ADMIN")
+
+                       // .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/","/author","/login").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+                        .anyRequest().authenticated()//nou
                 )
+                .userDetailsService(userDetailsService)
+//                .httpBasic(Customizer.withDefaults())
                 .headers((headers) -> headers.disable())
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
-                .formLogin(withDefaults());
+                .formLogin(formLogin ->
+                        formLogin
+                                .loginPage("/login")
+                                .permitAll()
+                                .loginProcessingUrl("/perform_login")
+                )
+                .exceptionHandling(ex -> ex.accessDeniedPage("/access_denied"));
         return http.build();
     }
+//    @Bean
+//    public PasswordEncoder getPasswordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();//parola se salveaza fara encoder
+//       // return new BCryptPasswordEncoder();
+//    }
     @Bean
     public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();//parola se salveaza fara encoder
-       // return new BCryptPasswordEncoder();
+        //return NoOpPasswordEncoder.getInstance();//parola se salveaza fara encoder
+        return new BCryptPasswordEncoder();
     }
+
 }

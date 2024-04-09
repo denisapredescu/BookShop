@@ -30,6 +30,11 @@ public class Authority {
         this.users = users;
     }
 
+    public Authority(int id, String authority) {
+        this.id = id;
+        this.authority = authority;
+    }
+
     public int getId() {
         return id;
     }
