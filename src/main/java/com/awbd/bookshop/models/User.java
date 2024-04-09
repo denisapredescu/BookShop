@@ -35,6 +35,14 @@ public class User {
     @PrimaryKeyJoinColumn(name = "authority_id")
     private Authority authority;
 
+    public Authority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
+
     public int getId() {
         return id;
     }

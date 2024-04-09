@@ -22,8 +22,8 @@ public class MainController {
 //    }
     @RequestMapping({"","/","/home"})
     public ModelAndView getHome(Model model){
-        int userId = getCurrentUserId();
-        model.addAttribute("userId", userId);
+      //  int userId = getCurrentUserId();
+        //model.addAttribute("userId", userId);
         return new ModelAndView("main");
     }
 //    @GetMapping("/lala")
@@ -40,6 +40,12 @@ public class MainController {
         }
         return 0;
     }
+    @GetMapping("/login")
+    public String showLogInForm(){ return "login"; }
+
+    @GetMapping("/access_denied")
+    public String accessDeniedPage(){ return "accessDenied"; }
+
 //    @RequestMapping({"/category"})
 //    public ModelAndView getCategoties(){
 //
