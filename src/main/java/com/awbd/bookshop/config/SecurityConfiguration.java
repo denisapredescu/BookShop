@@ -48,7 +48,7 @@ public class SecurityConfiguration {
                 .authorizeRequests(requests -> requests//.requestMatchers("/admin").hasRole("ADMIN")
 
                        // .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/","/author","/login").permitAll()
+                        .requestMatchers("/","/author","/category","/login").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                         .anyRequest().authenticated()//nou
                 )

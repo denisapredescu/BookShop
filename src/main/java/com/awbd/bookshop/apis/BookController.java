@@ -14,12 +14,14 @@ import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @RestController
+@Validated
 @RequestMapping("/book")
 public class BookController {
     final IBookService bookService;
@@ -49,14 +51,18 @@ public class BookController {
         bookService.addBook(mapper.requestBook(newBook));
         return new ModelAndView("redirect:/book");
     }
+//    @RequestMapping("/add")
+//    public ModelAndView addBook(
+//            @Valid Model model,
+//            Book newBook){
+//        model.addAttribute("book",newBook);
+//        return new ModelAndView("bookAddForm");
+//    }
     @RequestMapping("/add")
-    public ModelAndView addBook(
-            @Valid Model model,
-            Book newBook){
-        model.addAttribute("book",newBook);
+    public ModelAndView addBook(Model model){
+        model.addAttribute("book",new Book());
         return new ModelAndView("bookAddForm");
     }
-
 //    @PatchMapping("/update/{id}")
 //    public ResponseEntity<BookResponse> updateBook(
 //            @PathVariable int id,
