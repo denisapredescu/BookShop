@@ -36,7 +36,6 @@ public class AuthorController {
     @PostMapping("")
     public ModelAndView save(
             @Valid @ModelAttribute Author author){
-//        System.out.println(author);
         authorService.addAuthor(author);
         return new ModelAndView("redirect:/author");
     }
@@ -56,7 +55,7 @@ public class AuthorController {
 //    }
 @RequestMapping("/add")
 public ModelAndView addAuthor(Model model){
-    model.addAttribute("author",mapper.requestAuthor(new RequestAuthor()));
+    model.addAttribute("author",new Author());//mapper.requestAuthor(new RequestAuthor()));
     return new ModelAndView("authorAddForm");
 }
 //    @PatchMapping("/update/{id}")
@@ -110,7 +109,7 @@ public ModelAndView getAuthors(Model model){
     return new ModelAndView ("authorList");
 }
 
-    @GetMapping("/getAuthor/{firstName}/{lastName}")
+    @GetMapping("/getAuthor/{firstName}/{lastName}")//nu l-am folosit
     public ResponseEntity<Author> getAuthor(
             @PathVariable String firstName,
             @PathVariable String lastName) {

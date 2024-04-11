@@ -23,7 +23,7 @@ public class CategoryService implements ICategoryService {
         return save(newCategory);
     }
 
-    @Transactional
+    //@Transactional
     @Override
     public Category save(Category newCategory) {
         if (newCategory == null)

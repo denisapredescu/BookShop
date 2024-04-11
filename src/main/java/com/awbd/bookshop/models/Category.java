@@ -16,18 +16,19 @@ public class Category {
     @Column(name = "name")
     @NotEmpty(message = "The name cannot be blank!")
     private String name;
+    public Category() {
+    }
+    public Category(String name) {
+        this.name = name;
+    }
 
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Category(String name) {
-        this.name = name;
-    }
 
-    public Category() {
-    }
+
 
     public int getId() {
         return id;

@@ -51,6 +51,27 @@ public class Book {
     public Book() {
     }
 
+    public Book(int id, String name, double price, int year, int volume, String series_name, Boolean is_deleted, Author author) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.year = year;
+        this.volume = volume;
+        this.series_name = series_name;
+        this.is_deleted = is_deleted;
+        this.author = author;
+    }
+
+    public Book(String name, double price, int year, int volume, String series_name, Boolean is_deleted, Author author) {
+        this.name = name;
+        this.price = price;
+        this.year = year;
+        this.volume = volume;
+        this.series_name = series_name;
+        this.is_deleted = is_deleted;
+        this.author = author;
+    }
+
     public Book(int id, String name, double price, int year, int volume, String series_name, Boolean is_deleted) {
         this.id = id;
         this.name = name;

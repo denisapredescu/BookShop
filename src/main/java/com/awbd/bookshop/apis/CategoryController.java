@@ -6,8 +6,10 @@ import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.services.category.ICategoryService;
 import jakarta.validation.Valid;
 import org.h2.engine.Mode;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,10 +17,15 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @RestController
+@Validated
 @RequestMapping("/category")
 public class CategoryController {
+    private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
     final ICategoryService categoryService;
     final CategoryMapper mapper;
 
