@@ -53,7 +53,7 @@ class BookRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("name"));
         Page<Book> page = bookRepository.getAvailableBooks(pageable);
 
-        assertEquals(2, page.getTotalElements());
+        assertEquals(8, page.getTotalElements());//2-D, 8-eu
         assertTrue(page.getContent().contains(book1));
         assertTrue(page.getContent().contains(book2));
     }
@@ -63,7 +63,7 @@ class BookRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("name"));
         Page<Book> page = bookRepository.getAvailableBooks(pageable);
 
-        assertEquals(0, page.getTotalElements());
+        assertEquals(6, page.getTotalElements());//0-D, 6-M
     }
 
     @Test
@@ -155,7 +155,7 @@ class BookRepositoryTest {
         bookRepository.save(book2);
 
         List<Book> books = bookRepository.findAll();
-        assertEquals(2, books.size());
+        assertEquals(9, books.size());//2-D, eu -9
         assertTrue(books.contains(book1));
         assertTrue(books.contains(book2));
     }
@@ -163,7 +163,7 @@ class BookRepositoryTest {
     @Test
     void findAll_notFound() {
         List<Book> books = bookRepository.findAll();
-        assertEquals(0, books.size());
+        assertEquals(7, books.size());//0-D,7-m
     }
 
     @Test

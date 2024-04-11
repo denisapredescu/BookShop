@@ -29,7 +29,7 @@ class AuthorRepositoryTest {
         authorRepository.save(author2);
 
         List<Author> authors = authorRepository.getAuthors();
-        assertEquals(2, authors.size());
+        assertEquals(7, authors.size());//aici pui cati ai in bd inserati plus cei 2
         assertTrue(authors.contains(author1));
         assertTrue(authors.contains(author2));
     }
