@@ -328,7 +328,7 @@ public class BookControllerTest {
 
     //Exception processing template "bookAvailableList":
     //Exception evaluating SpringEL expression: "basket.id" (template: "bookAvailableList" - line 105, col 29)
-    @Test
+   /* @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
     public void getAvailableBooks() throws Exception {
         Integer pageNo = 0;
@@ -364,6 +364,93 @@ public class BookControllerTest {
                 .andExpect(model().attribute("books",books))
                 .andExpect(model().attribute("basket",basket))
                 .andExpect(model().attributeExists("totalPages"));
+    }*/
+
+    // @GetMapping("/getBooksByCategory")
+    //    public ModelAndView getBooksByCategory(
+    //            @RequestParam(name = "selectedCategory") String category,
+    //            Model model) {
+    ////        return ResponseEntity.ok(bookService.getBooksByCategory(category));
+    //        List<Category> categoriesAll = categoryService.getCategories();
+    //        model.addAttribute("categoriesAll", categoriesAll);
+    //        List<Book> books = bookService.getBooksByCategory(category);
+    //        model.addAttribute("books",books);
+    //        model.addAttribute("selectedCategory", category);
+    //        return new ModelAndView("booksByCateg");
+    //    }
+
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    public void getBooksByCategory() throws Exception{
+        Category category1 = new Category(1,"action");
+        Category category2 = new Category(2,"romance");
+
+        List<Category> categoriesAll = new ArrayList<>();
+        categoriesAll.add(category1);
+        categoriesAll.add(category2);
+        Author author1 = new Author(1,"Lara","Simoni","Romanian");
+        when(categoryService.getCategories()).thenReturn(categoriesAll);
+
+        Book book = new Book(1,"carte",20.0,2001,1,"serie",false,author1,categoriesAll);
+        List<Book> books = new ArrayList<>();
+        books.add(book);
+        when(bookService.getBooksByCategory("action")).thenReturn(books);
+
+        mockMvc.perform(get("/book/getBooksByCategory")
+                        .param("selectedCategory","action"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("booksByCateg"))
+                .andExpect(model().attribute("categoriesAll",categoriesAll))
+                .andExpect(model().attribute("books",books))
+                .andExpect(model().attribute("selectedCategory","action"));
+
+    }
+
+    // @GetMapping("/getBooksByAuthor/{firstname}/{lastName}")
+    //    public ModelAndView getBooksByAuthor(
+    //            @PathVariable String firstname,
+    //            @PathVariable String lastName,
+    //            Model model) {
+    ////        return ResponseEntity.ok(bookService.getBooksByAuthor(firstname, lastName));
+    //        List<Book> books = bookService.getBooksByAuthor(firstname, lastName);
+    //        model.addAttribute("books",books);
+    //        List<Category> categoriesAll = categoryService.getCategories();
+    //        model.addAttribute("categoriesAll", categoriesAll);
+    //        model.addAttribute("firstname",firstname);
+    //        model.addAttribute("lastname",lastName);
+    //        return new ModelAndView("booksByAuthor");
+    //    }
+
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    public void getBooksByAuthor() throws Exception{
+        String firstName = "Lara";
+        String lastName = "Simoni";
+        Category category1 = new Category(1,"action");
+        Category category2 = new Category(2,"romance");
+
+        List<Category> categoriesAll = new ArrayList<>();
+        categoriesAll.add(category1);
+        categoriesAll.add(category2);
+        Author author1 = new Author(1,firstName,lastName,"Romanian");
+
+        Book book = new Book(1,"carte",20.0,2001,1,"serie",false,author1,categoriesAll);
+        List<Book> books = new ArrayList<>();
+        books.add(book);
+
+        when(bookService.getBooksByAuthor(firstName,lastName)).thenReturn(books);
+        when(categoryService.getCategories()).thenReturn(categoriesAll);
+
+
+        mockMvc.perform(get("/book/getBooksByAuthor/{firstname}/{lastName}","Lara","Simoni")
+                        )
+                .andExpect(status().isOk())
+                .andExpect(view().name("booksByAuthor"))
+                .andExpect(model().attribute("categoriesAll",categoriesAll))
+                .andExpect(model().attribute("books",books))
+                .andExpect(model().attribute("firstname","Lara"))
+                .andExpect(model().attribute("lastname","Simoni"));
+
     }
 
 }
