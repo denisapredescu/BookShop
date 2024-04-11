@@ -15,6 +15,10 @@ public class RequestAuthor {
         this.nationality = nationality;
     }
 
+    public RequestAuthor() {
+
+    }
+
     public String getFirstName() {
         return firstName;
     }

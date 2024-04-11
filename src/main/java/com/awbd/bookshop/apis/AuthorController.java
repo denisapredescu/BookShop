@@ -9,6 +9,7 @@ import com.awbd.bookshop.services.author.IAuthorService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,13 +47,18 @@ public class AuthorController {
         authorService.updateAuthor(author,author.getId());
         return new ModelAndView("redirect:/author");
     }
-    @RequestMapping("/add")
-    public ModelAndView addAuthor(
-            @Valid Model model,
-            @Valid RequestAuthor newAuthor){
-        model.addAttribute("author",mapper.requestAuthor(newAuthor));
-        return new ModelAndView("authorAddForm");
-    }
+//    @RequestMapping("/add")
+//    public ModelAndView addAuthor(
+//            @Valid Model model,
+//            RequestAuthor newAuthor){
+//        model.addAttribute("author",mapper.requestAuthor(newAuthor));
+//        return new ModelAndView("authorAddForm");
+//    }
+@RequestMapping("/add")
+public ModelAndView addAuthor(Model model){
+    model.addAttribute("author",mapper.requestAuthor(new RequestAuthor()));
+    return new ModelAndView("authorAddForm");
+}
 //    @PatchMapping("/update/{id}")
 //    public ResponseEntity<Author> updateAuthor(
 //            @PathVariable int id,

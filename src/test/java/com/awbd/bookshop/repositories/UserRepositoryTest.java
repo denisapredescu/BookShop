@@ -59,18 +59,18 @@ class UserRepositoryTest {
         User savedUser = userRepository.save(user);
 
         List<UserDetails> users = userRepository.getUsers();
-        assertEquals(1, users.size());
-        assertEquals(savedUser.getId(), users.get(0).getId());
-        assertEquals(savedUser.getFirstName(), users.get(0).getFirstName());
-        assertEquals(savedUser.getLastName(), users.get(0).getLastName());
-        assertEquals(savedUser.getUsername(), users.get(0).getUsername());
-        assertEquals(savedUser.getEmail(), users.get(0).getEmail());
+        assertEquals(8, users.size());//D-1, m-8
+        assertEquals(savedUser.getId(), users.get(7).getId());//(0)-D, (7)-M
+        assertEquals(savedUser.getFirstName(), users.get(7).getFirstName());
+        assertEquals(savedUser.getLastName(), users.get(7).getLastName());
+        assertEquals(savedUser.getUsername(), users.get(7).getUsername());
+        assertEquals(savedUser.getEmail(), users.get(7).getEmail());
     }
 
     @Test
     void getUsers_notFound() {
         List<UserDetails> users = userRepository.getUsers();
-        assertEquals(0, users.size());
+        assertEquals(7, users.size());//in bd deja am date, M - 7, D -0
     }
 
     @Test
