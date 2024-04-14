@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="htttp://www.thymeleaf.org">
+<html lang="en" xmlns:th="htttp://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>BookShop</title>
@@ -27,7 +27,7 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/category'}">Categories</a>
                 </li>
-                <li class="nav-item">
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item">
                     <a class="nav-link btn-primary" th:href="@{'/category/add'}">
                         <i class="fas fa-plus-circle"></i> Add Category
                     </a>
@@ -53,18 +53,18 @@
     <table class="table table-hover ">
         <thead class="thead-inverse">
         <tr>
-            <th>ID</th>
+            <th sec:authorize="hasRole('ADMIN')">ID</th>
             <th>Name</th>
-            <th></th>
-            <th></th>
+            <th sec:authorize="hasRole('ADMIN')"></th>
+            <th sec:authorize="hasRole('ADMIN')"></th>
         </tr>
         </thead>
                 <tr th:each="category, stat : ${categories}"
                     th:class="${stat.odd}? 'table-light':''">
-                    <td th:text="${category.id}">1</td>
+                    <td sec:authorize="hasRole('ADMIN')" th:text="${category.id}">1</td>
                     <td th:text="${category.name}">Product 1</td>
-                    <td><a href="#" th:href="@{'/category/update/' + ${category.id}}"><i class="fa-solid fa-pen"></i></a></td>
-                    <td><a href="#" th:href="@{'/category/delete/' + ${category.id}}"><i class="fa-solid fa-trash"></i></a></td>
+                    <td sec:authorize="hasRole('ADMIN')"><a href="#" th:href="@{'/category/update/' + ${category.id}}"><i class="fa-solid fa-pen"></i></a></td>
+                    <td sec:authorize="hasRole('ADMIN')"><a href="#" th:href="@{'/category/delete/' + ${category.id}}"><i class="fa-solid fa-trash"></i></a></td>
                 </tr>
     </table>
 </div>

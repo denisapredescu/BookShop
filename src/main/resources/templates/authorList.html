@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="htttp://www.thymeleaf.org">
+<html lang="en" xmlns:th="htttp://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>BookShop</title>
@@ -27,7 +27,7 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/category'}">Categories</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link btn-primary" th:href="@{'/author/add'}">
                         <i class="fas fa-plus-circle"></i> Add Author
                     </a>
@@ -53,22 +53,22 @@
     <table class="table table-hover ">
         <thead class="thead-inverse">
         <tr>
-            <th>ID</th>
+            <th sec:authorize="hasRole('ADMIN')">ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Nationality</th>
-            <th></th>
-            <th></th>
+            <th sec:authorize="hasRole('ADMIN')"></th>
+            <th sec:authorize="hasRole('ADMIN')"></th>
         </tr>
         </thead>
         <tr th:each="author, stat : ${authors}"
             th:class="${stat.odd}? 'table-light':''">
-            <td th:text="${author.id}">1</td>
+            <td sec:authorize="hasRole('ADMIN')" th:text="${author.id}">1</td>
             <td th:text="${author.firstName}">First Name 1</td>
             <td th:text="${author.lastName}">Last Name 1</td>
             <td th:text="${author.nationality}">Nationality 1</td>
-            <td><a href="#" th:href="@{'/author/update/' + ${author.id}}"><i class="fa-solid fa-pen"></i></a></td>
-            <td><a href="#" th:href="@{'/author/delete/' + ${author.id}}"><i class="fa-solid fa-trash"></i></a></td>
+            <td sec:authorize="hasRole('ADMIN')"><a href="#" th:href="@{'/author/update/' + ${author.id}}"><i class="fa-solid fa-pen"></i></a></td>
+            <td sec:authorize="hasRole('ADMIN')"><a href="#" th:href="@{'/author/delete/' + ${author.id}}"><i class="fa-solid fa-trash"></i></a></td>
         </tr>
     </table>
 </div>
