@@ -203,19 +203,29 @@ public class BookController {
         model.addAttribute("categoriesAll", categoriesAll);
         List<Book> books = bookService.getAvailableBooks(pageNo, 5);
         model.addAttribute("books",books);
-        int userId = getCurrentUserId();
-        Basket basket = basketService.getBasket(userId);
-        model.addAttribute("basket",basket);
         model.addAttribute(pageNo);
         model.addAttribute("totalPages",(int) Math.ceil((double) books.size() / 5));
         int currentPage = pageNo > 0 ? pageNo : 0;
         model.addAttribute(currentPage);
-        return new ModelAndView ("bookAvailableList");
+
+        int userId = getCurrentUserId();
+
+       if(userId==0)
+           return new ModelAndView("bookAvailableListNoLogin");
+        else
+       {
+            Basket basket = basketService.getBasket(userId);
+            model.addAttribute("basket",basket);
+            return new ModelAndView ("bookAvailableList");
+       }
     }
     private Integer getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-            return userService.getId(authentication.getName());
+            if(authentication.getName()!="anonymousUser")
+                return userService.getId(authentication.getName());
+            else
+                return 0;
         }
         return 0;
     }
