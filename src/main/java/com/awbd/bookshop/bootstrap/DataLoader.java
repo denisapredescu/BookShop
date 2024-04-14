@@ -24,7 +24,7 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void loadUserData() {
-        if (userRepository.count() == 5){
+        if (userRepository.count() == 0){//5
 
             User admin = new User();
             admin.setUsername("admin");

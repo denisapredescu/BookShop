@@ -17,9 +17,9 @@ public class Authority {
 //    @JoinColumn(name = "id", referencedColumnName = "id")
 //    private User user;
 
-    @OneToMany(targetEntity = User.class)
-    @PrimaryKeyJoinColumn(name = "user_id")
-    private Set<User> users;
+//    @OneToMany(targetEntity = User.class)
+//    @PrimaryKeyJoinColumn(name = "user_id")
+//    private Set<User> users;
 
     public Authority() {
     }
@@ -27,7 +27,7 @@ public class Authority {
     public Authority(int id, String authority, Set<User> users) {
         this.id = id;
         this.authority = authority;
-        this.users = users;
+       // this.users = users;
     }
 
     public Authority(int id, String authority) {
@@ -51,13 +51,13 @@ public class Authority {
         this.authority = authority;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
+//    public Set<User> getUsers() {
+//        return users;
+//    }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+//    public void setUsers(Set<User> users) {
+//        this.users = users;
+//    }
 
     //    public Authority(int id, String authority, User user) {
 //        this.id = id;
