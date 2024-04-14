@@ -17,6 +17,9 @@ Run your tests.
 Set the active profile to H2 (h2).<br>
 Run your tests.
 
+![image](https://github.com/denisapredescu/BookShop/assets/86727047/e8ea4f5b-6dce-4f4d-b44a-373ae49a2724)
+
+
 ## Logging
 To be able to insert and use logs, the `@Slf4j` annotation is inserted to the h2 test class.
 
