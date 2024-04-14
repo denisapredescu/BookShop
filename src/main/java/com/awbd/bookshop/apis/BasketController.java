@@ -6,14 +6,11 @@ import com.awbd.bookshop.mappers.BasketMapper;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.services.basket.IBasketService;
 import com.awbd.bookshop.services.user.IUserService;
-import org.h2.engine.Mode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.model.IModel;
 
 import java.util.List;
 

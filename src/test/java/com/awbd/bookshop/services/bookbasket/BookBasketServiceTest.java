@@ -225,15 +225,4 @@ class BookBasketServiceTest {
         verify(bookBasketRepository).delete(BOOK_BASKET);
         assertEquals(BOOK_BASKET.getPrice(), result);
     }
-//    @Test
-//    void addBookToBasket() {
-//    }
-//
-//    @Test
-//    void removeBookToBasket() {
-//    }
-//
-//    @Test
-//    void decrementBookFromBasket() {
-//    }
 }

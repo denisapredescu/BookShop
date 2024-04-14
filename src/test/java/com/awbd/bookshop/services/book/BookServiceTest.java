@@ -386,18 +386,6 @@ class BookServiceTest {
         assertThrows(DatabaseError.class, () -> bookServiceUnderTest.getBooks());
     }
 
-//    @Test
-//    void getAvailableBooks() {
-//        Page<Book> books = new Page(new Book(), new Book(), new Book());
-//        Pageable paging = PageRequest.of(0, 5, Sort.by("name").ascending());
-//
-//        when(bookRepository.getAvailableBooks(paging)).thenReturn(books);
-//
-//        var result = bookServiceUnderTest.getAvailableBooks(0, 5);
-//        assertEquals(books, result);
-//        assertEquals(books.size(), result.size());
-//    }
-//
     @Test
     public void getAvailableBooks() {
         List<Book> books = new ArrayList<>();
@@ -493,43 +481,4 @@ class BookServiceTest {
         assertThrows(DatabaseError.class, () ->  bookServiceUnderTest.getBookById(BOOK_ID));
         verify(bookRepository, times(1)).findById(BOOK_ID);
     }
-//    @Test
-//    void addBook() {
-//    }
-//
-//    @Test
-//    void addAuthorToBook() {
-//    }
-//
-//    @Test
-//    void addCategoriesToBook() {
-//    }
-//
-//    @Test
-//    void updateBook() {
-//    }
-//
-//    @Test
-//    void deleteBook() {
-//    }
-//
-//    @Test
-//    void getBooks() {
-//    }
-//
-//    @Test
-//    void getAvailableBooks() {
-//    }
-//
-//    @Test
-//    void getBooksByAuthor() {
-//    }
-//
-//    @Test
-//    void getBooksByCategory() {
-//    }
-//
-//    @Test
-//    void getBookById() {
-//    }
 }

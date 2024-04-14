@@ -147,27 +147,4 @@ class CategoryServiceTest {
         when(categoryRepository.findAll()).thenThrow(DatabaseError.class);
         assertThrows(DatabaseError.class, () -> categoryServiceUnderTest.getCategories());
     }
-//    @Test
-//    void addCategory() {
-//    }
-//
-//    @Test
-//    void save() {
-//    }
-//
-//    @Test
-//    void updateCategory() {
-//    }
-//
-//    @Test
-//    void deleteCategory() {
-//    }
-//
-//    @Test
-//    void getCategories() {
-//    }
-//
-//    @Test
-//    void getCategoryById() {
-//    }
 }

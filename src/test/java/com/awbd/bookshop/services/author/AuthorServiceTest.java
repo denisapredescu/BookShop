@@ -187,20 +187,4 @@ class AuthorServiceTest {
         assertThrows(DatabaseError.class, () -> authorServiceUnderTest.getAuthor(any(), any()));
         verify(authorRepository, times(1)).getAuthor(any(), any());
     }
-
-//    @Test
-//    void updateAuthor() {
-//    }
-//
-//    @Test
-//    void deleteAuthor() {
-//    }
-//
-//    @Test
-//    void getAuthors() {
-//    }
-//
-//    @Test
-//    void getAuthor() {
-//    }
 }
