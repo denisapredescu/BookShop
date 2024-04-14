@@ -2,14 +2,9 @@ package com.awbd.bookshop.repositories;
 
 import com.awbd.bookshop.dtos.BookFromBasketDetails;
 import com.awbd.bookshop.models.Basket;
-import com.awbd.bookshop.models.Book;
-import com.awbd.bookshop.models.BookBasket;
-import com.awbd.bookshop.models.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -18,8 +13,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @ActiveProfiles("h2")
@@ -45,9 +38,9 @@ class BasketRepositoryH2Test {
         assertNotNull(foundBasket.get());
 
         log.info("findByUserId - current basket ...");
-        log.info("Is sent: " + String.valueOf(foundBasket.get().getSent()));
-        log.info("Current cost: " + String.valueOf(foundBasket.get().getCost()));
-        log.info("Basket id: " + String.valueOf(foundBasket.get().getId()));
+        log.info("Is sent: " + foundBasket.get().getSent());
+        log.info("Current cost: " + foundBasket.get().getCost());
+        log.info("Basket id: " + foundBasket.get().getId());
         log.info("User email: " + foundBasket.get().getUser().getEmail());
     }
 

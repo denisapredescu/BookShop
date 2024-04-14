@@ -26,9 +26,6 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 class BookRepositoryTest {
 
     @Mock
-    private AuthorRepository authorRepository;
-
-    @Mock
     private CategoryRepository categoryRepository;
 
     @Mock

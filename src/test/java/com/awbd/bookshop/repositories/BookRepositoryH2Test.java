@@ -1,37 +1,22 @@
 package com.awbd.bookshop.repositories;
 
-import com.awbd.bookshop.dtos.BookFromBasketDetails;
-import com.awbd.bookshop.models.Author;
 import com.awbd.bookshop.models.Book;
-import com.awbd.bookshop.models.Category;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.*;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @DataJpaTest
 @ActiveProfiles("h2")
 @Slf4j
 class BookRepositoryH2Test {
-
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     @Autowired
     private BookRepository bookRepository;
