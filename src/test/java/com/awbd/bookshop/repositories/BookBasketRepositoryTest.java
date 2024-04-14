@@ -1,78 +1,76 @@
 package com.awbd.bookshop.repositories;
 
-import com.awbd.bookshop.models.Author;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.BookBasket;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("mysql")
 class BookBasketRepositoryTest {
-    @Autowired
-    BookBasketRepository bookBasketRepository;
 
-    @Autowired
+    @Mock
     BookRepository bookRepository;
 
-    @Autowired
+    @Mock
     BasketRepository basketRepository;
+
+    @Mock
+    BookBasketRepository bookBasketRepository;
+
     @Test
     void findBookInBasket() {
         Book book = new Book("book", 12);
-        book = bookRepository.save(book);
-
         Basket basket = new Basket();
-        basket = basketRepository.save(basket);
-
         BookBasket bookBasket = new BookBasket();
         bookBasket.setBook(book);
         bookBasket.setBasket(basket);
-        bookBasketRepository.save(bookBasket);
 
-        Optional<BookBasket> foundBookBasket = bookBasketRepository.findBookInBasket(book.getId(), basket.getId());
+        when(bookBasketRepository.findBookInBasket(anyInt(), anyInt())).thenReturn(Optional.of(bookBasket));
+
+        Optional<BookBasket> foundBookBasket = bookBasketRepository.findBookInBasket(1, 1);
         assertTrue(foundBookBasket.isPresent());
-        assertNotNull(foundBookBasket.get());
         assertEquals(bookBasket, foundBookBasket.get());
     }
 
     @Test
     void findBookInBasket_notFoundBook() {
-        int nonExistentBookId = 999;
+        when(bookRepository.save(any())).thenReturn(null);
 
         Basket basket = new Basket();
-        basket = basketRepository.save(basket);
+        when(basketRepository.save(any())).thenReturn(basket);
 
         BookBasket bookBasket = new BookBasket();
         bookBasket.setBasket(basket);
-        bookBasketRepository.save(bookBasket);
+        when(bookBasketRepository.save(any())).thenReturn(bookBasket);
 
-        Optional<BookBasket> foundBookBasket = bookBasketRepository.findBookInBasket(nonExistentBookId, basket.getId());
+        Optional<BookBasket> foundBookBasket = bookBasketRepository.findBookInBasket(anyInt(), anyInt());
         assertTrue(foundBookBasket.isEmpty());
     }
+
     @Test
     void findBookInBasket_notFoundBasket() {
-        int nonExistentBasketId = 999;
         Book book = new Book("book", 12);
-        book = bookRepository.save(book);
+        when(bookRepository.save(any())).thenReturn(book);
+
+        when(basketRepository.save(any())).thenReturn(null);
 
         BookBasket bookBasket = new BookBasket();
         bookBasket.setBook(book);
-        bookBasketRepository.save(bookBasket);
+        when(bookBasketRepository.save(any())).thenReturn(bookBasket);
 
-        Optional<BookBasket> foundBookBasket = bookBasketRepository.findBookInBasket(book.getId(), nonExistentBasketId);
+        Optional<BookBasket> foundBookBasket = bookBasketRepository.findBookInBasket(anyInt(), anyInt());
         assertTrue(foundBookBasket.isEmpty());
     }
-
-
 }

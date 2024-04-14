@@ -5,7 +5,7 @@ import com.awbd.bookshop.mappers.CategoryMapper;
 import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.services.category.ICategoryService;
 import jakarta.validation.Valid;
-import org.h2.engine.Mode;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
