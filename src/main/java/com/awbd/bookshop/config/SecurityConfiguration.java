@@ -48,9 +48,10 @@ public class SecurityConfiguration {
                 .authorizeRequests(requests -> requests//.requestMatchers("/admin").hasRole("ADMIN")
 
                        // .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/","/author","/category","/login").permitAll()
+                        .requestMatchers("/","/author","/book","/category","/login").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-                        .anyRequest().authenticated()//nou
+
+                      //  .anyRequest().authenticated()//nou
                 )
                 .userDetailsService(userDetailsService)
 //                .httpBasic(Customizer.withDefaults())
