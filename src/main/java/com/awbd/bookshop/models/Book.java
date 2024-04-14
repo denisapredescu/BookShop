@@ -29,11 +29,11 @@ public class Book {
 
     @Column(name = "year_date")
     @Min(value = 0)
-    private int year = 0;
+    private Integer year = 0;
 
     @Column(name = "volume")
     @Min(value = 0)
-    private int volume = 0;
+    private Integer volume = 0;
 
     @Column(name = "series_name")
     private String series_name = null;

@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.Assert.assertFalse;
+
 @DataJpaTest
 @ActiveProfiles("h2")
 @Slf4j
