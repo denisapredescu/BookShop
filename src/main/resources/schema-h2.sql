@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS books_book_categories (
                                                     REFERENCES categories (id)
                                                  );
 -- -----------------------------------------------------
--- Table bookshop.cupons
+-- Table bookshop.coupons
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS coupons (
                                         id INT NOT NULL,

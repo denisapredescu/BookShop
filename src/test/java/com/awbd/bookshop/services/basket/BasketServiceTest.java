@@ -1,6 +1,5 @@
 package com.awbd.bookshop.services.basket;
 
-import com.awbd.bookshop.dtos.BasketDetails;
 import com.awbd.bookshop.dtos.BookFromBasketDetails;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.Coupon;
@@ -8,7 +7,7 @@ import com.awbd.bookshop.models.User;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.repositories.BasketRepository;
 import com.awbd.bookshop.services.bookbasket.IBookBasketService;
-import com.awbd.bookshop.services.cupon.ICouponService;
+import com.awbd.bookshop.services.coupon.ICouponService;
 import com.awbd.bookshop.services.user.IUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

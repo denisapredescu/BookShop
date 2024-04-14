@@ -6,7 +6,7 @@ import com.awbd.bookshop.models.Coupon;
 import com.awbd.bookshop.models.User;
 import com.awbd.bookshop.repositories.BasketRepository;
 import com.awbd.bookshop.services.bookbasket.IBookBasketService;
-import com.awbd.bookshop.services.cupon.ICouponService;
+import com.awbd.bookshop.services.coupon.ICouponService;
 import com.awbd.bookshop.services.user.IUserService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
