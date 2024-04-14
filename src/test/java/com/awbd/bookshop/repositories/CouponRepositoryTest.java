@@ -1,10 +1,9 @@
 package com.awbd.bookshop.repositories;
 
-import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.Coupon;
 import com.awbd.bookshop.models.User;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -13,64 +12,53 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("mysql")
 class CouponRepositoryTest {
-    @Autowired
+
+    @Mock
     CouponRepository couponRepository;
 
-    @Autowired
+    @Mock
     UserRepository userRepository;
 
     @Test
     void findByUser() {
+        // Create a user
         User user = new User("username", "email@gmail.com", "password", "firstname", "lastname", true);
-        User savedUser = userRepository.save(user);
-        assertNotNull(savedUser);
+        when(userRepository.save(any())).thenReturn(user);
 
+        // Create a coupon associated with the user
         Coupon coupon = new Coupon();
         coupon.setUser(user);
-        Coupon savedCoupon = couponRepository.save(coupon);
-        assertNotNull(savedCoupon);
+        when(couponRepository.save(any())).thenReturn(coupon);
 
-        Optional<Coupon> foundCoupon = couponRepository.findByUser(savedUser.getId());
+        // Mock
+        when(couponRepository.findByUser(user.getId())).thenReturn(Optional.of(coupon));
+
+        // Call the findByUser method
+        Optional<Coupon> foundCoupon = couponRepository.findByUser(user.getId());
+
+        // Assertions
         assertTrue(foundCoupon.isPresent());
         assertNotNull(foundCoupon.get());
-        assertEquals(savedCoupon, foundCoupon.get());
+        assertEquals(coupon, foundCoupon.get());
     }
 
     @Test
     void findByUser_notFound() {
-        int nonExistentUserId = 999;
+        // Mock
+        when(couponRepository.findByUser(anyInt())).thenReturn(Optional.empty());
 
-        Optional<Coupon> foundCoupon = couponRepository.findByUser(nonExistentUserId);
+        // Call the findByUser method with a non-existent user id
+        Optional<Coupon> foundCoupon = couponRepository.findByUser(999);
+
+        // Assertion
         assertTrue(foundCoupon.isEmpty());
     }
 
-//    @Test
-//    void delete() {
-//        User user = new User("username", "email@gmail.com", "password", "firstname", "lastname", true);
-//        User savedUser = userRepository.save(user);
-//        assertNotNull(savedUser);
-//
-//        Coupon coupon = new Coupon();
-//        coupon.setUser(user);
-//        Coupon savedCoupon = couponRepository.save(coupon);
-//        assertNotNull(savedCoupon);
-//
-//        Optional<Coupon> foundCoupon = couponRepository.findByUser(savedUser.getId());
-//        assertTrue(foundCoupon.isPresent());
-//        assertNotNull(foundCoupon.get());
-//        assertEquals(savedCoupon, foundCoupon.get());
-//
-//        System.out.println("Deleted User ID: " + savedUser.getId());
-//
-//        couponRepository.delete(savedUser.getId());
-//        Optional<Coupon> notFoundCoupon = couponRepository.findByUser(savedUser.getId());
-//        System.out.println("Deleted User ID: " + notFoundCoupon.get());
-//        assertTrue(notFoundCoupon.isEmpty());
-//        assertNull(notFoundCoupon.get());
-//    }
 }

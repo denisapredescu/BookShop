@@ -1,9 +1,7 @@
-package com.awbd.bookshop.services.cupon;
+package com.awbd.bookshop.services.coupon;
 
 import com.awbd.bookshop.models.Coupon;
 import com.awbd.bookshop.models.User;
-
-import java.util.Optional;
 
 public interface ICouponService {
     Coupon findCoupon(int userId);

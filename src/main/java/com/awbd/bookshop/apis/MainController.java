@@ -2,7 +2,7 @@ package com.awbd.bookshop.apis;
 
 import com.awbd.bookshop.services.user.UserService;
 import jakarta.jws.soap.SOAPBinding;
-import org.h2.engine.Mode;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;

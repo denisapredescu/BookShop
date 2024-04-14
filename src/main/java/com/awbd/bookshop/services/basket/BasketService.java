@@ -6,7 +6,7 @@ import com.awbd.bookshop.models.Coupon;
 import com.awbd.bookshop.models.User;
 import com.awbd.bookshop.repositories.BasketRepository;
 import com.awbd.bookshop.services.bookbasket.IBookBasketService;
-import com.awbd.bookshop.services.cupon.ICouponService;
+import com.awbd.bookshop.services.coupon.ICouponService;
 import com.awbd.bookshop.services.user.IUserService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -67,7 +67,7 @@ public class BasketService implements IBasketService {
 
         if (coupon != null) {
             basket.setCost((1 - coupon.getDiscount()/100) * basket.getCost());
-            coupon.setUser(null);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! first set the id to null (else it was error with FK)
+            coupon.setUser(null);
             couponService.delete(coupon);
         }
 
@@ -94,15 +94,6 @@ public class BasketService implements IBasketService {
             ));
 
         return basket;
-//
-//        return new BasketDetails(
-//                basket.getId(),
-//                basket.getSent().toString(),
-//                basket.getUser().getId(),
-//                basket.getUser().getEmail(),
-//                basket.getCost(),
-//                basketRepository.findBooksFromCurrentBasket(basket.getId())
-//        );
     }
 
     @Transactional

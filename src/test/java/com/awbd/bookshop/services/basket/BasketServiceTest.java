@@ -1,6 +1,5 @@
 package com.awbd.bookshop.services.basket;
 
-import com.awbd.bookshop.dtos.BasketDetails;
 import com.awbd.bookshop.dtos.BookFromBasketDetails;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.Coupon;
@@ -8,7 +7,7 @@ import com.awbd.bookshop.models.User;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.repositories.BasketRepository;
 import com.awbd.bookshop.services.bookbasket.IBookBasketService;
-import com.awbd.bookshop.services.cupon.ICouponService;
+import com.awbd.bookshop.services.coupon.ICouponService;
 import com.awbd.bookshop.services.user.IUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -255,13 +254,11 @@ class BasketServiceTest {
         when(basketRepository.findByUserId(USER_ID)).thenReturn(Optional.empty());
         when(basketRepository.save(any(Basket.class))).thenReturn(BASKET);
         when(userService.getUser(USER_ID)).thenReturn(USER);
-//        when(basketRepository.findBooksFromCurrentBasket(BASKET_ID)).thenReturn(List.of());
 
         var result = basketServiceUnderTest.getBasket(USER_ID);
         verify(basketRepository).findByUserId(USER_ID);
         verify(basketRepository).save(any(Basket.class));
         verify(userService).getUser(USER_ID);
-//        verify(basketRepository).findBooksFromCurrentBasket(BASKET_ID);
         assertEquals(
                 BASKET
         , result);
@@ -274,13 +271,11 @@ class BasketServiceTest {
                 new BookFromBasketDetails("book 2", 25, 2,2)//am pus id=2
         );
         when(basketRepository.findByUserId(USER_ID)).thenReturn(Optional.of(BASKET));
-//        when(basketRepository.findBooksFromCurrentBasket(BASKET_ID)).thenReturn(books);
 
         var result = basketServiceUnderTest.getBasket(USER_ID);
         verify(basketRepository).findByUserId(USER_ID);
         verify(basketRepository, never()).save(any(Basket.class));
         verify(userService, never()).getUser(USER_ID);
-//        verify(basketRepository).findBooksFromCurrentBasket(BASKET_ID);
         assertEquals(BASKET, result);
     }
 
@@ -542,15 +537,11 @@ class BasketServiceTest {
     }
 
     @Test
-    void findBooksFromCurrentBasket() {
-    }
-
-    @Test
     public void testFindBooksFromCurrentBasket_WithBooks() {
         int basketId = 123;
         List<BookFromBasketDetails> expectedBooks = new ArrayList<>();
-        expectedBooks.add(new BookFromBasketDetails("Book1", 20.0, 2,1));//am pus id=1
-        expectedBooks.add(new BookFromBasketDetails("Book2", 30.0, 1,2));//am pus id=2
+        expectedBooks.add(new BookFromBasketDetails("Book1", 20.0, 2,1));
+        expectedBooks.add(new BookFromBasketDetails("Book2", 30.0, 1,2));
 
         when(basketRepository.findBooksFromCurrentBasket(basketId)).thenReturn(expectedBooks);
 
@@ -569,22 +560,18 @@ class BasketServiceTest {
     public void findBooksFromCurrentBasket_WithoutBooks() {
         int basketId = 123;
         List<BookFromBasketDetails> expectedBooks = new ArrayList<>();
-
         when(basketRepository.findBooksFromCurrentBasket(basketId)).thenReturn(expectedBooks);
 
         List<BookFromBasketDetails> actualBooks = basketServiceUnderTest.findBooksFromCurrentBasket(basketId);
-
         assertTrue(actualBooks.isEmpty());
     }
 
     @Test
     public void findBooksFromCurrentBasket_NullResult() {
         int basketId = 123;
-
         when(basketRepository.findBooksFromCurrentBasket(basketId)).thenReturn(null);
 
         List<BookFromBasketDetails> actualBooks = basketServiceUnderTest.findBooksFromCurrentBasket(basketId);
-
         assertNull(actualBooks);
     }
 

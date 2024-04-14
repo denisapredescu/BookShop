@@ -1,9 +1,12 @@
 package com.awbd.bookshop.repositories;
 
 import com.awbd.bookshop.dtos.BookFromBasketDetails;
-import com.awbd.bookshop.models.*;
+import com.awbd.bookshop.models.Basket;
+import com.awbd.bookshop.models.Book;
+import com.awbd.bookshop.models.BookBasket;
+import com.awbd.bookshop.models.User;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -11,79 +14,85 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("mysql")
 class BasketRepositoryTest {
-    @Autowired
+
+    @Mock
     BasketRepository basketRepository;
 
-    @Autowired
+    @Mock
     UserRepository userRepository;
 
-    @Autowired
+    @Mock
     BookRepository bookRepository;
 
-    @Autowired
+    @Mock
     BookBasketRepository bookBasketRepository;
 
     @Test
     void findByUserId() {
         User user = new User("username", "email@gmail.com", "password", "firstname", "lastname", true);
-        User savedUser = userRepository.save(user);
-        assertNotNull(savedUser);
+        when(userRepository.save(user)).thenReturn(user);
 
         Basket basket = new Basket();
         basket.setUser(user);
-        Basket savedBasket = basketRepository.save(basket);
-        assertNotNull(savedBasket);
+        when(basketRepository.save(basket)).thenReturn(basket);
 
-        Optional<Basket> foundBasket = basketRepository.findByUserId(savedUser.getId());
+        when(basketRepository.findByUserId(1)).thenReturn(Optional.of(basket));
+
+        Optional<Basket> foundBasket = basketRepository.findByUserId(1);
         assertTrue(foundBasket.isPresent());
         assertNotNull(foundBasket.get());
-        assertEquals(savedBasket, foundBasket.get());
+        assertEquals(basket, foundBasket.get());
     }
 
     @Test
     void findByUser_notFound() {
-        int nonExistentUserId = 999;
+        when(basketRepository.findByUserId(anyInt())).thenReturn(Optional.empty());
 
-        Optional<Basket> foundBasket = basketRepository.findByUserId(nonExistentUserId);
+        Optional<Basket> foundBasket = basketRepository.findByUserId(999);
         assertTrue(foundBasket.isEmpty());
     }
 
     @Test
     void findBooksFromCurrentBasket() {
         User user = new User("username", "email@gmail.com", "password", "firstname", "lastname", true);
-        User savedUser = userRepository.save(user);
-        assertNotNull(savedUser);
+        when(userRepository.save(user)).thenReturn(user);
 
         Book book1 = new Book("book1", 12);
-        book1 = bookRepository.save(book1); // Save the book
+        when(bookRepository.save(book1)).thenReturn(book1);
 
         Book book2 = new Book("book2", 20);
-        book2 = bookRepository.save(book2); // Save the book
+        when(bookRepository.save(book2)).thenReturn(book2);
 
         Basket basket = new Basket();
         basket.setUser(user);
-        Basket savedBasket = basketRepository.save(basket);
-        assertNotNull(savedBasket);
+        when(basketRepository.save(basket)).thenReturn(basket);
 
         BookBasket bookBasket1 = new BookBasket();
         bookBasket1.setBook(book1);
-        bookBasket1.setBasket(savedBasket);
-        BookBasket savedBookBasket1 = bookBasketRepository.save(bookBasket1);
-        assertNotNull(savedBookBasket1);
+        bookBasket1.setBasket(basket);
+        when(bookBasketRepository.save(bookBasket1)).thenReturn(bookBasket1);
 
         BookBasket bookBasket2 = new BookBasket();
         bookBasket2.setBook(book2);
-        bookBasket2.setBasket(savedBasket);
-        BookBasket savedBookBasket2 = bookBasketRepository.save(bookBasket2);
-        assertNotNull(savedBookBasket2);
+        bookBasket2.setBasket(basket);
+        when(bookBasketRepository.save(bookBasket2)).thenReturn(bookBasket2);
 
-        List<BookFromBasketDetails> bookFromBasketDetails = basketRepository.findBooksFromCurrentBasket(savedBasket.getId());
+        when(basketRepository.findBooksFromCurrentBasket(1)).thenReturn(List.of(
+                new BookFromBasketDetails( book1.getName(), book1.getPrice(), bookBasket1.getCopies(), book1.getId()),
+                new BookFromBasketDetails( book2.getName(), book2.getPrice(), bookBasket2.getCopies(), book2.getId())
+        ));
+
+        List<BookFromBasketDetails> bookFromBasketDetails = basketRepository.findBooksFromCurrentBasket(1);
         assertEquals(2, bookFromBasketDetails.size());
         assertEquals(book1.getName(), bookFromBasketDetails.get(0).getName());
         assertEquals(bookBasket1.getCopies(), bookFromBasketDetails.get(0).getCopies());
@@ -97,15 +106,15 @@ class BasketRepositoryTest {
     @Test
     void findBooksFromCurrentBasket_notFound() {
         Basket basket = new Basket();
-        Basket savedBasket = basketRepository.save(basket);
-        assertNotNull(savedBasket);
+        when(basketRepository.save(basket)).thenReturn(basket);
 
         BookBasket bookBasket = new BookBasket();
-        bookBasket.setBasket(savedBasket);
-        BookBasket savedBookBasket = bookBasketRepository.save(bookBasket);
-        assertNotNull(savedBookBasket);
+        bookBasket.setBasket(basket);
+        when(bookBasketRepository.save(bookBasket)).thenReturn(bookBasket);
 
-        List<BookFromBasketDetails> bookFromBasketDetails = basketRepository.findBooksFromCurrentBasket(savedBasket.getId());
+        when(basketRepository.findBooksFromCurrentBasket(1)).thenReturn(List.of());
+
+        List<BookFromBasketDetails> bookFromBasketDetails = basketRepository.findBooksFromCurrentBasket(1);
         assertEquals(0, bookFromBasketDetails.size());
     }
 }

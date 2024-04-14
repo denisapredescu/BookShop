@@ -1,7 +1,6 @@
 package com.awbd.bookshop.models;
 import jakarta.persistence.*;
 
-import java.util.List;
 @Entity
 @Table(name = "users")
 public class User {
@@ -27,9 +26,6 @@ public class User {
 
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
-
-//    @OneToMany(mappedBy = "user")
-//    List<Authority> authority;
 
     @ManyToOne(targetEntity = Authority.class)
     @PrimaryKeyJoinColumn(name = "authority_id")

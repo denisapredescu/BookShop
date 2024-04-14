@@ -1,4 +1,4 @@
-package com.awbd.bookshop.services.cupon;
+package com.awbd.bookshop.services.coupon;
 
 import com.awbd.bookshop.models.Coupon;
 import com.awbd.bookshop.models.User;
@@ -31,7 +31,6 @@ class CouponServiceTest {
         when(couponRepository.findByUser(userId)).thenReturn(Optional.of(expectedCoupon));
 
         Coupon actualCoupon = couponServiceUnderTest.findCoupon(userId);
-
         assertEquals(expectedCoupon, actualCoupon);
     }
 
@@ -42,7 +41,6 @@ class CouponServiceTest {
         when(couponRepository.findByUser(userId)).thenReturn(Optional.empty());
 
         Coupon actualCoupon = couponServiceUnderTest.findCoupon(userId);
-
         assertNull(actualCoupon);
     }
 
@@ -51,7 +49,6 @@ class CouponServiceTest {
         Coupon coupon = new Coupon(10.0, new User());
 
         couponServiceUnderTest.delete(coupon);
-
         verify(couponRepository).delete(coupon);
     }
 
@@ -65,7 +62,6 @@ class CouponServiceTest {
         when(couponRepository.save(couponToSave)).thenReturn(savedCoupon);
 
         Coupon actualCoupon = couponServiceUnderTest.insert(discount, user);
-
         assertNotNull(actualCoupon);
         assertEquals(savedCoupon, actualCoupon);
     }
