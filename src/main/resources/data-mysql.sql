@@ -22,4 +22,4 @@ values ('anda12','anda@yahoo.com','pass','anda','paraschiva',true,1);
 insert into users(username,email,password,first_name,last_name,enabled,authority_id)
 values ('mara12','mara@yahoo.com','pass','mara','santila',true,1);
 
-delete from cupons;
+delete from coupons;

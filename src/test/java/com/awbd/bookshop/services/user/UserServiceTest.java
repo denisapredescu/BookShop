@@ -35,7 +35,6 @@ class UserServiceTest {
         when(userRepository.save(newUser)).thenReturn(newUser);
 
         User createdUser = userServiceUnderTest.create(newUser);
-
         assertNotNull(createdUser);
         assertEquals(newUser, createdUser);
     }
@@ -61,7 +60,6 @@ class UserServiceTest {
         when(userRepository.save(existingUser)).thenReturn(existingUser);
 
         User updatedUser = userServiceUnderTest.update(userId, updateUser);
-
         assertNotNull(updatedUser);
         assertEquals(updateUser.getUsername(), updatedUser.getUsername());
         assertEquals(updateUser.getFirstName(), updatedUser.getFirstName());
@@ -87,7 +85,6 @@ class UserServiceTest {
         when(userRepository.getUsers()).thenReturn(expectedUsers);
 
         List<UserDetails> actualUsers = userServiceUnderTest.getUsers();
-
         assertEquals(expectedUsers.size(), actualUsers.size());
         assertEquals(expectedUsers.get(0), actualUsers.get(0));
         assertEquals(expectedUsers.get(1), actualUsers.get(1));
@@ -103,7 +100,6 @@ class UserServiceTest {
         when(userRepository.save(existingUser)).thenReturn(existingUser);
 
         User deletedUser = userServiceUnderTest.delete(userId);
-
         assertNotNull(deletedUser);
         assertFalse(deletedUser.isEnabled());
     }
@@ -126,7 +122,6 @@ class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUser));
 
         User actualUser = userServiceUnderTest.getUser(userId);
-
         assertNotNull(actualUser);
         assertEquals(expectedUser, actualUser);
     }

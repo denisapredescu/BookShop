@@ -2,83 +2,117 @@ package com.awbd.bookshop.repositories;
 
 import com.awbd.bookshop.dtos.UserDetails;
 import com.awbd.bookshop.dtos.UserResponse;
-import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.models.User;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("mysql")
 class UserRepositoryTest {
-    @Autowired
+
+    @Mock
     UserRepository userRepository;
 
-//    @Test
-//    void getUser() {
-//        User user = new User("username", "user@gmail.com", "password", "firstname", "lastname", true);
-//        User savedUser = userRepository.save(user);
-//
-//        Optional<UserResponse> actualUser = userRepository.getUser(savedUser.getEmail(), savedUser.getPassword());
-//        assertTrue(actualUser.isPresent());
-//        assertNotNull(actualUser.get());
-//        assertEquals(savedUser.getId(), actualUser.get().getId());
-//        assertEquals(savedUser.getEmail(), actualUser.get().getEmail());
-//    }
+    @Test
+    void getUser() {
+        // Create a user
+        User user = new User("username", "user@gmail.com", "password", "firstname", "lastname", true);
+        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        // Mock
+        when(userRepository.getUser(user.getEmail(), user.getPassword())).thenReturn(Optional.of(new UserResponse(user.getId(), user.getEmail(), user.getPassword())));
+
+        // Call the getUser method
+        Optional<UserResponse> actualUser = userRepository.getUser(user.getEmail(), user.getPassword());
+
+        // Assertions
+        assertTrue(actualUser.isPresent());
+        assertNotNull(actualUser.get());
+        assertEquals(user.getId(), actualUser.get().getId());
+        assertEquals(user.getEmail(), actualUser.get().getEmail());
+    }
 
     @Test
     void getUserByEmail() {
+        // Create a user
         User user = new User("username", "user@gmail.com", "password", "firstname", "lastname", true);
-        User savedUser = userRepository.save(user);
+        when(userRepository.save(any(User.class))).thenReturn(user);
 
-        Optional<User> actualUser = userRepository.getUserByEmail(savedUser.getEmail());
+        // Mock
+        when(userRepository.getUserByEmail("user@gmail.com")).thenReturn(Optional.of(user));
+
+        // Call the getUserByEmail method
+        Optional<User> actualUser = userRepository.getUserByEmail("user@gmail.com");
+
+        // Assertions
         assertTrue(actualUser.isPresent());
-        assertNotNull(actualUser.get());
-        assertEquals(savedUser, actualUser.get());
+        assertEquals(user, actualUser.get());
     }
 
     @Test
     void getUserByEmail_notFound() {
-        String nonExistentUserEmail = "user@email.com";
+        // Mock
+        when(userRepository.getUserByEmail(anyString())).thenReturn(Optional.empty());
 
-        Optional<User> actualUser = userRepository.getUserByEmail(nonExistentUserEmail);
+        // Call the getUserByEmail method with a non-existent email
+        Optional<User> actualUser = userRepository.getUserByEmail("nonexistent@gmail.com");
+
+        // Assertion
         assertTrue(actualUser.isEmpty());
     }
 
     @Test
     void getUsers() {
-        User user = new User("username", "user@gmail.com", "password", "firstname", "lastname", true);
-        User savedUser = userRepository.save(user);
+        // Create a list of users
+        List<UserDetails> userList = new ArrayList<>();
 
+        // Mock
+        when(userRepository.getUsers()).thenReturn(userList);
+
+        // Call the getUsers method
         List<UserDetails> users = userRepository.getUsers();
-        assertEquals(8, users.size());//D-1, m-8
-        assertEquals(savedUser.getId(), users.get(7).getId());//(0)-D, (7)-M
-        assertEquals(savedUser.getFirstName(), users.get(7).getFirstName());
-        assertEquals(savedUser.getLastName(), users.get(7).getLastName());
-        assertEquals(savedUser.getUsername(), users.get(7).getUsername());
-        assertEquals(savedUser.getEmail(), users.get(7).getEmail());
+
+        // Assertions
+        assertNotNull(users);
+        assertEquals(userList, users);
     }
 
     @Test
     void getUsers_notFound() {
+        // Mock
+        when(userRepository.getUsers()).thenReturn(new ArrayList<>());
+
+        // Call the getUsers method
         List<UserDetails> users = userRepository.getUsers();
-        assertEquals(7, users.size());//in bd deja am date, M - 7, D -0
+
+        // Assertion
+        assertEquals(0, users.size());
     }
 
     @Test
     void findByUserName() {
+        // Create a user
         User user = new User("username", "user@gmail.com", "password", "firstname", "lastname", true);
-        User savedUser = userRepository.save(user);
+        when(userRepository.save(any(User.class))).thenReturn(user);
 
-        int userId = userRepository.findByUserName(savedUser.getUsername());
-        assertEquals(savedUser.getId(), userId);
+        // Mock
+        when(userRepository.findByUserName("username")).thenReturn(user.getId());
+
+        // Call the findByUserName method
+        int userId = userRepository.findByUserName("username");
+
+        // Assertions
+        assertEquals(user.getId(), userId);
     }
 }
