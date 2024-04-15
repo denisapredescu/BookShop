@@ -55,7 +55,7 @@ public class AuthorControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void saveAuthorUpdate() throws Exception{
         int id = 1;
         Author request = new Author("Lara","Simon","Romanian");
@@ -80,7 +80,7 @@ public class AuthorControllerTest {
 //            return new ModelAndView("authorAddForm");
 //        }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void addAuthor() throws Exception {
         this.mockMvc.perform(get("/author/add")
                                 .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -98,7 +98,7 @@ public class AuthorControllerTest {
 //        return new ModelAndView("authorForm");
 //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void updateAuthor() throws Exception {
         int id = 1;
         Author author = new Author(1,"Lara","Simon","Romanian");
@@ -117,7 +117,7 @@ public class AuthorControllerTest {
 //        return new ModelAndView("redirect:/author");
 //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void deleteAuthor() throws Exception{
         int id=1;
         mockMvc.perform(delete("/author/delete/{id}","1")
@@ -134,7 +134,7 @@ public class AuthorControllerTest {
     //    return new ModelAndView ("authorList");
     //}
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+   // @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void getAuthors() throws Exception{
         Author author1 = new Author(1,"Lara","Simoni","Romanian");
         Author author2 = new Author(2,"Sara","Oprea","Romanian");

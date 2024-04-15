@@ -59,7 +59,7 @@ public class BookControllerTest {
     //        return new ModelAndView("redirect:/book");
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void save() throws Exception{
         RequestBook book = new RequestBook("carte",20.3,2001,1,"serie");
         when(bookService.addBook(mapper.requestBook(book))).thenReturn(new Book("carte",20.3,2001,1,"serie",false));
@@ -81,7 +81,7 @@ public class BookControllerTest {
     //        return new ModelAndView("bookAddForm");
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void addBook() throws Exception {
         this.mockMvc.perform(get("/book/add")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -98,7 +98,7 @@ public class BookControllerTest {
     //        return new ModelAndView("redirect:/book");
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void saveBookUpdate() throws Exception{
         int id = 1;
         Book request = new Book("carte",20.3,2001,1,"serie",false);
@@ -125,7 +125,7 @@ public class BookControllerTest {
     //        return new ModelAndView("bookForm");
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void updateAuthor() throws Exception {
         int id = 1;
         Book book = new Book(id,"carte",20.3,2001,1,"serie",false);
@@ -145,7 +145,7 @@ public class BookControllerTest {
     //        return new ModelAndView("redirect:/book");
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void addAuthBook() throws Exception {
         int bookId = 1;
         Author author = new Author(1,"Lara","Simon","Romanian");
@@ -176,7 +176,7 @@ public class BookControllerTest {
     //
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void addAuthorToBook() throws Exception{
         int bookId = 1;
         Author author = new Author(1,"Lara","Simon","Romanian");
@@ -203,7 +203,7 @@ public class BookControllerTest {
     //    }
 
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void showAddCategoriesToBookForm() throws Exception{
         int bookId = 1;
         Category category1 = new Category(1,"action");
@@ -239,7 +239,7 @@ public class BookControllerTest {
     //    }
 
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void addCategoriesToBook() throws Exception {
         int bookId = 1;
         Category category1 = new Category(1,"action");
@@ -270,7 +270,7 @@ public class BookControllerTest {
     //        return new ModelAndView("redirect:/book");
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void deleteBook() throws Exception{
         int id=1;
         mockMvc.perform(delete("/book/delete/{id}","1")
@@ -287,7 +287,7 @@ public class BookControllerTest {
     //        return new ModelAndView ("bookList");
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+   // @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void getAllBooks() throws Exception {
         Category category1 = new Category(1,"action");
         Category category2 = new Category(2,"romance");
@@ -309,29 +309,43 @@ public class BookControllerTest {
                 .andExpect(model().attribute("books",books));
     }
 
-//     @RequestMapping("/getAvailable/{pageNo}")
-//        public ModelAndView getAvailableBooks(Model model,
-//                                              @PathVariable Integer pageNo
-//                                              ){
-//            List<Category> categoriesAll = categoryService.getCategories();
-//            model.addAttribute("categoriesAll", categoriesAll);
-//            List<Book> books = bookService.getAvailableBooks(pageNo, 5);
-//            model.addAttribute("books",books);
-//            int userId = getCurrentUserId();
+// @RequestMapping("/getAvailable/{pageNo}")
+//    public ModelAndView getAvailableBooks(Model model,
+//                                          @PathVariable Integer pageNo
+//                                          ){
+//        List<Category> categoriesAll = categoryService.getCategories();
+//        model.addAttribute("categoriesAll", categoriesAll);
+//        List<Book> books = bookService.getAvailableBooks(pageNo, 5);
+//        model.addAttribute("books",books);
+//        model.addAttribute(pageNo);
+//        model.addAttribute("totalPages",(int) Math.ceil((double) books.size() / 5));
+//        int currentPage = pageNo > 0 ? pageNo : 0;
+//        model.addAttribute(currentPage);
+//
+//        int userId = getCurrentUserId();
+//
+//       if(userId==0)
+//           return new ModelAndView("bookAvailableListNoLogin");
+//        else
+//       {
 //            Basket basket = basketService.getBasket(userId);
 //            model.addAttribute("basket",basket);
-//            model.addAttribute(pageNo);
-//            model.addAttribute("totalPages",(int) Math.ceil((double) books.size() / 5));
-//            int currentPage = pageNo > 0 ? pageNo : 0;
-//            model.addAttribute(currentPage);
 //            return new ModelAndView ("bookAvailableList");
+//       }
+//    }
+//    private Integer getCurrentUserId() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            if(authentication.getName()!="anonymousUser")
+//                return userService.getId(authentication.getName());
+//            else
+//                return 0;
 //        }
+//        return 0;
+//    }
 
-    //Exception processing template "bookAvailableList":
-    //Exception evaluating SpringEL expression: "basket.id" (template: "bookAvailableList" - line 105, col 29)
-   /* @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
-    public void getAvailableBooks() throws Exception {
+    @Test
+    public void getAvailableBooksAnonymous() throws Exception {
         Integer pageNo = 0;
         Category category1 = new Category(1,"action");
         Category category2 = new Category(2,"romance");
@@ -349,23 +363,57 @@ public class BookControllerTest {
         books.add(book);
 
         when(bookService.getAvailableBooks(pageNo,5)).thenReturn(books);
-
-        int userId = 1;
-        User user = new User("miruna","miruna@yahoo.com","pass","miruna","pos",true);
-        user.setId(userId);
-        Basket basket = new Basket(1,false,0.0,user);
-        when(basketService.getBasket(userId)).thenReturn(basket);
+        int currentPage = 1;
+        int userId = 0;
 
         when(bookService.getBooks()).thenReturn(books);
-        mockMvc.perform(get("/book/getAvailable/{pageNo}","0")
+        mockMvc.perform(get("/book/getAvailable/0")
                 )
                 .andExpect(status().isOk())
-                .andExpect(view().name("bookAvailableList"))
-                .andExpect(model().attribute("categoriesAll", categoriesAll))
-                .andExpect(model().attribute("books",books))
-                .andExpect(model().attribute("basket",basket))
-                .andExpect(model().attributeExists("totalPages"));
-    }*/
+                .andExpect(view().name("bookAvailableListNoLogin"));
+    }
+
+
+    ////Exception processing template "bookAvailableList":
+    //    //Exception evaluating SpringEL expression: "basket.id" (template: "bookAvailableList" - line 105, col 29)
+    //    @Test
+    //    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    //    public void getAvailableBooks() throws Exception {
+    //        Integer pageNo = 0;
+    //        Category category1 = new Category(1,"action");
+    //        Category category2 = new Category(2,"romance");
+    //
+    //        List<Category> categoriesAll = new ArrayList<>();
+    //        categoriesAll.add(category1);
+    //        categoriesAll.add(category2);
+    //
+    //        when(categoryService.getCategories()).thenReturn(categoriesAll);
+    //
+    //        Author author = new Author(1,"Lara","Simon","Romanian");
+    //        Book book = new Book(1,"carte",20.3,2001,1,"serie",false,author,categoriesAll);
+    //
+    //        List<Book> books = new ArrayList<>();
+    //        books.add(book);
+    //
+    //        when(bookService.getAvailableBooks(pageNo,5)).thenReturn(books);
+    //        int currentPage = 1;
+    //        int userId = 1;
+    //        User user = new User("miruna","miruna@yahoo.com","pass","miruna","pos",true);
+    //        user.setId(userId);
+    //        Basket basket = new Basket();//1,false,0.0,user
+    //        when(basketService.getBasket(userId)).thenReturn(new Basket());
+    //
+    //        when(bookService.getBooks()).thenReturn(books);
+    //        mockMvc.perform(get("/book/getAvailable/0")
+    //
+    //                )
+    //                .andExpect(status().isOk())
+    //                .andExpect(view().name("bookAvailableList"));
+    //              //  .andExpect(model().attribute("categoriesAll", categoriesAll))
+    //               // .andExpect(model().attribute("books",books))
+    //               // .andExpect(model().attribute("basket",basket));
+    //               // .andExpect(model().attributeExists("totalPages"));
+    //    }
 
     // @GetMapping("/getBooksByCategory")
     //    public ModelAndView getBooksByCategory(
@@ -381,7 +429,7 @@ public class BookControllerTest {
     //    }
 
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    //@WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void getBooksByCategory() throws Exception{
         Category category1 = new Category(1,"action");
         Category category2 = new Category(2,"romance");
@@ -423,7 +471,7 @@ public class BookControllerTest {
     //    }
 
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+   // @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void getBooksByAuthor() throws Exception{
         String firstName = "Lara";
         String lastName = "Simoni";
