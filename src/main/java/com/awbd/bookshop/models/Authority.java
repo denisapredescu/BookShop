@@ -15,7 +15,7 @@ public class Authority {
 
     public Authority() {
     }
-
+    
     public Authority(int id, String authority) {
         this.id = id;
         this.authority = authority;
