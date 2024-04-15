@@ -1,6 +1,9 @@
 # BookShop
 
 https://docs.google.com/document/d/1DM2_K6RMbRv7PmBai0MUdk9NYFlW_kCtvDij6Wjzn6I/edit?usp=sharing
+## Schema
+
+![image](https://github.com/denisapredescu/BookShop/assets/86727047/b8edcdc5-58b8-485f-9dc8-157f4a30979a)
 
 ## Switching between profiles 
 If you set the active profile to MySQL (mysql), the H2 tests will not fail by default, but they won't run either. The tests annotated with @ActiveProfiles("h2") will be ignored because the active profile is set to MySQL.

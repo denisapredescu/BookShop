@@ -7,7 +7,7 @@ import java.util.Set;
 @Table(name = "authorities")
 public class Authority {
     @Id
-    @Column(name = "id",insertable=false, updatable=false)
+    @GeneratedValue
     private int id;
 
     @Column(name = "authority", nullable = false, length = 50)
@@ -15,6 +15,7 @@ public class Authority {
 
     public Authority() {
     }
+    
     public Authority(int id, String authority) {
         this.id = id;
         this.authority = authority;
