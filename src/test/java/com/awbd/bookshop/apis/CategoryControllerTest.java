@@ -50,7 +50,7 @@ public class CategoryControllerTest {
     //}
 
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void save() throws Exception{
         Category category = new Category();
         category.setName("categ");
@@ -79,7 +79,7 @@ public class CategoryControllerTest {
     //}
 
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void updateCategory() throws Exception {
         int id = 1;
         Category category = new Category(1,"action");
@@ -98,7 +98,7 @@ public class CategoryControllerTest {
     //    return new ModelAndView("redirect:/category");
     //}
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void deleteCategory() throws Exception{
         int id=1;
         mockMvc.perform(delete("/category/delete/{id}","1")
@@ -115,7 +115,7 @@ public class CategoryControllerTest {
     //}
 
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    //@WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
     public void getCategories() throws Exception{
         Category category1 = new Category(1,"action");
         Category category2 = new Category(2,"romance");

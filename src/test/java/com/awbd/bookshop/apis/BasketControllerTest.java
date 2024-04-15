@@ -54,7 +54,7 @@ public class BasketControllerTest {
     //        return new ModelAndView("redirect:/basket/myBasket");
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void addBookToBasket() throws Exception{
         int bookId = 1;
         int basketId = 1;
@@ -89,7 +89,7 @@ public class BasketControllerTest {
     //    }
 
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void removeBookFromBasket() throws Exception {
         int bookId = 1;
         int basketId = 1;
@@ -124,7 +124,7 @@ public class BasketControllerTest {
     //        return new ModelAndView("redirect:/basket/myBasket");
     //    }
     @Test
-    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+    @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void decrementBookFromBasket() throws Exception {
         int bookId = 1;
         int basketId = 1;
