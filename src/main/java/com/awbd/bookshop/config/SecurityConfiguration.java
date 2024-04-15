@@ -50,7 +50,10 @@ public class SecurityConfiguration {
                        // .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/","/author","/book","/category","/login").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-
+                                .requestMatchers("/author/update/**","/author/add","/author/delete/**").hasRole("ADMIN")
+                                .requestMatchers("/book/update/**","/book/add","/book/addAuthorToBook/**",
+                                        "/book/addCategBook/**","/book/delete/**").hasRole("ADMIN")
+                                .requestMatchers("category/add","category/update/**","category/delete/**").hasRole("ADMIN")
                       //  .anyRequest().authenticated()//nou
                 )
                 .userDetailsService(userDetailsService)
