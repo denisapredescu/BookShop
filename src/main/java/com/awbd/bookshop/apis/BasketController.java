@@ -56,7 +56,8 @@ public class BasketController {
     @RequestMapping("/sentOrder")
     public ModelAndView sentOrder(Model model)
     {
-        int userId = getCurrentUserId();
+        int userId = userService.getCurrentUserId();
+        //int userId = getCurrentUserId();
         Basket basket = basketService.sentOrder(userId);
         model.addAttribute(basket);
         List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basket.getId());
@@ -74,7 +75,7 @@ public class BasketController {
     @GetMapping("/myBasket")
     public ModelAndView getBasket(Model model)
     {
-        int userId = getCurrentUserId();
+        int userId = userService.getCurrentUserId();
         Basket basket = basketService.getBasket(userId);
         model.addAttribute("basket",basket);
         List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basket.getId());
