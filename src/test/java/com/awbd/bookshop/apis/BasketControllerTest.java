@@ -2,8 +2,7 @@ package com.awbd.bookshop.apis;
 
 import com.awbd.bookshop.dtos.BookFromBasketDetails;
 import com.awbd.bookshop.mappers.BasketMapper;
-import com.awbd.bookshop.models.Basket;
-import com.awbd.bookshop.models.User;
+import com.awbd.bookshop.models.*;
 import com.awbd.bookshop.services.basket.IBasketService;
 import com.awbd.bookshop.services.user.IUserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +39,8 @@ public class BasketControllerTest {
 
     @MockBean
     private BasketMapper mapper;
+    @MockBean
+    private IUserService userService;
 
     // @RequestMapping("/addBookToBasket/{bookId}/{basketId}")
     //    public  ModelAndView addBookToBasket(
@@ -144,6 +145,89 @@ public class BasketControllerTest {
 
         verify(basketService).decrementBookFromBasket(bookId,basketId);
         verify(basketService).findBooksFromCurrentBasket(basketId);
+    }
+
+    // @RequestMapping("/sentOrder")
+    //    public ModelAndView sentOrder(Model model)
+    //    {
+    //        int userId = userService.getCurrentUserId();
+    //        //int userId = getCurrentUserId();
+    //        Basket basket = basketService.sentOrder(userId);
+    //        model.addAttribute(basket);
+    //        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basket.getId());
+    //        model.addAttribute(books);
+    //        return new ModelAndView("redirect:/basket/myBasket");
+    //    }
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
+    public void sentOrder() throws Exception{
+        int userId = 3;
+        when(userService.getCurrentUserId()).thenReturn(userId);
+
+        User userul= new User("miruna","miruna@yahoo.com","pass","Miruna","Pos",true);
+        userul.setId(userId);
+        Basket basket = new Basket(3,false,51.0,userul);
+        when(basketService.sentOrder(userId)).thenReturn(basket);
+
+        Category category1 = new Category(1,"action");
+        Category category2 = new Category(2,"romance");
+        List<Category> categoriesAll = new ArrayList<>();
+        categoriesAll.add(category1);
+        categoriesAll.add(category2);
+        Author author = new Author(1,"Lara","Simon","Romanian");
+        BookFromBasketDetails book = new BookFromBasketDetails("carte",51.0,1,3);
+        List<BookFromBasketDetails> books = new ArrayList<>();
+        books.add(book);
+
+        when(basketService.findBooksFromCurrentBasket(basket.getId())).thenReturn(books);
+
+        mockMvc.perform(get("/basket/sentOrder")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/basket/myBasket"));
+    }
+    //    @GetMapping("/myBasket")
+    //    public ModelAndView getBasket(Model model)
+    //    {
+    //        int userId = userService.getCurrentUserId();
+    //        Basket basket = basketService.getBasket(userId);
+    //        model.addAttribute("basket",basket);
+    //        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basket.getId());
+    //        model.addAttribute("books",books);
+    //        return new ModelAndView("basketView");
+    //    }
+
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
+    public void getBasket() throws Exception{
+        int userId = 3;
+        when(userService.getCurrentUserId()).thenReturn(userId);
+
+        User userul= new User("miruna","miruna@yahoo.com","pass","Miruna","Pos",true);
+        userul.setId(userId);
+        Basket basket = new Basket(3,false,51.0,userul);
+        when(basketService.getBasket(userId)).thenReturn(basket);
+
+        Category category1 = new Category(1,"action");
+        Category category2 = new Category(2,"romance");
+        List<Category> categoriesAll = new ArrayList<>();
+        categoriesAll.add(category1);
+        categoriesAll.add(category2);
+        Author author = new Author(1,"Lara","Simon","Romanian");
+        BookFromBasketDetails book = new BookFromBasketDetails("carte",51.0,1,3);
+        List<BookFromBasketDetails> books = new ArrayList<>();
+        books.add(book);
+
+        when(basketService.findBooksFromCurrentBasket(basket.getId())).thenReturn(books);
+
+        mockMvc.perform(get("/basket/myBasket")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                )
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("basket",basket))
+                .andExpect(model().attribute("books",books))
+                .andExpect(view().name("basketView"));
     }
 
 }

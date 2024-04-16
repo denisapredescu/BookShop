@@ -7,6 +7,7 @@ import com.awbd.bookshop.services.basket.IBasketService;
 import com.awbd.bookshop.services.book.IBookService;
 import com.awbd.bookshop.services.category.ICategoryService;
 import com.awbd.bookshop.services.user.IUserService;
+import com.awbd.bookshop.services.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.jws.soap.SOAPBinding;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -51,6 +57,11 @@ public class BookControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private IUserService userService;
+    private PasswordEncoder passwordEncoder;
+
 
     //  @PostMapping("")
     //    public ModelAndView save(
@@ -370,50 +381,59 @@ public class BookControllerTest {
         mockMvc.perform(get("/book/getAvailable/0")
                 )
                 .andExpect(status().isOk())
+                .andExpect(model().attribute("books",books))
+                .andExpect(model().attribute("categoriesAll", categoriesAll))
                 .andExpect(view().name("bookAvailableListNoLogin"));
     }
 
 
-    ////Exception processing template "bookAvailableList":
-    //    //Exception evaluating SpringEL expression: "basket.id" (template: "bookAvailableList" - line 105, col 29)
-    //    @Test
-    //    @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
-    //    public void getAvailableBooks() throws Exception {
-    //        Integer pageNo = 0;
-    //        Category category1 = new Category(1,"action");
-    //        Category category2 = new Category(2,"romance");
-    //
-    //        List<Category> categoriesAll = new ArrayList<>();
-    //        categoriesAll.add(category1);
-    //        categoriesAll.add(category2);
-    //
-    //        when(categoryService.getCategories()).thenReturn(categoriesAll);
-    //
-    //        Author author = new Author(1,"Lara","Simon","Romanian");
-    //        Book book = new Book(1,"carte",20.3,2001,1,"serie",false,author,categoriesAll);
-    //
-    //        List<Book> books = new ArrayList<>();
-    //        books.add(book);
-    //
-    //        when(bookService.getAvailableBooks(pageNo,5)).thenReturn(books);
-    //        int currentPage = 1;
-    //        int userId = 1;
-    //        User user = new User("miruna","miruna@yahoo.com","pass","miruna","pos",true);
-    //        user.setId(userId);
-    //        Basket basket = new Basket();//1,false,0.0,user
-    //        when(basketService.getBasket(userId)).thenReturn(new Basket());
-    //
-    //        when(bookService.getBooks()).thenReturn(books);
-    //        mockMvc.perform(get("/book/getAvailable/0")
-    //
-    //                )
-    //                .andExpect(status().isOk())
-    //                .andExpect(view().name("bookAvailableList"));
-    //              //  .andExpect(model().attribute("categoriesAll", categoriesAll))
-    //               // .andExpect(model().attribute("books",books))
-    //               // .andExpect(model().attribute("basket",basket));
-    //               // .andExpect(model().attributeExists("totalPages"));
-    //    }
+    //Exception processing template "bookAvailableList":
+        //Exception evaluating SpringEL expression: "basket.id" (template: "bookAvailableList" - line 105, col 29)
+        @Test
+        //@WithUserDetails("miruna")
+        @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
+        public void getAvailableBooks() throws Exception {
+            Integer pageNo = 0;
+            Category category1 = new Category(1,"action");
+            Category category2 = new Category(2,"romance");
+
+            List<Category> categoriesAll = new ArrayList<>();
+            categoriesAll.add(category1);
+            categoriesAll.add(category2);
+
+            when(categoryService.getCategories()).thenReturn(categoriesAll);
+
+            Author author = new Author(1,"Lara","Simon","Romanian");
+            Book book = new Book(1,"carte",20.3,2001,1,"serie",false,author,categoriesAll);
+
+            List<Book> books = new ArrayList<>();
+            books.add(book);
+
+            when(bookService.getAvailableBooks(pageNo,5)).thenReturn(books);
+
+            int currentPage = 1;
+            int userId = 3;
+            when(userService.getCurrentUserId()).thenReturn(userId);
+
+            User userul= new User("miruna","miruna@yahoo.com","pass","Miruna","Pos",true);
+            userul.setId(userId);
+
+            Basket basket = new Basket(3,false,51.0,userul);
+            when(basketService.getBasket(userId)).thenReturn(basket);
+
+            //System.out.println(when(basketService.getBasket(userId)));
+
+            when(bookService.getBooks()).thenReturn(books);
+            mockMvc.perform(get("/book/getAvailable/0")
+                            //.with(SecurityMockMvcRequestPostProcessors.authentication(SecurityContextHolder.getContext().getAuthentication()))
+                    )
+                    .andExpect(status().isOk())
+                    .andExpect(view().name("bookAvailableList"))
+                   .andExpect(model().attribute("categoriesAll", categoriesAll))
+                    .andExpect(model().attribute("books",books))
+                    .andExpect(model().attribute("basket",basket))
+                   .andExpect(model().attributeExists("totalPages"));
+        }
 
     // @GetMapping("/getBooksByCategory")
     //    public ModelAndView getBooksByCategory(

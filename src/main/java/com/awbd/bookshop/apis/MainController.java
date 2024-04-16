@@ -1,5 +1,6 @@
 package com.awbd.bookshop.apis;
 
+import com.awbd.bookshop.services.user.IUserService;
 import com.awbd.bookshop.services.user.UserService;
 import jakarta.jws.soap.SOAPBinding;
 
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
-    UserService userService;
-    public MainController(UserService userService){
+    IUserService userService;
+    public MainController(IUserService userService){
         this.userService=userService;
     }
 //    @RequestMapping({"","/","/home"})

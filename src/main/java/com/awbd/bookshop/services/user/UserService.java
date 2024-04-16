@@ -8,6 +8,8 @@ import com.awbd.bookshop.exceptions.exceptions.EmailAlreadyUsedException;
 import com.awbd.bookshop.models.User;
 import com.awbd.bookshop.repositories.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -82,5 +84,17 @@ public class UserService implements IUserService {
     @Override
     public int getId(String username){
         return userRepository.findByUserName(username);
+    }
+
+    @Override
+    public Integer getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            if(authentication.getName()!="anonymousUser")
+                return getId(authentication.getName());
+            else
+                return 0;
+        }
+        return 0;
     }
 }

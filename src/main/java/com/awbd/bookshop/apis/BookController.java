@@ -208,7 +208,7 @@ public class BookController {
         int currentPage = pageNo > 0 ? pageNo : 0;
         model.addAttribute(currentPage);
 
-        int userId = getCurrentUserId();
+        int userId = userService.getCurrentUserId();
 
        if(userId==0)
            return new ModelAndView("bookAvailableListNoLogin");
@@ -219,16 +219,16 @@ public class BookController {
             return new ModelAndView ("bookAvailableList");
        }
     }
-    private Integer getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            if(authentication.getName()!="anonymousUser")
-                return userService.getId(authentication.getName());
-            else
-                return 0;
-        }
-        return 0;
-    }
+//    private Integer getCurrentUserId() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            if(authentication.getName()!="anonymousUser")
+//                return userService.getId(authentication.getName());
+//            else
+//                return 0;
+//        }
+//        return 0;
+//    }
 //    @GetMapping("/getBooksByAuthor/{firstname}/{lastName}")
 //    public ResponseEntity<List<BookResponse>> getBooksByAuthor(
 //            @PathVariable String firstname,

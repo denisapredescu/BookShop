@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "coupons")
+@Table(name = "cupons")
 public class Coupon {
     @Id
     @GeneratedValue

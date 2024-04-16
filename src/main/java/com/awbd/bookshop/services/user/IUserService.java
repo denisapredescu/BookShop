@@ -15,4 +15,5 @@ public interface IUserService {
     User delete(Integer id);
     User getUser(int userId);
     int getId(String username);
+    Integer getCurrentUserId();
 }
