@@ -3,6 +3,7 @@ package com.awbd.bookshop.services.user;
 import com.awbd.bookshop.dtos.UpdateUser;
 import com.awbd.bookshop.dtos.UserDetails;
 import com.awbd.bookshop.exceptions.exceptions.EmailAlreadyUsedException;
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.User;
 import com.awbd.bookshop.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,7 +73,7 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> userServiceUnderTest.update(userId, updateUser));
+        assertThrows(NoFoundElementException.class, () -> userServiceUnderTest.update(userId, updateUser));
     }
 
     @Test
@@ -110,7 +110,7 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> userServiceUnderTest.delete(userId));
+        assertThrows(NoFoundElementException.class, () -> userServiceUnderTest.delete(userId));
     }
 
     @Test
@@ -132,6 +132,6 @@ class UserServiceTest {
 
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> userServiceUnderTest.getUser(userId));
+        assertThrows(NoFoundElementException.class, () -> userServiceUnderTest.getUser(userId));
     }
 }

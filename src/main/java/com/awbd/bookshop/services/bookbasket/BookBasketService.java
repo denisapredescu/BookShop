@@ -1,6 +1,7 @@
 package com.awbd.bookshop.services.bookbasket;
 
 import com.awbd.bookshop.dtos.BookFromBasketDetails;
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.BookBasket;
@@ -10,7 +11,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class BookBasketService implements IBookBasketService {
@@ -50,7 +50,7 @@ public class BookBasketService implements IBookBasketService {
     @Override
     public Double removeBookToBasket(int bookId, int basketId) {
         BookBasket bookBasket = bookBasketRepository.findBookInBasket(bookId, basketId).orElseThrow(
-                () -> new NoSuchElementException("The book is not in this basket"));
+                () -> new NoFoundElementException("The book is not in this basket"));
 
         bookBasketRepository.delete(bookBasket);
 
@@ -61,7 +61,7 @@ public class BookBasketService implements IBookBasketService {
     @Override
     public Double decrementBookFromBasket(int bookId, int basketId) {
         BookBasket bookBasket = bookBasketRepository.findBookInBasket(bookId, basketId).orElseThrow(
-                () -> new NoSuchElementException("The book is not in this basket"));
+                () -> new NoFoundElementException("The book is not in this basket"));
 
         if (bookBasket.getCopies() > 1)
         {

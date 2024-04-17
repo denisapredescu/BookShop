@@ -1,6 +1,7 @@
 package com.awbd.bookshop.services.category;
 
 import com.awbd.bookshop.exceptions.exceptions.DatabaseError;
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.repositories.CategoryRepository;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -100,9 +100,9 @@ class CategoryServiceTest {
 
     @Test
     void updateCategory_NoSuchElementException() {
-        when(categoryRepository.findById(eq(CATEGORY_ID))).thenThrow(NoSuchElementException.class);
+        when(categoryRepository.findById(eq(CATEGORY_ID))).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () -> categoryServiceUnderTest.updateCategory(any(), CATEGORY_ID));
+        assertThrows(NoFoundElementException.class, () -> categoryServiceUnderTest.updateCategory(any(), CATEGORY_ID));
         verify(categoryRepository, times(1)).findById(CATEGORY_ID);
         verify(categoryRepository, never()).save(any());
     }

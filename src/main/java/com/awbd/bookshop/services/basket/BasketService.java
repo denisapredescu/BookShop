@@ -1,6 +1,7 @@
 package com.awbd.bookshop.services.basket;
 
 import com.awbd.bookshop.dtos.BookFromBasketDetails;
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.models.Coupon;
 import com.awbd.bookshop.models.User;
@@ -12,7 +13,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 
 @Service
@@ -52,15 +52,15 @@ public class BasketService implements IBasketService {
         return basket;
     }
 
-    @Transactional
+   // @Transactional
     @Override
     public Basket sentOrder(int userId) {
         int ok=0;
         Basket basket = basketRepository.findByUserId(userId).orElseThrow(
-                () -> new NoSuchElementException("User does not have a current basket"));
+                () -> new NoFoundElementException("User does not have a current basket"));
 
         if (basket.getCost() == 0)
-            throw new NoSuchElementException("User does not have books in basket");
+            throw new NoFoundElementException("User does not have books in basket");
 
         // coupon logic
         Coupon coupon = couponService.findCoupon(userId);
@@ -106,7 +106,7 @@ public class BasketService implements IBasketService {
     @Override
     public Basket addBookToBasket(int bookId, int basketId) {
         Basket basket = basketRepository.findById(basketId).orElseThrow(
-                () -> new NoSuchElementException("Does not exist a basket with this id")
+                () -> new NoFoundElementException("Does not exist a basket with this id")
         );
 
         Double bookPriceInBasket = bookBasketService.addBookToBasket(bookId, basket);
@@ -119,7 +119,7 @@ public class BasketService implements IBasketService {
     @Override
     public Basket removeBookFromBasket(int bookId, int basketId) {
         Basket basket = basketRepository.findById(basketId).orElseThrow(
-                () -> new NoSuchElementException("Does not exist a basket with this id"));
+                () -> new NoFoundElementException("Does not exist a basket with this id"));
 
         Double bookPriceInBasket = bookBasketService.removeBookToBasket(bookId, basketId);
 
@@ -131,7 +131,7 @@ public class BasketService implements IBasketService {
     @Override
     public Basket decrementBookFromBasket(int bookId, int basketId) {
         Basket basket = basketRepository.findById(basketId).orElseThrow(
-                () -> new NoSuchElementException("Does not exist a basket with this id"));
+                () -> new NoFoundElementException("Does not exist a basket with this id"));
 
         Double bookPriceInBasket = bookBasketService.decrementBookFromBasket(bookId, basketId);
 

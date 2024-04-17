@@ -109,10 +109,10 @@ public ModelAndView getAuthors(Model model){
     return new ModelAndView ("authorList");
 }
 
-    @GetMapping("/getAuthor/{firstName}/{lastName}")//nu l-am folosit
-    public ResponseEntity<Author> getAuthor(
-            @PathVariable String firstName,
-            @PathVariable String lastName) {
-        return ResponseEntity.ok(authorService.getAuthor(firstName, lastName));
-    }
+//    @GetMapping("/getAuthor/{firstName}/{lastName}")//nu l-am folosit
+//    public ResponseEntity<Author> getAuthor(
+//            @PathVariable String firstName,
+//            @PathVariable String lastName) {
+//        return ResponseEntity.ok(authorService.getAuthor(firstName, lastName));
+//    }
 }

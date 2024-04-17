@@ -1,6 +1,7 @@
 package com.awbd.bookshop.services.author;
 
 import com.awbd.bookshop.exceptions.exceptions.DatabaseError;
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Author;
 import com.awbd.bookshop.repositories.AuthorRepository;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -107,9 +107,9 @@ class AuthorServiceTest {
 
     @Test
     void updateAuthor_NoSuchElementException() {
-        when(authorRepository.findById(eq(AUTHOR_ID))).thenThrow(NoSuchElementException.class);
+        when(authorRepository.findById(eq(AUTHOR_ID))).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () -> authorServiceUnderTest.updateAuthor(any(), AUTHOR_ID));
+        assertThrows(NoFoundElementException.class, () -> authorServiceUnderTest.updateAuthor(any(), AUTHOR_ID));
         verify(authorRepository, times(1)).findById(AUTHOR_ID);
         verify(authorRepository, never()).save(any());
     }

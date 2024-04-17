@@ -22,7 +22,7 @@ public class MainController {
 //        return new ModelAndView("main");
 //    }
     @RequestMapping({"","/","/home"})
-    public ModelAndView getHome(Model model){
+    public ModelAndView getHome(){
       //  int userId = getCurrentUserId();
         //model.addAttribute("userId", userId);
         return new ModelAndView("main");
@@ -34,13 +34,6 @@ public class MainController {
 //        return "home";
 //    }
 
-    private Integer getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return userService.getId(authentication.getName());
-        }
-        return 0;
-    }
     @GetMapping("/login")
     public String showLogInForm(){ return "login"; }
 
