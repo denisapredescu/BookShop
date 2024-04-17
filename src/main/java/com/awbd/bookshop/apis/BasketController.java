@@ -82,13 +82,13 @@ public class BasketController {
         model.addAttribute("books",books);
         return new ModelAndView("basketView");
     }
-    private Integer getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return userService.getId(authentication.getName());
-        }
-        return 0;
-    }
+//    private Integer getCurrentUserId() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null && authentication.isAuthenticated()) {
+//            return userService.getId(authentication.getName());
+//        }
+//        return 0;
+//    }
 
 //    @PostMapping("/addBookToBasket/{bookId}/{basketId}")
 //    public  ResponseEntity<BasketDetails> addBookToBasket(

@@ -2,6 +2,7 @@ package com.awbd.bookshop.services.book;
 
 import com.awbd.bookshop.exceptions.exceptions.DatabaseError;
 import com.awbd.bookshop.exceptions.exceptions.DeletedBookException;
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Author;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.Category;
@@ -96,9 +97,9 @@ class BookServiceTest {
 
     @Test
     void addAuthorToBook_NoSuchElementException() {
-        when(bookRepository.findById(eq(BOOK_ID))).thenThrow(NoSuchElementException.class);
+        when(bookRepository.findById(eq(BOOK_ID))).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () -> bookServiceUnderTest.addAuthorToBook(BOOK_ID, any()));
+        assertThrows(NoFoundElementException.class, () -> bookServiceUnderTest.addAuthorToBook(BOOK_ID, any()));
         verify(bookRepository, times(1)).findById(BOOK_ID);
         verify(authorService, never()).save(any());
         verify(bookRepository, never()).save(any());
@@ -187,9 +188,9 @@ class BookServiceTest {
 
     @Test
     void addCategoriesToBook_NoSuchElementException() {
-        when(bookRepository.findById(eq(BOOK_ID))).thenThrow(NoSuchElementException.class);
+        when(bookRepository.findById(eq(BOOK_ID))).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () -> bookServiceUnderTest.addCategoriesToBook(BOOK_ID, any()));
+        assertThrows(NoFoundElementException.class, () -> bookServiceUnderTest.addCategoriesToBook(BOOK_ID, any()));
         verify(bookRepository, times(1)).findById(BOOK_ID);
         verify(categoryService, never()).save(any(Category.class));
         verify(bookRepository, never()).save(BOOK);
@@ -287,9 +288,9 @@ class BookServiceTest {
 
     @Test
     void updateBook_NoSuchElementException() {
-        when(bookRepository.findById(eq(BOOK_ID))).thenThrow(NoSuchElementException.class);
+        when(bookRepository.findById(eq(BOOK_ID))).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () -> bookServiceUnderTest.updateBook(new Book(), eq(BOOK_ID)));
+        assertThrows(NoFoundElementException.class, () -> bookServiceUnderTest.updateBook(new Book(), eq(BOOK_ID)));
         verify(bookRepository, times(1)).findById(BOOK_ID);
         verify(bookRepository, never()).save(any());
     }
@@ -341,9 +342,9 @@ class BookServiceTest {
 
     @Test
     void deleteBook_NoSuchElementException()  {
-        when(bookRepository.findById(eq(BOOK_ID))).thenThrow(NoSuchElementException.class);
+        when(bookRepository.findById(eq(BOOK_ID))).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () -> bookServiceUnderTest.deleteBook(eq(BOOK_ID)));
+        assertThrows(NoFoundElementException.class, () -> bookServiceUnderTest.deleteBook(eq(BOOK_ID)));
         verify(bookRepository, times(1)).findById(BOOK_ID);
         verify(bookRepository, never()).save(any());
     }
@@ -468,9 +469,9 @@ class BookServiceTest {
 
     @Test
     void getBookById_NoSuchElementException() {
-        when(bookRepository.findById(BOOK_ID)).thenThrow(NoSuchElementException.class);
+        when(bookRepository.findById(BOOK_ID)).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () ->  bookServiceUnderTest.getBookById(BOOK_ID));
+        assertThrows(NoFoundElementException.class, () ->  bookServiceUnderTest.getBookById(BOOK_ID));
         verify(bookRepository, times(1)).findById(BOOK_ID);
     }
 

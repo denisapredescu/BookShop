@@ -46,12 +46,12 @@ public class UserController {
         return ResponseEntity.ok(userService.delete(id));
     }
 
-    @GetMapping("/login/{email}")
-    public ResponseEntity<UserResponse> login(
-            @PathVariable String email,
-            @RequestHeader(name = "password") String password){
-        return ResponseEntity.ok(userService.login(email, password));
-    }
+//    @GetMapping("/login/{email}")
+//    public ResponseEntity<UserResponse> login(
+//            @PathVariable String email,
+//            @RequestHeader(name = "password") String password){
+//        return ResponseEntity.ok(userService.login(email, password));
+//    }
 
     @GetMapping("/getUser/{id}")
     public ResponseEntity<User> getUser(@PathVariable Integer id){

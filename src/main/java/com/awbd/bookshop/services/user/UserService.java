@@ -5,6 +5,7 @@ import com.awbd.bookshop.dtos.UpdateUser;
 import com.awbd.bookshop.dtos.UserDetails;
 import com.awbd.bookshop.dtos.UserResponse;
 import com.awbd.bookshop.exceptions.exceptions.EmailAlreadyUsedException;
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.User;
 import com.awbd.bookshop.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -13,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class UserService implements IUserService {
@@ -38,7 +38,7 @@ public class UserService implements IUserService {
     @Override
     public User update(Integer id, UpdateUser updateUser) {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("User not found"));
+                () -> new NoFoundElementException("User not found"));
 
         user.setUsername(updateUser.getUsername());
         user.setFirstName(updateUser.getFirstName());
@@ -50,7 +50,7 @@ public class UserService implements IUserService {
     @Override
     public UserResponse login(String email, String password) {
         return userRepository.getUser(email, password).orElseThrow(
-                () -> new NoSuchElementException("User with this email and password not found"));
+                () -> new NoFoundElementException("User with this email and password not found"));
 
 //        return new UserResponse(
 //                user.getId(),
@@ -68,7 +68,7 @@ public class UserService implements IUserService {
     @Override
     public User delete(Integer id) {
         User user = userRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("User not found"));
+                () -> new NoFoundElementException("User not found"));
 
         user.setEnabled(false);
         return userRepository.save(user);
@@ -77,7 +77,7 @@ public class UserService implements IUserService {
     @Override
     public User getUser(int userId) {
         return userRepository.findById(userId).orElseThrow(
-                () -> new NoSuchElementException("User not found")
+                () -> new NoFoundElementException("User not found")
         );
     }
 

@@ -1,6 +1,7 @@
 package com.awbd.bookshop.services.bookbasket;
 
 import com.awbd.bookshop.exceptions.exceptions.DatabaseError;
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.BookBasket;
@@ -79,9 +80,9 @@ class BookBasketServiceTest {
 
     @Test
     void addBookToBasket_NoSuchElementException_at_getBookById() {
-        when(bookService.getBookById(any())).thenThrow(NoSuchElementException.class);
+        when(bookService.getBookById(any())).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () -> bookBasketServiceUnderTest.addBookToBasket(BOOK_ID, any(Basket.class)));
+        assertThrows(NoFoundElementException.class, () -> bookBasketServiceUnderTest.addBookToBasket(BOOK_ID, any(Basket.class)));
         verify(bookService, times(1)).getBookById(any());
         verify(bookBasketRepository, never()).findBookInBasket(any(), any());
         verify(bookBasketRepository, never()).save(any(BookBasket.class));
@@ -149,9 +150,9 @@ class BookBasketServiceTest {
 
     @Test
     void removeBookToBasket_NoSuchElementException() {
-        when(bookBasketRepository.findBookInBasket(BOOK_ID, BASKET_ID)).thenThrow(NoSuchElementException.class);
+        when(bookBasketRepository.findBookInBasket(BOOK_ID, BASKET_ID)).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () -> bookBasketServiceUnderTest.removeBookToBasket(BOOK_ID, BASKET_ID));
+        assertThrows(NoFoundElementException.class, () -> bookBasketServiceUnderTest.removeBookToBasket(BOOK_ID, BASKET_ID));
         verify(bookBasketRepository, times(1)).findBookInBasket(BOOK_ID, BASKET_ID);
         verify(bookBasketRepository, never()).delete(any());
     }
@@ -183,9 +184,9 @@ class BookBasketServiceTest {
 
     @Test
     void decrementBookFromBasket_NoSuchElementException() {
-        when(bookBasketRepository.findBookInBasket(BOOK_ID, BASKET_ID)).thenThrow(NoSuchElementException.class);
+        when(bookBasketRepository.findBookInBasket(BOOK_ID, BASKET_ID)).thenThrow(NoFoundElementException.class);
 
-        assertThrows(NoSuchElementException.class, () ->  bookBasketServiceUnderTest.decrementBookFromBasket(BOOK_ID, BASKET_ID));
+        assertThrows(NoFoundElementException.class, () ->  bookBasketServiceUnderTest.decrementBookFromBasket(BOOK_ID, BASKET_ID));
         verify(bookBasketRepository).findBookInBasket(BOOK_ID, BASKET_ID);
         verify(bookBasketRepository, never()).save(any(BookBasket.class));
     }

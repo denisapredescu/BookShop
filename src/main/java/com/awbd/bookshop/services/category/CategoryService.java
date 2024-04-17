@@ -1,12 +1,12 @@
 package com.awbd.bookshop.services.category;
 
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.repositories.CategoryRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -42,7 +42,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category updateCategory(Category updateCategory, int id) {
         Category category = categoryRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("Category with this id not found"));
+                () -> new NoFoundElementException("Category with this id not found"));
 
         category.setName(updateCategory.getName());
 
@@ -62,7 +62,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category getCategoryById(int id) {
         Category category = categoryRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("Category with this id not found"));
+                () -> new NoFoundElementException("Category with this id not found"));
         return category;
     }
     @Override

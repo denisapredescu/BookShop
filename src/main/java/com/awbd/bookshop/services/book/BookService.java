@@ -1,6 +1,7 @@
 package com.awbd.bookshop.services.book;
 
 import com.awbd.bookshop.exceptions.exceptions.DeletedBookException;
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Author;
 import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.models.Category;
@@ -129,7 +130,7 @@ public class BookService implements IBookService {
     @Override
     public Book getBookById(Integer bookId) {
         return bookRepository.findById(bookId).orElseThrow(
-                () -> new NoSuchElementException("Book with this id not found")
+                () -> new NoFoundElementException("Book with this id not found")
         );
     }
 }

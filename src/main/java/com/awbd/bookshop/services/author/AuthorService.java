@@ -1,12 +1,12 @@
 package com.awbd.bookshop.services.author;
 
+import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Author;
 import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.repositories.AuthorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class AuthorService implements IAuthorService{
@@ -37,7 +37,7 @@ public class AuthorService implements IAuthorService{
     @Override
     public Author updateAuthor(Author newAuthor, int id) {
         Author author = authorRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("Author with this id not found"));
+                () -> new NoFoundElementException("Author with this id not found"));
 
         author.setFirstName(newAuthor.getFirstName());
         author.setLastName(newAuthor.getLastName());
@@ -62,7 +62,7 @@ public class AuthorService implements IAuthorService{
     @Override
     public Author getAuthorById(int id) {
         Author author = authorRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("Author with this id not found"));
+                () -> new NoFoundElementException("Author with this id not found"));
         return author;
     }
 }
