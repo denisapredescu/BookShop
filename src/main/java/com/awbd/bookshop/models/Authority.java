@@ -1,8 +1,8 @@
 package com.awbd.bookshop.models;
+
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "authorities")
@@ -18,11 +18,6 @@ public class Authority {
     private List<User> users;
 
     public Authority() {
-    }
-    
-    public Authority(int id, String authority) {
-        this.id = id;
-        this.authority = authority;
     }
 
     public Authority(String authority) {

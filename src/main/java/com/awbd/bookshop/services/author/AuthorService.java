@@ -2,7 +2,6 @@ package com.awbd.bookshop.services.author;
 
 import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Author;
-import com.awbd.bookshop.models.Book;
 import com.awbd.bookshop.repositories.AuthorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

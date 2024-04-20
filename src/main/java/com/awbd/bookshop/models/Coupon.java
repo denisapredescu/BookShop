@@ -25,7 +25,6 @@ public class Coupon {
     }
 
     public Coupon() {
-
     }
 
     public Coupon(Double discount, User user) {

@@ -1,8 +1,6 @@
 package com.awbd.bookshop.services.author;
 
 import com.awbd.bookshop.models.Author;
-import com.awbd.bookshop.models.Book;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 
