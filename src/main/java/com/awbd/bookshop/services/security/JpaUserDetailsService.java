@@ -1,6 +1,5 @@
 package com.awbd.bookshop.services.security;
 
-
 import com.awbd.bookshop.models.Authority;
 import com.awbd.bookshop.models.User;
 import com.awbd.bookshop.repositories.UserRepository;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j

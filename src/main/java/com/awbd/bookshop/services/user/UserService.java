@@ -1,6 +1,5 @@
 package com.awbd.bookshop.services.user;
 
-
 import com.awbd.bookshop.dtos.UpdateUser;
 import com.awbd.bookshop.dtos.UserDetails;
 import com.awbd.bookshop.dtos.UserResponse;
@@ -51,12 +50,6 @@ public class UserService implements IUserService {
     public UserResponse login(String email, String password) {
         return userRepository.getUser(email, password).orElseThrow(
                 () -> new NoFoundElementException("User with this email and password not found"));
-
-//        return new UserResponse(
-//                user.getId(),
-//                user.getEmail(),
-//                JwtUtil.generateToken(user.getFirstName() + user.getLastName(), user.getRole())
-//        );
     }
 
     @Transactional

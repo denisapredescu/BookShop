@@ -1,11 +1,13 @@
 package com.awbd.bookshop.models;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "id")
     private int id;
 
@@ -27,9 +29,12 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private boolean enabled = true;
 
-    @ManyToOne(targetEntity = Authority.class)
-    @PrimaryKeyJoinColumn(name = "authority_id")
+    @ManyToOne
+    @JoinColumn(name = "authority_id")
     private Authority authority;
+
+    @OneToMany(mappedBy = "user")
+    private List<Basket> baskets;
 
     public Authority getAuthority() {
         return authority;

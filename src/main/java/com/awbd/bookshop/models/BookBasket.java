@@ -1,6 +1,5 @@
 package com.awbd.bookshop.models;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 
