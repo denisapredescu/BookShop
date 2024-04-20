@@ -13,9 +13,6 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
-//    @Query("SELECT b FROM Book b WHERE b.is_deleted = false")
-//    List<Book> getAvailableBooks();
-
     @Query("SELECT b FROM Book b WHERE b.is_deleted = false")
     Page<Book> getAvailableBooks(Pageable pageable);
 
