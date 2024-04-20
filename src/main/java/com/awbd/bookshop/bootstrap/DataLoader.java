@@ -25,6 +25,11 @@ public class DataLoader implements CommandLineRunner {
 
     private void loadUserData() {
         if (userRepository.count() == 0){//5
+            Authority authority_admin = new Authority("ROLE_ADMIN");
+            authorityRepository.save(authority_admin);
+
+            Authority authority_user = new Authority("ROLE_USER");
+            authorityRepository.save(authority_user);
 
             User admin = new User();
             admin.setUsername("admin");
@@ -32,8 +37,8 @@ public class DataLoader implements CommandLineRunner {
             admin.setPassword(passwordEncoder.encode("pass"));
             admin.setFirstName("Sara");
             admin.setLastName("Pan");
-            admin.setAuthority(new Authority(2,"ROLE_ADMIN"));
-
+            admin.setAuthority(authority_admin);
+            userRepository.save(admin);
 
             User user = new User();
             user.setUsername("miruna");
@@ -41,10 +46,7 @@ public class DataLoader implements CommandLineRunner {
             user.setPassword(passwordEncoder.encode("pass"));
             user.setFirstName("Miruna");
             user.setLastName("Pos");
-            user.setAuthority(new Authority(1,"ROLE_USER"));
-
-
-            userRepository.save(admin);
+            user.setAuthority(authority_user);
             userRepository.save(user);
         }
     }

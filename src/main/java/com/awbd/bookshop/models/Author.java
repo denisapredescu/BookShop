@@ -3,6 +3,7 @@ package com.awbd.bookshop.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +21,9 @@ public class Author {
 
     @Column(name = "nationality")
     private String nationality;
+
+    @OneToMany(mappedBy = "author")
+    private List<Book> books = null;
 
     public Author() {
     }
@@ -67,6 +71,14 @@ public class Author {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override

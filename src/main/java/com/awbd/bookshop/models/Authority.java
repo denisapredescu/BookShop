@@ -1,6 +1,7 @@
 package com.awbd.bookshop.models;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,11 +14,18 @@ public class Authority {
     @Column(name = "authority", nullable = false, length = 50)
     private String authority;
 
+    @OneToMany(mappedBy = "authority")
+    private List<User> users;
+
     public Authority() {
     }
     
     public Authority(int id, String authority) {
         this.id = id;
+        this.authority = authority;
+    }
+
+    public Authority(String authority) {
         this.authority = authority;
     }
 

@@ -3,6 +3,7 @@ package com.awbd.bookshop.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +22,9 @@ public class Basket {
     @ManyToOne(targetEntity = User.class)
     @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "basket")
+    private List<BookBasket> baskets = null;
 
     public Basket() {
     }

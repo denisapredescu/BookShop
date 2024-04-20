@@ -48,6 +48,9 @@ public class Book {
     @ManyToMany(targetEntity = Category.class)
     private List<Category> bookCategories = null;
 
+    @OneToMany(mappedBy = "book")
+    private List<BookBasket> bookBaskets = null;
+
     public Book() {
     }
 
@@ -214,7 +217,7 @@ public class Book {
                 ", volume=" + volume +
                 ", series_name='" + series_name + '\'' +
                 ", is_deleted=" + is_deleted +
-                ", author=" + author +
+//                ", author=" + author +
                 ", bookCategories=" + bookCategories +
                 '}';
     }
@@ -224,11 +227,11 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id == book.id && Double.compare(price, book.price) == 0 && year == book.year && volume == book.volume && Objects.equals(name, book.name) && Objects.equals(series_name, book.series_name) && Objects.equals(is_deleted, book.is_deleted) && Objects.equals(author, book.author) && Objects.equals(bookCategories, book.bookCategories);
+        return id == book.id && Double.compare(price, book.price) == 0 && year == book.year && volume == book.volume && Objects.equals(name, book.name) && Objects.equals(series_name, book.series_name) && Objects.equals(is_deleted, book.is_deleted) && Objects.equals(bookCategories, book.bookCategories);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, year, volume, series_name, is_deleted, author, bookCategories);
+        return Objects.hash(id, name, price, year, volume, series_name, is_deleted, bookCategories);
     }
 }
