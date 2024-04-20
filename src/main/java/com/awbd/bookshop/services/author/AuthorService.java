@@ -1,6 +1,5 @@
 package com.awbd.bookshop.services.author;
 
-import com.awbd.bookshop.exceptions.exceptions.DeletedBookException;
 import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Author;
 import com.awbd.bookshop.models.Book;
@@ -17,9 +16,6 @@ public class AuthorService implements IAuthorService{
     public AuthorService(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
-//    private final IBookService bookService;
-
-
 
     @Override
     public Author addAuthor(Author newAuthor) {
@@ -39,22 +35,6 @@ public class AuthorService implements IAuthorService{
 
         return  alreadyIn;
     }
-
-//    @Transactional
-//    @Override
-//    public Book addAuthorToBook(Integer bookId, Author newAuthor) {
-//        Book book = bookService.getBookById(bookId);
-//
-//        if (book.getIs_deleted())
-//            throw new DeletedBookException("Cannot add author to a deleted book");
-//
-//        Author author = save(newAuthor);
-//        List<Book> books = author.getBooks();
-//        books.add(book);
-//        author.setBooks(books);
-//
-//        return book; //bookRepository.save(book);
-//    }
 
     @Transactional
     @Override
@@ -82,12 +62,6 @@ public class AuthorService implements IAuthorService{
     public Author getAuthor(String firstName, String lastName) {
         return authorRepository.getAuthor(firstName, lastName).orElse(null);
     }
-
-//    @Override
-//    public List<Book> getBooksByAuthor(String firstName, String lastName) {
-//        Author author = getAuthor(firstName, lastName);
-//        return author.getBooks();
-//    }
 
     @Override
     public Author getAuthorById(int id) {
