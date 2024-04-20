@@ -1,8 +1,8 @@
 package com.awbd.bookshop.models;
 
-
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +20,9 @@ public class Author {
 
     @Column(name = "nationality")
     private String nationality;
+
+    @OneToMany(mappedBy = "author")
+    private List<Book> books = null;
 
     public Author() {
     }
@@ -69,14 +72,12 @@ public class Author {
         this.nationality = nationality;
     }
 
-    @Override
-    public String toString() {
-        return "Author{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", nationality='" + nationality + '\'' +
-                '}';
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override
@@ -84,11 +85,22 @@ public class Author {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-        return Objects.equals(id, author.id) && Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) && Objects.equals(nationality, author.nationality);
+        return Objects.equals(id, author.id) && Objects.equals(firstName, author.firstName) && Objects.equals(lastName, author.lastName) && Objects.equals(nationality, author.nationality) && Objects.equals(books, author.books);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, nationality);
+        return Objects.hash(id, firstName, lastName, nationality, books);
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", books=" + books +
+                '}';
     }
 }

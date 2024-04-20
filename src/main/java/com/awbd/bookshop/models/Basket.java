@@ -1,8 +1,8 @@
 package com.awbd.bookshop.models;
 
-
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +21,9 @@ public class Basket {
     @ManyToOne(targetEntity = User.class)
     @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "basket")
+    private List<BookBasket> baskets = null;
 
     public Basket() {
     }
@@ -65,25 +68,26 @@ public class Basket {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Basket basket = (Basket) o;
+        return id == basket.id && Double.compare(cost, basket.cost) == 0 && Objects.equals(sent, basket.sent) && Objects.equals(user, basket.user) && Objects.equals(baskets, basket.baskets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, sent, cost, user, baskets);
+    }
+
+    @Override
     public String toString() {
         return "Basket{" +
                 "id=" + id +
                 ", sent=" + sent +
                 ", cost=" + cost +
                 ", user=" + user +
+                ", baskets=" + baskets +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Basket basket = (Basket) o;
-        return id == basket.id && cost == basket.cost && Objects.equals(sent, basket.sent) && Objects.equals(user, basket.user);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, sent, cost, user);
     }
 }

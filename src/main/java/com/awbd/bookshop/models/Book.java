@@ -48,6 +48,9 @@ public class Book {
     @ManyToMany(targetEntity = Category.class)
     private List<Category> bookCategories = null;
 
+    @OneToMany(mappedBy = "book")
+    private List<BookBasket> bookBaskets = null;
+
     public Book() {
     }
 
@@ -204,6 +207,35 @@ public class Book {
         this.bookCategories = bookCategories;
     }
 
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public void setVolume(Integer volume) {
+        this.volume = volume;
+    }
+
+    public List<BookBasket> getBookBaskets() {
+        return bookBaskets;
+    }
+
+    public void setBookBaskets(List<BookBasket> bookBaskets) {
+        this.bookBaskets = bookBaskets;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id == book.id && Double.compare(price, book.price) == 0 && Objects.equals(name, book.name) && Objects.equals(year, book.year) && Objects.equals(volume, book.volume) && Objects.equals(series_name, book.series_name) && Objects.equals(is_deleted, book.is_deleted) && Objects.equals(author, book.author) && Objects.equals(bookCategories, book.bookCategories) && Objects.equals(bookBaskets, book.bookBaskets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, year, volume, series_name, is_deleted, author, bookCategories, bookBaskets);
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -216,19 +248,7 @@ public class Book {
                 ", is_deleted=" + is_deleted +
                 ", author=" + author +
                 ", bookCategories=" + bookCategories +
+                ", bookBaskets=" + bookBaskets +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return id == book.id && Double.compare(price, book.price) == 0 && year == book.year && volume == book.volume && Objects.equals(name, book.name) && Objects.equals(series_name, book.series_name) && Objects.equals(is_deleted, book.is_deleted) && Objects.equals(author, book.author) && Objects.equals(bookCategories, book.bookCategories);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, price, year, volume, series_name, is_deleted, author, bookCategories);
     }
 }

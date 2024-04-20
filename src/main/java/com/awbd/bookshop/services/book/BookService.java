@@ -100,11 +100,6 @@ public class BookService implements IBookService {
         return bookRepository.findAll();
     }
 
-//    @Override
-//    public List<Book> getAvailableBooks() {
-//        return bookRepository.getAvailableBooks();
-//    }
-
     @Override
     public List<Book> getAvailableBooks(Integer pageNo, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by("name").ascending());

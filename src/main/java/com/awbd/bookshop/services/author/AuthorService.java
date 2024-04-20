@@ -2,8 +2,8 @@ package com.awbd.bookshop.services.author;
 
 import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Author;
-import com.awbd.bookshop.models.Category;
 import com.awbd.bookshop.repositories.AuthorRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +21,7 @@ public class AuthorService implements IAuthorService{
         return save(newAuthor);
     }
 
+    @Transactional
     @Override
     public Author save(Author newAuthor) {
         if (newAuthor == null)
@@ -34,6 +35,7 @@ public class AuthorService implements IAuthorService{
         return  alreadyIn;
     }
 
+    @Transactional
     @Override
     public Author updateAuthor(Author newAuthor, int id) {
         Author author = authorRepository.findById(id).orElseThrow(
@@ -59,6 +61,7 @@ public class AuthorService implements IAuthorService{
     public Author getAuthor(String firstName, String lastName) {
         return authorRepository.getAuthor(firstName, lastName).orElse(null);
     }
+
     @Override
     public Author getAuthorById(int id) {
         Author author = authorRepository.findById(id).orElseThrow(

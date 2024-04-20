@@ -7,7 +7,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryService implements ICategoryService {
@@ -65,6 +64,7 @@ public class CategoryService implements ICategoryService {
                 () -> new NoFoundElementException("Category with this id not found"));
         return category;
     }
+
     @Override
     public List<Category> getCategoriesByIds(List<Integer> categoryIds) {
         return categoryRepository.findAllById(categoryIds);

@@ -24,27 +24,29 @@ public class DataLoader implements CommandLineRunner {
     }
 
     private void loadUserData() {
-        if (userRepository.count() == 0){//5
+        if (userRepository.count() == 0) {
+            Authority authority_admin = new Authority("ROLE_ADMIN");
+            authorityRepository.save(authority_admin);
+
+            Authority authority_user = new Authority("ROLE_USER");
+            authorityRepository.save(authority_user);
 
             User admin = new User();
             admin.setUsername("admin");
-            admin.setEmail("adminul@yahoo.com");
-            admin.setPassword(passwordEncoder.encode("pass"));
-            admin.setFirstName("Sara");
-            admin.setLastName("Pan");
-            admin.setAuthority(new Authority(2,"ROLE_ADMIN"));
-
+            admin.setEmail("admin@gmail.com");
+            admin.setPassword(passwordEncoder.encode("password"));
+            admin.setFirstName("admin_firstname");
+            admin.setLastName("admin_lastname");
+            admin.setAuthority(authority_admin);
+            userRepository.save(admin);
 
             User user = new User();
-            user.setUsername("miruna");
-            user.setEmail("miruna@yahoo.com");
-            user.setPassword(passwordEncoder.encode("pass"));
-            user.setFirstName("Miruna");
-            user.setLastName("Pos");
-            user.setAuthority(new Authority(1,"ROLE_USER"));
-
-
-            userRepository.save(admin);
+            user.setUsername("user");
+            user.setEmail("user@gmail.com");
+            user.setPassword(passwordEncoder.encode("password"));
+            user.setFirstName("user_firstname");
+            user.setLastName("user_lastname");
+            user.setAuthority(authority_user);
             userRepository.save(user);
         }
     }

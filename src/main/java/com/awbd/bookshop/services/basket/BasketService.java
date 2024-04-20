@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class BasketService implements IBasketService {
     private final BasketRepository basketRepository;
@@ -52,10 +51,9 @@ public class BasketService implements IBasketService {
         return basket;
     }
 
-   // @Transactional
+    @Transactional
     @Override
     public Basket sentOrder(int userId) {
-        int ok=0;
         Basket basket = basketRepository.findByUserId(userId).orElseThrow(
                 () -> new NoFoundElementException("User does not have a current basket"));
 

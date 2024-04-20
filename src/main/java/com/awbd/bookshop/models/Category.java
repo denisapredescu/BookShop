@@ -1,6 +1,5 @@
 package com.awbd.bookshop.models;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -16,8 +15,10 @@ public class Category {
     @Column(name = "name")
     @NotEmpty(message = "The name cannot be blank!")
     private String name;
+
     public Category() {
     }
+
     public Category(String name) {
         this.name = name;
     }
@@ -26,9 +27,6 @@ public class Category {
         this.id = id;
         this.name = name;
     }
-
-
-
 
     public int getId() {
         return id;

@@ -1,6 +1,5 @@
 package com.awbd.bookshop.services.bookbasket;
 
-import com.awbd.bookshop.dtos.BookFromBasketDetails;
 import com.awbd.bookshop.exceptions.exceptions.NoFoundElementException;
 import com.awbd.bookshop.models.Basket;
 import com.awbd.bookshop.models.Book;
@@ -9,8 +8,6 @@ import com.awbd.bookshop.repositories.BookBasketRepository;
 import com.awbd.bookshop.services.book.IBookService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class BookBasketService implements IBookBasketService {
