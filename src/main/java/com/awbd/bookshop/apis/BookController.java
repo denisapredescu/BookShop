@@ -14,7 +14,9 @@ import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,7 +31,6 @@ public class BookController {
     final ICategoryService categoryService;
     final IBasketService basketService;
     final IUserService userService;
-
     public BookController(IBookService bookService, BookMapper mapper, ICategoryService categoryService, IBasketService basketService, IUserService userService) {
         this.bookService = bookService;
         this.mapper = mapper;
@@ -47,8 +48,15 @@ public class BookController {
 //    }
     @PostMapping("")
     public ModelAndView save(
-            @Valid @ModelAttribute RequestBook newBook){
+            @Valid @ModelAttribute RequestBook newBook,
+            BindingResult bindingResult,
+            Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("book",newBook);
+            return new ModelAndView("bookAddForm");}
+
         bookService.addBook(mapper.requestBook(newBook));
+
         return new ModelAndView("redirect:/book");
     }
 //    @RequestMapping("/add")

@@ -7,12 +7,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public class RequestBook {
+
+    @NotNull
+    @NotEmpty(message = "The name cannot be blank!")
     private String name;
-
+    @Min(value = 0)
+    @NotNull(message = "The price must be set!")
+    @Positive(message = "Price should be greater than zero")
     private double price;
-
+    @Min(value = 0)
     private int year;
-
+    @Min(value = 0)
     private int volume = 0;
 
     private String series_name = null;
