@@ -75,7 +75,7 @@
                 <div class="form-row">
                     <label for="price">Price:</label>
                     <input id="price" class="form-control" th:field="*{price}" type="number" placeholder=100 required/>
-                    <label for="price" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Error</label>
+                    <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Error</label>
                 </div>
             </div>
         </div>

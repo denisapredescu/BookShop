@@ -70,11 +70,11 @@ public class ExceptionHandler extends BaseExceptionHandler {
 
     private ResponseEntity<Object> setResponseBody(Exception ex,  WebRequest request, HttpStatus status, String error) {
         Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", Instant.now().toString());
+        //body.put("timestamp", Instant.now().toString());
         body.put("status", status.value());
         body.put("error", error);
         body.put("message", ex.getMessage());
-        body.put("path", request.getDescription(false).replace("uri=", ""));
+        //body.put("path", request.getDescription(false).replace("uri=", ""));
 
         return new ResponseEntity<>(body, status);
     }
