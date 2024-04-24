@@ -366,7 +366,8 @@ public class BookControllerTest {
         categoriesAll.add(category2);
 
         when(categoryService.getCategories()).thenReturn(categoriesAll);
-
+        int noAvailableBooks = 1;
+        when(bookService.numberAvailableBooks()).thenReturn(noAvailableBooks);
         Author author = new Author(1,"Lara","Simon","Romanian");
         Book book = new Book(1,"carte",20.3,2001,1,"serie",false,author,categoriesAll);
 
@@ -381,6 +382,8 @@ public class BookControllerTest {
         mockMvc.perform(get("/book/getAvailable/0")
                 )
                 .andExpect(status().isOk())
+                .andExpect(model().attribute("totalPages",1))
+                .andExpect(model().attribute("nrAvailable",noAvailableBooks))
                 .andExpect(model().attribute("books",books))
                 .andExpect(model().attribute("categoriesAll", categoriesAll))
                 .andExpect(view().name("bookAvailableListNoLogin"));
@@ -402,7 +405,8 @@ public class BookControllerTest {
             categoriesAll.add(category2);
 
             when(categoryService.getCategories()).thenReturn(categoriesAll);
-
+            int noAvailableBooks = 1;
+            when(bookService.numberAvailableBooks()).thenReturn(noAvailableBooks);
             Author author = new Author(1,"Lara","Simon","Romanian");
             Book book = new Book(1,"carte",20.3,2001,1,"serie",false,author,categoriesAll);
 
@@ -428,11 +432,12 @@ public class BookControllerTest {
                             //.with(SecurityMockMvcRequestPostProcessors.authentication(SecurityContextHolder.getContext().getAuthentication()))
                     )
                     .andExpect(status().isOk())
+                    .andExpect(model().attribute("totalPages",1))
+                    .andExpect(model().attribute("nrAvailable",noAvailableBooks))
                     .andExpect(view().name("bookAvailableList"))
                    .andExpect(model().attribute("categoriesAll", categoriesAll))
                     .andExpect(model().attribute("books",books))
-                    .andExpect(model().attribute("basket",basket))
-                   .andExpect(model().attributeExists("totalPages"));
+                    .andExpect(model().attribute("basket",basket));
         }
 
     // @GetMapping("/getBooksByCategory")

@@ -67,7 +67,7 @@
         <div class="row justify-content-center">
             <div class="col-md-5">
                         <label th:for="bookCategories">Categories</label>
-                        <ul id="bookCategories">
+                        <ul id="bookCategories" style="list-style-type: none;">
                             <li th:each="category : ${categoriesAll}">
                                 <input th:field="*{bookCategories}" th:value="${category.id}" type="checkbox"/>
                                 <label th:for="${#ids.prev('bookCategories')}" th:text="${category.name}"></label>

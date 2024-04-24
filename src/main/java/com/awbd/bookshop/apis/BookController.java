@@ -11,6 +11,8 @@ import com.awbd.bookshop.services.book.IBookService;
 import com.awbd.bookshop.services.category.ICategoryService;
 import com.awbd.bookshop.services.user.IUserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -203,6 +205,7 @@ public class BookController {
 //
 //        return new ModelAndView ("bookAvailableList");
 //    }
+
     @RequestMapping("/getAvailable/{pageNo}")
     public ModelAndView getAvailableBooks(Model model,
                                           @PathVariable Integer pageNo
@@ -212,7 +215,12 @@ public class BookController {
         List<Book> books = bookService.getAvailableBooks(pageNo, 5);
         model.addAttribute("books",books);
         model.addAttribute(pageNo);
-        model.addAttribute("totalPages",(int) Math.ceil((double) books.size() / 5));
+        int noAvailableBooks = bookService.numberAvailableBooks();
+        model.addAttribute("nrAvailable",noAvailableBooks);
+        if(noAvailableBooks<=5)
+            model.addAttribute("totalPages",1);
+        else
+            model.addAttribute("totalPages",(int) Math.ceil((double) noAvailableBooks / 5));
         int currentPage = pageNo > 0 ? pageNo : 0;
         model.addAttribute(currentPage);
 
@@ -227,6 +235,8 @@ public class BookController {
             return new ModelAndView ("bookAvailableList");
        }
     }
+
+
 //    private Integer getCurrentUserId() {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        if (authentication != null && authentication.isAuthenticated()) {
