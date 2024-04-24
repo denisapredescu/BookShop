@@ -107,8 +107,8 @@
         </tr>
     </table>
 </div>
-<div style="text-align: center;">
-    <span th:each="pageNumber : ${#numbers.sequence(0, totalPages)}">
+<div th:if="${nrAvailable!=0}" style="text-align: center;">
+    <span th:each="pageNumber : ${#numbers.sequence(0, totalPages-1)}">
         <a th:href="@{'/book/getAvailable/' + ${pageNumber}}" style="text-decoration: none;" >[[${pageNumber}+1]]</a>&nbsp;&nbsp;
     </span>
 </div>

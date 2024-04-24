@@ -27,4 +27,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findAll();
 
     Optional<Book> findById(Integer bookId);
+
+    @Query("SELECT b FROM Book b WHERE b.is_deleted = false")
+    List<Book> getAllAvailableBooks();
 }

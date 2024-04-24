@@ -112,6 +112,7 @@ public class BookService implements IBookService {
         }
     }
 
+
     @Override
     public List<Book> getBooksByAuthor(String firstName, String lastName) {
         return bookRepository.getBooksByAuthor(firstName, lastName);
@@ -127,5 +128,10 @@ public class BookService implements IBookService {
         return bookRepository.findById(bookId).orElseThrow(
                 () -> new NoFoundElementException("Book with this id not found")
         );
+    }
+
+    @Override
+    public int numberAvailableBooks() {
+        return bookRepository.getAllAvailableBooks().size();
     }
 }
