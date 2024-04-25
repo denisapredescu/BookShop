@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @RestController
-@Validated
+//@Validated
 @RequestMapping("/book")
 public class BookController {
     final IBookService bookService;
@@ -50,7 +50,7 @@ public class BookController {
 //    }
     @PostMapping("")
     public ModelAndView save(
-            @Valid @ModelAttribute RequestBook newBook,
+            @Valid @ModelAttribute("book") RequestBook newBook,
             BindingResult bindingResult,
             Model model){
         if(bindingResult.hasErrors()){
@@ -83,14 +83,19 @@ public class BookController {
 //    }
     @PostMapping("/update")
     public ModelAndView saveBookUpdate(
-            @Valid @ModelAttribute Book book){
+            @Valid @ModelAttribute("book") Book book,
+            BindingResult bindingResult,
+            Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("book",book);
+            return new ModelAndView("bookForm");}
         bookService.updateBook(book,book.getId());
         return new ModelAndView("redirect:/book");
     }
     @RequestMapping("/update/{id}") //cand merg pe ruta asta doar se afiseaza categoryForm
     public ModelAndView updateBook(
             @PathVariable int id,
-            @Valid Model model){
+            Model model){
 
         model.addAttribute("book",bookService.getBookById(id));
         return new ModelAndView("bookForm");
@@ -107,7 +112,18 @@ public class BookController {
     @PostMapping("/addAuthBook/{bookId}")
     public ModelAndView addAuthBook(
             @PathVariable int bookId,
-            @Valid @ModelAttribute Author author){
+            @Valid @ModelAttribute("author") Author author,
+            BindingResult bindingResult,
+            Model model){
+        if(bindingResult.hasErrors()){
+            Book book = bookService.getBookById(bookId);
+            if (book != null && book.getAuthor() != null) {
+                model.addAttribute("author", book.getAuthor());
+            }
+            model.addAttribute("book",bookService.getBookById(bookId));
+            return new ModelAndView("bookAddAuthorToBook");
+        }
+
         bookService.addAuthorToBook(bookId,author);
         return new ModelAndView("redirect:/book");
     }

@@ -1,6 +1,7 @@
 package com.awbd.bookshop.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,12 +14,15 @@ public class Author {
     private Integer id;
 
     @Column(name = "first_name")
+    @NotEmpty(message = "The first name cannot be blank!")
     private String firstName;
 
     @Column(name = "last_name")
+    @NotEmpty(message = "The last name cannot be blank!")
     private String lastName;
 
     @Column(name = "nationality")
+    @NotEmpty(message = "The nationality cannot be blank!")
     private String nationality;
 
     @OneToMany(mappedBy = "author")

@@ -72,7 +72,7 @@
                 <div class="form-row">
                     <label for="name">Name:</label>
                     <input id="name" class="form-control" th:field="*{name}" type="text" placeholder="book name"/>
-                    <label for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</label>
+                    <label for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"  class="text-danger">Error</label>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 <div class="form-row">
                     <label for="price">Price:</label>
                     <input id="price" class="form-control" th:field="*{price}" type="number" placeholder=100 required/>
-                    <label for="price" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Error</label>
+                    <label for="price" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"  class="text-danger">Error</label>
                 </div>
             </div>
         </div>
@@ -92,7 +92,7 @@
                 <div class="form-row">
                     <label for="year">Year:</label>
                     <input id="year" class="form-control" th:field="*{year}" type="number" placeholder=2000/>
-                    <label for="year" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Error</label>
+                    <label for="year" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"  class="text-danger">Error</label>
                 </div>
             </div>
         </div>
@@ -102,7 +102,7 @@
                 <div class="form-row">
                     <label for="volume">Volume:</label>
                     <input id="volume" class="form-control" th:field="*{volume}" type="number" placeholder=1/>
-                    <label for="volume" th:if="${#fields.hasErrors('volume')}" th:errors="*{volume}">Error</label>
+                    <label for="volume" th:if="${#fields.hasErrors('volume')}" th:errors="*{volume}"  class="text-danger">Error</label>
                 </div>
             </div>
         </div>
@@ -112,7 +112,6 @@
                 <div class="form-row">
                     <label for="series_name">Series name:</label>
                     <input id="series_name" class="form-control" th:field="*{series_name}" type="text" placeholder="series name"/>
-                    <label for="series_name" th:if="${#fields.hasErrors('series_name')}" th:errors="*{series_name}">Error</label>
                 </div>
             </div>
         </div>

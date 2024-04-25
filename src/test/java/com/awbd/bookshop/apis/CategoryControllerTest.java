@@ -67,6 +67,59 @@ public class CategoryControllerTest {
                 .andExpect(redirectedUrl("/category"));
     }
 
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
+    public void saveErr() throws Exception{
+        Category category = new Category();
+        category.setName("");
+        System.out.println("Request JSON: " + objectMapper.writeValueAsString(category));
+
+        mockMvc.perform(post("/category")
+                        .with(csrf())
+                        .param("name", "")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(category))
+                )
+                .andExpect(model().attributeExists("category"))
+                .andExpect(view().name("categoryAddForm"));
+    }
+
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
+    public void saveUpdate() throws Exception{
+        Category category = new Category();
+        category.setName("categ");
+        System.out.println("Request JSON: " + objectMapper.writeValueAsString(category));
+
+        when(categoryService.addCategory(eq(category))).thenReturn(new Category("categ"));
+        mockMvc.perform(post("/category/updated")
+                        .with(csrf())
+                        .param("name", "categ")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(category))
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/category"));
+    }
+
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
+    public void saveUpdateErr() throws Exception{
+        Category category = new Category();
+        category.setName("");
+        System.out.println("Request JSON: " + objectMapper.writeValueAsString(category));
+
+        when(categoryService.addCategory(eq(category))).thenReturn(new Category("categ"));
+        mockMvc.perform(post("/category/updated")
+                        .with(csrf())
+                        .param("name", "")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(category))
+                )
+                .andExpect(model().attributeExists("category"))
+                .andExpect(view().name("categoryForm"));
+    }
+
     //@RequestMapping("/update/{id}") //cand merg pe ruta asta doar se afiseaza categoryForm
     //public ModelAndView updateCategory(
     //        @PathVariable int id,

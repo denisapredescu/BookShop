@@ -49,7 +49,7 @@
     </nav>
 </div>
 
-<form enctype="multipart/form-data" method="post" th:action="@{/category}" th:object="${category}">
+<form enctype="multipart/form-data" method="post" th:action="@{/category/updated}" th:object="${category}">
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading text-center mt-3">
@@ -72,7 +72,7 @@
                 <div class="form-row">
                     <label for="name">Category Name:</label>
                     <input id="name" class="form-control" th:field="*{name}" type="text" placeholder="category name"/>
-                    <label for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</label>
+                    <label for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error</label>
                 </div>
             </div>
         </div>

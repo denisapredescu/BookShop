@@ -86,6 +86,23 @@ public class BookControllerTest {
                 .andExpect(redirectedUrl("/book"));
 
     }
+
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
+    public void saveErr() throws Exception{
+        RequestBook book = new RequestBook("carte",-1.0,2001,1,"serie");
+        mockMvc.perform(post("/book")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .param("name","carte")
+                        .param("price", String.valueOf(-1.0))
+                        .param("year",String.valueOf(2001))
+                        .param("volume",String.valueOf(1))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(mapper.requestBook(book)))
+                ) .andExpect(model().attributeExists("book"))
+                .andExpect(view().name("bookAddForm"));;
+
+    }
     //  @RequestMapping("/add")
     //    public ModelAndView addBook(Model model){
     //        model.addAttribute("book",new Book());
@@ -127,6 +144,20 @@ public class BookControllerTest {
 
     }
 
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
+    public void saveBookUpdateErr() throws Exception{
+        int id = 1;
+        Book request = new Book("carte",-1,2001,1,"serie",false);
+        request.setId(id);
+        Book book = new Book(id,"carte",-1,2001,1,"serie",false);
+        mockMvc.perform(post("/book/update")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .flashAttr("book",request)
+                )
+                .andExpect(model().attributeExists("book"))
+                .andExpect(view().name("bookForm"));
+    }
     // @RequestMapping("/update/{id}") //cand merg pe ruta asta doar se afiseaza categoryForm
     //    public ModelAndView updateBook(
     //            @PathVariable int id,
@@ -137,7 +168,7 @@ public class BookControllerTest {
     //    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
-    public void updateAuthor() throws Exception {
+    public void updateBook() throws Exception {
         int id = 1;
         Book book = new Book(id,"carte",20.3,2001,1,"serie",false);
         when(bookService.getBookById(id)).thenReturn(book);
@@ -164,12 +195,35 @@ public class BookControllerTest {
         when(bookService.addAuthorToBook(bookId,author)).thenReturn(book);
 
         mockMvc.perform(post("/book/addAuthBook/{bookId}","1")
+                        .param("firstName","Lara")
+                        .param("lastName","Simon")
+                        .param("nationality","Romanian")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(author))
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/book"));
+    }
+
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
+    public void addAuthBookErr() throws Exception {
+        int bookId = 1;
+        Author author = new Author(1,"","Simon","Romanian");
+        Book book = new Book(bookId,"carte",20.3,2001,1,"serie",false,author);
+        when(bookService.getBookById(bookId)).thenReturn(book);
+
+        mockMvc.perform(post("/book/addAuthBook/{bookId}","1")
+                        .param("firstName","")
+                        .param("lastName","Simon")
+                        .param("nationality","Romanian")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(author))
+                )
+                .andExpect(model().attributeExists("book"))
+                .andExpect(view().name("bookAddAuthorToBook"));
     }
 
     // @RequestMapping("/addAuthorToBook/{bookId}")
