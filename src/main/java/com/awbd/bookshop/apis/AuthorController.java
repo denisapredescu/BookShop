@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @RestController
-@Validated
+
 @RequestMapping("/author")
 public class AuthorController {
     final IAuthorService authorService;
@@ -35,14 +35,26 @@ public class AuthorController {
 //    }
     @PostMapping("")
     public ModelAndView save(
-            @Valid @ModelAttribute Author author){
+            @Valid @ModelAttribute("author") Author author,
+            BindingResult bindingResult,
+            Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("author",author);
+            return new ModelAndView("authorAddForm");
+        }
         authorService.addAuthor(author);
         return new ModelAndView("redirect:/author");
     }
 
     @PostMapping("/update")
     public ModelAndView saveAuthorUpdate(
-            @Valid @ModelAttribute Author author){
+            @Valid @ModelAttribute("author") Author author,
+            BindingResult bindingResult,
+            Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("author",author);
+            return new ModelAndView("authorForm");
+        }
         authorService.updateAuthor(author,author.getId());
         return new ModelAndView("redirect:/author");
     }

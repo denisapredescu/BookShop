@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,8 +47,8 @@ public class UserController {
 
     @PostMapping("/signUp")
     public ModelAndView add(
-            @Valid @ModelAttribute RequestUser newUser){
-
+            @Valid @ModelAttribute RequestUser newUser
+            ){
         User user = mapper.requestUser(newUser);
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
@@ -65,18 +66,18 @@ public class UserController {
         return new ModelAndView("register");
     }
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<User> update(
-            @PathVariable Integer id,
-            @Valid @RequestBody UpdateUser updateUser){
-        return ResponseEntity.ok(userService.update(id, updateUser));
-    }
-
-    @PatchMapping("/delete/{id}")
-    public ResponseEntity<User> delete(
-            @PathVariable Integer id) {
-        return ResponseEntity.ok(userService.delete(id));
-    }
+//    @PatchMapping("/update/{id}")
+//    public ResponseEntity<User> update(
+//            @PathVariable Integer id,
+//            @Valid @RequestBody UpdateUser updateUser){
+//        return ResponseEntity.ok(userService.update(id, updateUser));
+//    }
+//
+//    @PatchMapping("/delete/{id}")
+//    public ResponseEntity<User> delete(
+//            @PathVariable Integer id) {
+//        return ResponseEntity.ok(userService.delete(id));
+//    }
 
 //    @GetMapping("/login/{email}")
 //    public ResponseEntity<UserResponse> login(
@@ -84,14 +85,14 @@ public class UserController {
 //            @RequestHeader(name = "password") String password){
 //        return ResponseEntity.ok(userService.login(email, password));
 //    }
-
-    @GetMapping("/getUser/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Integer id){
-        return ResponseEntity.ok(userService.getUser(id));
-    }
-
-    @GetMapping("/getUsers")
-    public ResponseEntity<List<UserDetails>> getUsers(){
-        return ResponseEntity.ok(userService.getUsers());
-    }
+//
+//    @GetMapping("/getUser/{id}")
+//    public ResponseEntity<User> getUser(@PathVariable Integer id){
+//        return ResponseEntity.ok(userService.getUser(id));
+//    }
+//
+//    @GetMapping("/getUsers")
+//    public ResponseEntity<List<UserDetails>> getUsers(){
+//        return ResponseEntity.ok(userService.getUsers());
+//    }
 }

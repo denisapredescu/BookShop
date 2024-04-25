@@ -46,6 +46,9 @@ public class AuthorControllerTest {
         System.out.println("Request JSON: " + objectMapper.writeValueAsString(author));
         when(authorService.addAuthor(author)).thenReturn(new Author(1,"Lara","Simon","Romanian"));
         mockMvc.perform(post("/author")
+                        .param("firstName","Lara")
+                        .param("lastName","Simon")
+                        .param("nationality","Romanian")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(author))
@@ -53,7 +56,22 @@ public class AuthorControllerTest {
                .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/author"));
     }
-
+    @Test
+    public void saveErr() throws Exception{
+        Author author = new Author("","Simon","Romanian");
+        System.out.println("Request JSON: " + objectMapper.writeValueAsString(author));
+        when(authorService.addAuthor(author)).thenReturn(new Author(1,"","Simon","Romanian"));
+        mockMvc.perform(post("/author")
+                        .param("firstName","")
+                        .param("lastName","Simon")
+                        .param("nationality","Romanian")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(author))
+                )
+                .andExpect(model().attributeExists("author"))
+                .andExpect(view().name("authorAddForm"));
+    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void saveAuthorUpdate() throws Exception{
@@ -71,6 +89,23 @@ public class AuthorControllerTest {
                 .andExpect(redirectedUrl("/author"));
         verify(authorService,times(1)).updateAuthor(request,id);
 
+    }
+
+    @Test
+    @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
+    public void saveAuthorUpdateErr() throws Exception{
+        int id = 1;
+        Author request = new Author("","Simon","Romanian");
+        request.setId(id);
+        Author author = new Author(id,"","Simoni","Romanian");
+        when(authorService.updateAuthor(request, id)).thenReturn(author);
+
+        mockMvc.perform(post("/author/update")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .flashAttr("author",request)
+                )
+                .andExpect(model().attributeExists("author"))
+                .andExpect(view().name("authorForm"));
     }
 //        @RequestMapping("/add")
 //        public ModelAndView addAuthor(

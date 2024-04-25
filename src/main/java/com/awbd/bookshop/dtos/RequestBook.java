@@ -11,13 +11,13 @@ public class RequestBook {
     @NotNull
     @NotEmpty(message = "The name cannot be blank!")
     private String name;
-    @Min(value = 0)
+    @Min(value = 0,message = "Price should have minimum value zero")
     @NotNull(message = "The price must be set!")
     @Positive(message = "Price should be greater than zero")
     private double price;
-    @Min(value = 0)
+    @Min(value = 0,message = "Year should be greater than zero")
     private int year;
-    @Min(value = 0)
+    @Min(value = 0,message = "Volume should be greater than zero")
     private int volume = 0;
 
     private String series_name = null;

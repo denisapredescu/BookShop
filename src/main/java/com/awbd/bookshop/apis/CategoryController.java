@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 
 @RestController
-@Validated
+
 @RequestMapping("/category")
 public class CategoryController {
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
@@ -43,7 +44,13 @@ public class CategoryController {
 //    }
 @PostMapping("")
 public ModelAndView save(
-        @Valid @ModelAttribute Category category){
+        @Valid @ModelAttribute("category") Category category,
+        BindingResult bindingResult,
+        Model model){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("category",category);
+            return new ModelAndView("categoryAddForm");
+        }
         categoryService.addCategory(category);
         return new ModelAndView("redirect:/category");
 }
@@ -61,10 +68,24 @@ public ModelAndView save(
 //    }
 @RequestMapping("/add")
 public ModelAndView addCategory(
-        @Valid Model model,
-        @Valid String newCategory){
+        Model model,
+        String newCategory){
     model.addAttribute("category",mapper.requestCategory(newCategory));
     return new ModelAndView("categoryAddForm");
+}
+
+@PostMapping("/updated")
+public ModelAndView saveUpdate(
+        @Valid @ModelAttribute("category") Category category,
+        BindingResult bindingResult,
+        Model model)
+{
+        if (bindingResult.hasErrors()){
+            model.addAttribute("category",category);
+            return new ModelAndView("categoryForm");
+        }
+        categoryService.addCategory(category);
+        return new ModelAndView("redirect:/category");
 }
 @RequestMapping("/update/{id}") //cand merg pe ruta asta doar se afiseaza categoryForm
 public ModelAndView updateCategory(

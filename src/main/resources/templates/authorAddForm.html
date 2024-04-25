@@ -65,7 +65,7 @@
                 <div class="form-row">
                     <label for="firstName">First Name:</label>
                     <input id="firstName" class="form-control" th:field="*{firstName}" type="text" placeholder="first name"/>
-<!--                    <label for="firstName" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Error</label>-->
+                    <label for="firstName" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger">Error</label>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
                 <div class="form-row">
                     <label for="lastName">Last Name:</label>
                     <input id="lastName" class="form-control" th:field="*{lastName}" type="text" placeholder="last name"/>
-<!--                    <label for="lastName" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error</label>-->
+                    <label for="lastName" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger">Error</label>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
                 <div class="form-row">
                     <label for="nationality">Nationality:</label>
                     <input id="nationality" class="form-control" th:field="*{nationality}" type="text" placeholder="nationality"/>
-<!--                    <label for="nationality" th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}">Error</label>-->
+                    <label for="nationality" th:if="${#fields.hasErrors('nationality')}" th:errors="*{nationality}" class="text-danger">Error</label>
                 </div>
             </div>
         </div>

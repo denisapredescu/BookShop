@@ -72,7 +72,7 @@
                 <div class="form-row">
                     <label for="name">Category Name:</label>
                     <input id="name" class="form-control" th:field="*{name}" type="text" placeholder="category name"/>
-                    <label for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</label>
+                    <label for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"  class="text-danger">Error</label>
                 </div>
             </div>
         </div>
