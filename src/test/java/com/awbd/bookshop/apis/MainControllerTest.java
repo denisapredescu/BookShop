@@ -23,12 +23,6 @@ public class MainControllerTest {
     @MockBean
     private IUserService userService;
 
-    //    @RequestMapping({"","/","/home"})
-    //    public ModelAndView getHome(){
-    //      //  int userId = getCurrentUserId();
-    //        //model.addAttribute("userId", userId);
-    //        return new ModelAndView("main");
-    //    }
     @Test
     public void getHome() throws Exception {
         this.mockMvc.perform(get("")
@@ -37,9 +31,6 @@ public class MainControllerTest {
                 .andExpect(view().name("main"));
     }
 
-    // @GetMapping("/login")
-    //    public String showLogInForm(){ return "login"; }
-
     @Test
     public void showLogInForm() throws Exception {
         this.mockMvc.perform(get("/login")
@@ -47,9 +38,6 @@ public class MainControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
-
-    //    @GetMapping("/access_denied")
-    //    public String accessDeniedPage(){ return "accessDenied"; }
 
     @Test
     public void accessDeniedPage() throws Exception {

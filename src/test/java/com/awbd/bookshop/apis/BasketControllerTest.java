@@ -42,18 +42,6 @@ public class BasketControllerTest {
     @MockBean
     private IUserService userService;
 
-    // @RequestMapping("/addBookToBasket/{bookId}/{basketId}")
-    //    public  ModelAndView addBookToBasket(
-    //            @PathVariable int bookId,
-    //            @PathVariable int basketId,
-    //            Model model
-    //    ) {
-    //        Basket basket = basketService.addBookToBasket(bookId, basketId);
-    //        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basketId);
-    //        model.addAttribute(basket);
-    //        model.addAttribute(books);
-    //        return new ModelAndView("redirect:/basket/myBasket");
-    //    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void addBookToBasket() throws Exception{
@@ -76,18 +64,6 @@ public class BasketControllerTest {
         verify(basketService).addBookToBasket(bookId,basketId);
         verify(basketService).findBooksFromCurrentBasket(basketId);
     }
-
-    // @RequestMapping("/removeBookFromBasket/{bookId}/{basketId}")
-    //    public  ModelAndView removeBookFromBasket(
-    //            @PathVariable int bookId,
-    //            @PathVariable int basketId,
-    //            Model model) {
-    //        Basket basket = basketService.removeBookFromBasket(bookId, basketId);
-    //        model.addAttribute("basket",basket);
-    //        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basketId);
-    //        model.addAttribute("books",books);
-    //        return new ModelAndView("redirect:/basket/myBasket");
-    //    }
 
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
@@ -112,18 +88,6 @@ public class BasketControllerTest {
         verify(basketService).findBooksFromCurrentBasket(basketId);
     }
 
-    // @RequestMapping("/decrementBookFromBasket/{bookId}/{basketId}")
-    //    public ModelAndView decrementBookFromBasket(
-    //            @PathVariable int bookId,
-    //            @PathVariable int basketId,
-    //            Model model
-    //    ) {
-    //        Basket basket = basketService.decrementBookFromBasket(bookId, basketId);
-    //        model.addAttribute(basket);
-    //        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basketId);
-    //        model.addAttribute(books);
-    //        return new ModelAndView("redirect:/basket/myBasket");
-    //    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void decrementBookFromBasket() throws Exception {
@@ -147,17 +111,6 @@ public class BasketControllerTest {
         verify(basketService).findBooksFromCurrentBasket(basketId);
     }
 
-    // @RequestMapping("/sentOrder")
-    //    public ModelAndView sentOrder(Model model)
-    //    {
-    //        int userId = userService.getCurrentUserId();
-    //        //int userId = getCurrentUserId();
-    //        Basket basket = basketService.sentOrder(userId);
-    //        model.addAttribute(basket);
-    //        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basket.getId());
-    //        model.addAttribute(books);
-    //        return new ModelAndView("redirect:/basket/myBasket");
-    //    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void sentOrder() throws Exception{
@@ -187,16 +140,6 @@ public class BasketControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/basket/myBasket"));
     }
-    //    @GetMapping("/myBasket")
-    //    public ModelAndView getBasket(Model model)
-    //    {
-    //        int userId = userService.getCurrentUserId();
-    //        Basket basket = basketService.getBasket(userId);
-    //        model.addAttribute("basket",basket);
-    //        List<BookFromBasketDetails> books = basketService.findBooksFromCurrentBasket(basket.getId());
-    //        model.addAttribute("books",books);
-    //        return new ModelAndView("basketView");
-    //    }
 
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})

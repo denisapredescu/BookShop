@@ -24,40 +24,29 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfiguration {
     private final DataSource dataSource;
-    //nouuuuuuuuu
+
     private final JpaUserDetailsService userDetailsService;
 
     @Autowired
     public SecurityConfiguration(DataSource dataSource, JpaUserDetailsService userDetailsService) {
         this.dataSource = dataSource;
-        this.userDetailsService = userDetailsService;///////////nouu
+        this.userDetailsService = userDetailsService;
     }
-    //varianta mea
-//    @Bean
-//    public UserDetailsManager users(DataSource dataSource) {
-//        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-//        users.setUsersByUsernameQuery("SELECT username,password,enabled from users where username = ?");
-//        users.setAuthoritiesByUsernameQuery("SELECT u.username, a.authority FROM users u JOIN authorities a ON u.authority_id = a.id WHERE u.username = ?");
-//        return users;
-//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
 
-                .authorizeRequests(requests -> requests//.requestMatchers("/admin").hasRole("ADMIN")
+                .authorizeRequests(requests -> requests
 
-                       // .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/","/author","/book","/category","/login").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                                 .requestMatchers("/author/update/**","/author/add","/author/delete/**").hasRole("ADMIN")
                                 .requestMatchers("/book/update/**","/book/add","/book/addAuthorToBook/**",
                                         "/book/addCategBook/**","/book/delete/**").hasRole("ADMIN")
                                 .requestMatchers("category/add","category/update/**","category/delete/**").hasRole("ADMIN")
-                      //  .anyRequest().authenticated()//nou
                 )
                 .userDetailsService(userDetailsService)
-//                .httpBasic(Customizer.withDefaults())
                 .headers((headers) -> headers.disable())
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
@@ -70,14 +59,9 @@ public class SecurityConfiguration {
                 .exceptionHandling(ex -> ex.accessDeniedPage("/access_denied"));
         return http.build();
     }
-//    @Bean
-//    public PasswordEncoder getPasswordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();//parola se salveaza fara encoder
-//       // return new BCryptPasswordEncoder();
-//    }
+
     @Bean
     public PasswordEncoder getPasswordEncoder() {
-        //return NoOpPasswordEncoder.getInstance();//parola se salveaza fara encoder
         return new BCryptPasswordEncoder();
     }
 

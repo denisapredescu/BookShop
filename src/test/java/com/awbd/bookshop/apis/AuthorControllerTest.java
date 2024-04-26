@@ -107,13 +107,7 @@ public class AuthorControllerTest {
                 .andExpect(model().attributeExists("author"))
                 .andExpect(view().name("authorForm"));
     }
-//        @RequestMapping("/add")
-//        public ModelAndView addAuthor(
-//                @Valid Model model,
-//                @Valid RequestAuthor newAuthor){
-//            model.addAttribute("author",mapper.requestAuthor(newAuthor));
-//            return new ModelAndView("authorAddForm");
-//        }
+
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void addAuthor() throws Exception {
@@ -125,13 +119,6 @@ public class AuthorControllerTest {
                 .andExpect(view().name("authorAddForm"));
     }
 
-//  @RequestMapping("/update/{id}") //cand merg pe ruta asta doar se afiseaza categoryForm
-//    public ModelAndView updateAuthor(
-//            @PathVariable int id,
-//            @Valid Model model){
-//        model.addAttribute("author",authorService.getAuthorById(id));
-//        return new ModelAndView("authorForm");
-//    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void updateAuthor() throws Exception {
@@ -144,13 +131,7 @@ public class AuthorControllerTest {
                 .andExpect(model().attribute("author",author));
         verify(authorService,times(1)).getAuthorById(id);
     }
-// @RequestMapping("/delete/{id}")
-//    public ModelAndView deleteAuthor(
-//            @PathVariable int id
-//    ){
-//        authorService.deleteAuthor(id);
-//        return new ModelAndView("redirect:/author");
-//    }
+
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void deleteAuthor() throws Exception{
@@ -162,14 +143,7 @@ public class AuthorControllerTest {
         verify(authorService).deleteAuthor(id);
     }
 
-    //@RequestMapping("")
-    //public ModelAndView getAuthors(Model model){
-    //    List<Author> authors = authorService.getAuthors();
-    //    model.addAttribute("authors",authors);
-    //    return new ModelAndView ("authorList");
-    //}
     @Test
-   // @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void getAuthors() throws Exception{
         Author author1 = new Author(1,"Lara","Simoni","Romanian");
         Author author2 = new Author(2,"Sara","Oprea","Romanian");

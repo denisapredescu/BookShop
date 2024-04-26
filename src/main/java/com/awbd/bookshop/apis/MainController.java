@@ -17,22 +17,11 @@ public class MainController {
     public MainController(IUserService userService){
         this.userService=userService;
     }
-//    @RequestMapping({"","/","/home"})
-//    public ModelAndView getHome(){
-//        return new ModelAndView("main");
-//    }
+
     @RequestMapping({"","/","/home"})
     public ModelAndView getHome(){
-      //  int userId = getCurrentUserId();
-        //model.addAttribute("userId", userId);
         return new ModelAndView("main");
     }
-//    @GetMapping("/lala")
-//    public String home(Model model) {
-//        int userId = getCurrentUserId();
-//        model.addAttribute("userId", userId);
-//        return "home";
-//    }
 
     @GetMapping("/login")
     public String showLogInForm(){ return "login"; }
@@ -40,14 +29,4 @@ public class MainController {
     @GetMapping("/access_denied")
     public String accessDeniedPage(){ return "accessDenied"; }
 
-//    @RequestMapping({"/category"})
-//    public ModelAndView getCategoties(){
-//
-//        return new ModelAndView("categoryList");
-//    }
-//    @RequestMapping({"/category/form"})
-//    public ModelAndView getCategotiesForm(){
-//
-//        return new ModelAndView("categoryForm");
-//    }
 }

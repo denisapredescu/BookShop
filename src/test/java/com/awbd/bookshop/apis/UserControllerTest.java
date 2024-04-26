@@ -74,11 +74,6 @@ public class UserControllerTest {
                 .andExpect(redirectedUrl("/"));
     }
 
-    //    @RequestMapping("/form")
-    //    public ModelAndView create(Model model){
-    //        model.addAttribute("user",new User());
-    //        return new ModelAndView("register");
-    //    }
     @Test
     public void create() throws Exception{
         this.mockMvc.perform(get("/user/form")

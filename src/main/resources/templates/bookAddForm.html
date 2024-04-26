@@ -69,7 +69,7 @@
                     <span class="help-block" th:if="${#fields.hasErrors('name')}">
                 <p th:errors="*{name}" class="text-danger">name error</p>
                    </span>
-<!--                    <label for="name" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</label>-->
+
                 </div>
             </div>
         </div>
@@ -79,11 +79,7 @@
             <div class="col-md-5 ">
                 <div class="form-row">
                     <label>Price:</label>
-<!--                    <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red;">Price Error</label>-->
                     <input class="form-control" th:field="*{price}" type="number" placeholder="price number"/>
-<!--                    <span class="help-block" th:if="${!#fields.hasErrors('price')}">-->
-<!--                <p th:errors="*{price}" class="text-danger">price error</p>-->
-<!--                   </span>-->
                     <span class="help-block" th:if="${#fields.hasErrors('price')}">
                 <p th:each="error : ${#fields.errors('price')}" class="text-danger" th:text="${error}">price error</p>
             </span>

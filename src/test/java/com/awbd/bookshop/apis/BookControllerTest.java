@@ -62,13 +62,6 @@ public class BookControllerTest {
     private IUserService userService;
     private PasswordEncoder passwordEncoder;
 
-
-    //  @PostMapping("")
-    //    public ModelAndView save(
-    //            @Valid @ModelAttribute RequestBook newBook){
-    //        bookService.addBook(mapper.requestBook(newBook));
-    //        return new ModelAndView("redirect:/book");
-    //    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void save() throws Exception{
@@ -103,11 +96,7 @@ public class BookControllerTest {
                 .andExpect(view().name("bookAddForm"));;
 
     }
-    //  @RequestMapping("/add")
-    //    public ModelAndView addBook(Model model){
-    //        model.addAttribute("book",new Book());
-    //        return new ModelAndView("bookAddForm");
-    //    }
+
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void addBook() throws Exception {
@@ -119,12 +108,6 @@ public class BookControllerTest {
                 .andExpect(view().name("bookAddForm"));
     }
 
-    //    @PostMapping("/update")
-    //    public ModelAndView saveBookUpdate(
-    //            @Valid @ModelAttribute Book book){
-    //        bookService.updateBook(book,book.getId());
-    //        return new ModelAndView("redirect:/book");
-    //    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void saveBookUpdate() throws Exception{
@@ -158,14 +141,7 @@ public class BookControllerTest {
                 .andExpect(model().attributeExists("book"))
                 .andExpect(view().name("bookForm"));
     }
-    // @RequestMapping("/update/{id}") //cand merg pe ruta asta doar se afiseaza categoryForm
-    //    public ModelAndView updateBook(
-    //            @PathVariable int id,
-    //            @Valid Model model){
-    //
-    //        model.addAttribute("book",bookService.getBookById(id));
-    //        return new ModelAndView("bookForm");
-    //    }
+
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void updateBook() throws Exception {
@@ -179,13 +155,6 @@ public class BookControllerTest {
         verify(bookService,times(1)).getBookById(id);
     }
 
-    //  @PostMapping("/addAuthBook/{bookId}")
-    //    public ModelAndView addAuthBook(
-    //            @PathVariable int bookId,
-    //            @Valid @ModelAttribute Author author){
-    //        bookService.addAuthorToBook(bookId,author);
-    //        return new ModelAndView("redirect:/book");
-    //    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void addAuthBook() throws Exception {
@@ -226,20 +195,6 @@ public class BookControllerTest {
                 .andExpect(view().name("bookAddAuthorToBook"));
     }
 
-    // @RequestMapping("/addAuthorToBook/{bookId}")
-    //    public ModelAndView addAuthorToBook(
-    //            @PathVariable int bookId,
-    //            @Valid Model model,
-    //            Author author) {
-    //        Book book = bookService.getBookById(bookId);
-    //        if (book != null && book.getAuthor() != null) {
-    //            model.addAttribute("author", book.getAuthor());
-    //        }
-    //        model.addAttribute("book",bookService.getBookById(bookId));
-    //        //model.addAttribute("author",author);
-    //        return new ModelAndView("bookAddAuthorToBook");
-    //
-    //    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void addAuthorToBook() throws Exception{
@@ -258,14 +213,6 @@ public class BookControllerTest {
 
     }
 
-    //    @RequestMapping("/addCategBook/{bookId}")
-    //    public ModelAndView showAddCategoriesToBookForm(@PathVariable int bookId, Model model) {
-    //        model.addAttribute("book",bookService.getBookById(bookId));
-    //        List<Category> categoriesAll = categoryService.getCategories();
-    //
-    //        model.addAttribute("categoriesAll", categoriesAll);
-    //        return new ModelAndView("bookAddCategoriesToBook");
-    //    }
 
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
@@ -293,15 +240,6 @@ public class BookControllerTest {
 
     }
 
-    //@PostMapping("/addCategoriesToBook/{bookId}")
-    //    public ModelAndView addCategoriesToBook(
-    //            @PathVariable int bookId,
-    //            @ModelAttribute Book book
-    //            ){
-    //
-    //        bookService.addCategoriesToBook(bookId, book.getBookCategories());
-    //        return new ModelAndView("redirect:/book");
-    //    }
 
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
@@ -327,13 +265,6 @@ public class BookControllerTest {
                 .andExpect(redirectedUrl("/book"));
     }
 
-    // @RequestMapping("/delete/{id}")
-    //    public ModelAndView deleteBook(
-    //            @PathVariable int id
-    //    ){
-    //        bookService.deleteBook(id);
-    //        return new ModelAndView("redirect:/book");
-    //    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void deleteBook() throws Exception{
@@ -345,14 +276,7 @@ public class BookControllerTest {
         verify(bookService).deleteBook(id);
     }
 
-    //    @RequestMapping("")
-    //    public ModelAndView getAllBooks(Model model){
-    //        List<Book> books = bookService.getBooks();
-    //        model.addAttribute("books",books);
-    //        return new ModelAndView ("bookList");
-    //    }
     @Test
-   // @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void getAllBooks() throws Exception {
         Category category1 = new Category(1,"action");
         Category category2 = new Category(2,"romance");
@@ -373,41 +297,6 @@ public class BookControllerTest {
                 .andExpect(view().name("bookList"))
                 .andExpect(model().attribute("books",books));
     }
-
-// @RequestMapping("/getAvailable/{pageNo}")
-//    public ModelAndView getAvailableBooks(Model model,
-//                                          @PathVariable Integer pageNo
-//                                          ){
-//        List<Category> categoriesAll = categoryService.getCategories();
-//        model.addAttribute("categoriesAll", categoriesAll);
-//        List<Book> books = bookService.getAvailableBooks(pageNo, 5);
-//        model.addAttribute("books",books);
-//        model.addAttribute(pageNo);
-//        model.addAttribute("totalPages",(int) Math.ceil((double) books.size() / 5));
-//        int currentPage = pageNo > 0 ? pageNo : 0;
-//        model.addAttribute(currentPage);
-//
-//        int userId = getCurrentUserId();
-//
-//       if(userId==0)
-//           return new ModelAndView("bookAvailableListNoLogin");
-//        else
-//       {
-//            Basket basket = basketService.getBasket(userId);
-//            model.addAttribute("basket",basket);
-//            return new ModelAndView ("bookAvailableList");
-//       }
-//    }
-//    private Integer getCurrentUserId() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            if(authentication.getName()!="anonymousUser")
-//                return userService.getId(authentication.getName());
-//            else
-//                return 0;
-//        }
-//        return 0;
-//    }
 
     @Test
     public void getAvailableBooksAnonymous() throws Exception {
@@ -443,11 +332,7 @@ public class BookControllerTest {
                 .andExpect(view().name("bookAvailableListNoLogin"));
     }
 
-
-    //Exception processing template "bookAvailableList":
-        //Exception evaluating SpringEL expression: "basket.id" (template: "bookAvailableList" - line 105, col 29)
         @Test
-        //@WithUserDetails("miruna")
         @WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
         public void getAvailableBooks() throws Exception {
             Integer pageNo = 0;
@@ -478,12 +363,8 @@ public class BookControllerTest {
 
             Basket basket = new Basket(3,false,51.0,userul);
             when(basketService.getBasket(userId)).thenReturn(basket);
-
-            //System.out.println(when(basketService.getBasket(userId)));
-
             when(bookService.getBooks()).thenReturn(books);
             mockMvc.perform(get("/book/getAvailable/0")
-                            //.with(SecurityMockMvcRequestPostProcessors.authentication(SecurityContextHolder.getContext().getAuthentication()))
                     )
                     .andExpect(status().isOk())
                     .andExpect(model().attribute("totalPages",1))
@@ -494,21 +375,7 @@ public class BookControllerTest {
                     .andExpect(model().attribute("basket",basket));
         }
 
-    // @GetMapping("/getBooksByCategory")
-    //    public ModelAndView getBooksByCategory(
-    //            @RequestParam(name = "selectedCategory") String category,
-    //            Model model) {
-    ////        return ResponseEntity.ok(bookService.getBooksByCategory(category));
-    //        List<Category> categoriesAll = categoryService.getCategories();
-    //        model.addAttribute("categoriesAll", categoriesAll);
-    //        List<Book> books = bookService.getBooksByCategory(category);
-    //        model.addAttribute("books",books);
-    //        model.addAttribute("selectedCategory", category);
-    //        return new ModelAndView("booksByCateg");
-    //    }
-
     @Test
-    //@WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void getBooksByCategory() throws Exception{
         Category category1 = new Category(1,"action");
         Category category2 = new Category(2,"romance");
@@ -534,23 +401,7 @@ public class BookControllerTest {
 
     }
 
-    // @GetMapping("/getBooksByAuthor/{firstname}/{lastName}")
-    //    public ModelAndView getBooksByAuthor(
-    //            @PathVariable String firstname,
-    //            @PathVariable String lastName,
-    //            Model model) {
-    ////        return ResponseEntity.ok(bookService.getBooksByAuthor(firstname, lastName));
-    //        List<Book> books = bookService.getBooksByAuthor(firstname, lastName);
-    //        model.addAttribute("books",books);
-    //        List<Category> categoriesAll = categoryService.getCategories();
-    //        model.addAttribute("categoriesAll", categoriesAll);
-    //        model.addAttribute("firstname",firstname);
-    //        model.addAttribute("lastname",lastName);
-    //        return new ModelAndView("booksByAuthor");
-    //    }
-
     @Test
-   // @WithMockUser(username = "miruna",password = "pass",roles = {"USER","ADMIN"})
     public void getBooksByAuthor() throws Exception{
         String firstName = "Lara";
         String lastName = "Simoni";

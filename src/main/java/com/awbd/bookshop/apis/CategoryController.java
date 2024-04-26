@@ -35,92 +35,63 @@ public class CategoryController {
         this.mapper = mapper;
     }
 
-//    @PostMapping("/add")
-//    public ResponseEntity<Category> addCategory(
-//            @Valid @RequestBody String newCategory){
-//        return ResponseEntity.ok(
-//                categoryService.addCategory(mapper.requestCategory(newCategory))
-//        );
-//    }
-@PostMapping("")
-public ModelAndView save(
-        @Valid @ModelAttribute("category") Category category,
-        BindingResult bindingResult,
-        Model model){
-        if (bindingResult.hasErrors()){
-            model.addAttribute("category",category);
-            return new ModelAndView("categoryAddForm");
-        }
-        categoryService.addCategory(category);
+    @PostMapping("")
+    public ModelAndView save(
+            @Valid @ModelAttribute("category") Category category,
+            BindingResult bindingResult,
+            Model model){
+            if (bindingResult.hasErrors()){
+                model.addAttribute("category",category);
+                return new ModelAndView("categoryAddForm");
+            }
+            categoryService.addCategory(category);
+            return new ModelAndView("redirect:/category");
+    }
+
+    @RequestMapping("/add")
+    public ModelAndView addCategory(
+            Model model,
+            String newCategory){
+        model.addAttribute("category",mapper.requestCategory(newCategory));
+        return new ModelAndView("categoryAddForm");
+    }
+
+    @PostMapping("/updated")
+    public ModelAndView saveUpdate(
+            @Valid @ModelAttribute("category") Category category,
+            BindingResult bindingResult,
+            Model model)
+    {
+            if (bindingResult.hasErrors()){
+                model.addAttribute("category",category);
+                return new ModelAndView("categoryForm");
+            }
+            categoryService.addCategory(category);
+            return new ModelAndView("redirect:/category");
+    }
+    @RequestMapping("/update/{id}")
+    public ModelAndView updateCategory(
+            @PathVariable int id,
+            @Valid Model model){
+
+            model.addAttribute("category",categoryService.getCategoryById(id));
+
+
+        return new ModelAndView("categoryForm");
+    }
+
+    @RequestMapping("/delete/{id}")
+    public ModelAndView deleteCategory(
+            @PathVariable int id
+    ){
+        categoryService.deleteCategory(id);
         return new ModelAndView("redirect:/category");
-}
+    }
 
-//    @PatchMapping("/update/{id}")
-//    public ResponseEntity<Category> updateCategory(
-//            @PathVariable int id,
-//            @Valid @RequestBody String updateCategory){
-//        return ResponseEntity.ok(
-//                categoryService.updateCategory(
-//                        mapper.requestCategory(updateCategory),
-//                        id
-//                )
-//        );
-//    }
-@RequestMapping("/add")
-public ModelAndView addCategory(
-        Model model,
-        String newCategory){
-    model.addAttribute("category",mapper.requestCategory(newCategory));
-    return new ModelAndView("categoryAddForm");
-}
-
-@PostMapping("/updated")
-public ModelAndView saveUpdate(
-        @Valid @ModelAttribute("category") Category category,
-        BindingResult bindingResult,
-        Model model)
-{
-        if (bindingResult.hasErrors()){
-            model.addAttribute("category",category);
-            return new ModelAndView("categoryForm");
-        }
-        categoryService.addCategory(category);
-        return new ModelAndView("redirect:/category");
-}
-@RequestMapping("/update/{id}") //cand merg pe ruta asta doar se afiseaza categoryForm
-public ModelAndView updateCategory(
-        @PathVariable int id,
-        @Valid Model model){
-
-        model.addAttribute("category",categoryService.getCategoryById(id));
-
-
-    return new ModelAndView("categoryForm");
-}
-
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<Void> deleteCategory(
-//            @PathVariable int id
-//    ){
-//        categoryService.deleteCategory(id);
-//        return ResponseEntity.noContent().build();
-//    }
-@RequestMapping("/delete/{id}")
-public ModelAndView deleteCategory(
-        @PathVariable int id
-){
-    categoryService.deleteCategory(id);
-    return new ModelAndView("redirect:/category");
-}
-
-//    @GetMapping("/getCategories")
-//    public ResponseEntity<List<Category>> getCategories(){
-//        return ResponseEntity.ok(categoryService.getCategories());
-//    }
-@RequestMapping("")
-public ModelAndView getCategories(Model model){
-        List<Category> categories = categoryService.getCategories();
-        model.addAttribute("categories",categories);
-        return new ModelAndView ("categoryList");
-}
+    @RequestMapping("")
+    public ModelAndView getCategories(Model model){
+            List<Category> categories = categoryService.getCategories();
+            model.addAttribute("categories",categories);
+            return new ModelAndView ("categoryList");
+    }
 }
