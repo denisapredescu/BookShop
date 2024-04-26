@@ -21,9 +21,7 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/author'}">Authors</a>
                 </li>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" th:href="@{'/book/getAvailable'}">Books available</a>-->
-<!--                </li>-->
+
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/book/getAvailable/0'}">Books available</a>
                 </li>
@@ -74,7 +72,7 @@
             <label for="categorySelect">Categories</label>
             <select id="categorySelect" name="selectedCategory">
                 <option value="" >Select a category</option>
-<!--                <option th:each="category : ${categoriesAll}" th:value="${category.name}" th:text="${category.name}"></option>-->
+
                 <option th:each="category : ${categoriesAll}"
                         th:value="${category.name}"
                         th:text="${category.name}"

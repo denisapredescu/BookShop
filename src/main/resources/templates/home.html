@@ -8,9 +8,7 @@
 </head>
 <body>
 <h1>You create your own basket</h1>
-<!--<div>-->
-<!--    <p>User ID: <span th:text="${userId}"></span></p>-->
-<!--</div>-->
+
 
 <form enctype="multipart/form-data" method="post" th:action="@{/basket/createBask/{userId}(userId=${userId})}" th:object="${basket}">
 

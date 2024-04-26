@@ -21,9 +21,7 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/author'}">Authors</a>
                 </li>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" th:href="@{'/book/getAvailable'}">Books available</a>-->
-<!--                </li>-->
+
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/book/getAvailable/0'}">Books available</a>
                 </li>
@@ -87,8 +85,7 @@
             <td th:text="${book.year}">2000</td>
             <td th:text="${book.volume}">1</td>
             <td th:text="${book.series_name}">Series 1</td>
-<!--            <td th:if="${book.author != null}" th:text="${book.author.firstName + ' ' + book.author.lastName}">Author Name</td>-->
-<!--            <td th:unless="${book.author != null}">No Author</td>-->
+
             <td>
                 <span th:if="${book.bookCategories.size() > 0}" th:with="categoryNames=${''}">
                     <span th:each="category : ${book.bookCategories}">

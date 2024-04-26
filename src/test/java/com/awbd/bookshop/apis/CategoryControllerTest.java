@@ -42,13 +42,6 @@ public class CategoryControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    //@PostMapping("")
-    //public ModelAndView save(
-    //        @Valid @ModelAttribute Category category){
-    //        categoryService.addCategory(category);
-    //        return new ModelAndView("redirect:/category");
-    //}
-
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void save() throws Exception{
@@ -120,17 +113,6 @@ public class CategoryControllerTest {
                 .andExpect(view().name("categoryForm"));
     }
 
-    //@RequestMapping("/update/{id}") //cand merg pe ruta asta doar se afiseaza categoryForm
-    //public ModelAndView updateCategory(
-    //        @PathVariable int id,
-    //        @Valid Model model){
-    //
-    //        model.addAttribute("category",categoryService.getCategoryById(id));
-    //
-    //
-    //    return new ModelAndView("categoryForm");
-    //}
-
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void updateCategory() throws Exception {
@@ -143,13 +125,7 @@ public class CategoryControllerTest {
                 .andExpect(model().attribute("category",category));
         verify(categoryService,times(1)).getCategoryById(id);
     }
-    //@RequestMapping("/delete/{id}")
-    //public ModelAndView deleteCategory(
-    //        @PathVariable int id
-    //){
-    //    categoryService.deleteCategory(id);
-    //    return new ModelAndView("redirect:/category");
-    //}
+
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void deleteCategory() throws Exception{
@@ -160,15 +136,8 @@ public class CategoryControllerTest {
                 .andExpect(redirectedUrl("/category"));
         verify(categoryService).deleteCategory(id);
     }
-    //@RequestMapping("")
-    //public ModelAndView getCategories(Model model){
-    //        List<Category> categories = categoryService.getCategories();
-    //        model.addAttribute("categories",categories);
-    //        return new ModelAndView ("categoryList");
-    //}
 
     @Test
-    //@WithMockUser(username = "miruna",password = "pass",roles = {"USER"})
     public void getCategories() throws Exception{
         Category category1 = new Category(1,"action");
         Category category2 = new Category(2,"romance");
