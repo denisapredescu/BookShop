@@ -39,11 +39,11 @@ values (2, false, 22.5, 3);
 insert into baskets(id, sent, cost, user_id)
 values (3, true, 60.99, 1);
 
-insert into books(id, is_deleted, name, price, author_id)
-values (1, false, 'book1', 11.25, 1);
+insert into books(id, is_deleted, name, price, author_id,year_date,volume)
+values (1, false, 'book1', 11.25, 1,2000,1);
 
-insert into books(id, is_deleted, name, price, author_id)
-values (2, false, 'book2', 20.33, 2);
+insert into books(id, is_deleted, name, price, author_id,year_date,volume)
+values (2, false, 'book2', 20.33, 2,2000,1);
 
 insert into  book_baskets(id, copies, price, basket_id, book_id)
 values (1, 2, 22.5, 2, 1);
