@@ -17,5 +17,5 @@ public interface ICategoryService {
 
     Category getCategoryById(int id);
 
-    List<Category> getCategoriesByIds(List<Integer> categoryIds);
+  //  List<Category> getCategoriesByIds(List<Integer> categoryIds);
 }

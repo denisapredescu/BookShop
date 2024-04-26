@@ -31,7 +31,13 @@ class CategoryServiceTest {
     private CategoryService categoryServiceUnderTest;
     @Mock
     private CategoryRepository categoryRepository;
-
+    @Test
+    public void addCategory(){
+        when(categoryRepository.save(CATEGORY)).thenReturn(CATEGORY);
+        var result = categoryServiceUnderTest.addCategory(CATEGORY);
+        verify(categoryRepository,times(1)).save(CATEGORY);
+        assertEquals(CATEGORY,result);
+    }
     @Test
     void save() {
         when(categoryRepository.findByName(CATEGORY.getName())).thenReturn(Optional.empty());
@@ -146,5 +152,17 @@ class CategoryServiceTest {
     void getCategories_DatabaseError() {
         when(categoryRepository.findAll()).thenThrow(DatabaseError.class);
         assertThrows(DatabaseError.class, () -> categoryServiceUnderTest.getCategories());
+    }
+
+    @Test
+    void getCategoryById(){
+        when(categoryRepository.findById(CATEGORY_ID)).thenReturn(Optional.of(CATEGORY));
+        Category result = categoryServiceUnderTest.getCategoryById(CATEGORY_ID);
+        assertEquals(CATEGORY,result);
+    }
+    @Test
+    void getCategoryByIdError(){
+        when(categoryRepository.findById(CATEGORY_ID)).thenThrow(NoFoundElementException.class);
+        assertThrows(NoFoundElementException.class,()->categoryServiceUnderTest.getCategoryById(CATEGORY_ID));
     }
 }

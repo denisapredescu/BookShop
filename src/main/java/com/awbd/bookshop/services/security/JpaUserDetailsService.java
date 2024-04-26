@@ -19,7 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Profile("mysql")
+//@Profile("mysql")
 public class JpaUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;

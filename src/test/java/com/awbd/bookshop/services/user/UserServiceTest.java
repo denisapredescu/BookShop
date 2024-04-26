@@ -11,12 +11,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -133,5 +136,46 @@ class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         assertThrows(NoFoundElementException.class, () -> userServiceUnderTest.getUser(userId));
+    }
+
+    @Test
+    public void getId(){
+        String username = "ana";
+        int userId = 1;
+        when(userRepository.findByUserName(username)).thenReturn(userId);
+        int userIdActual = userServiceUnderTest.getId(username);
+        assertNotNull(userIdActual);
+        assertEquals(userId,userIdActual);
+    }
+
+    @Test
+    public void getCurrentUserIdAnonymous(){
+        Authentication authentication = mock(Authentication.class);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        when(authentication.isAuthenticated()).thenReturn(true);
+        when(authentication.getName()).thenReturn("anonymousUser");
+
+        Integer userId = userServiceUnderTest.getCurrentUserId();
+        assertEquals(0,userId);
+    }
+
+    @Test
+    public void getCurrentUserIdUnauthenticated(){
+        Authentication authentication = mock(Authentication.class);
+        SecurityContextHolder.getContext().setAuthentication(null);
+
+        Integer userId = userServiceUnderTest.getCurrentUserId();
+        assertEquals(0,userId);
+    }
+
+    @Test
+    public void getCurrentUserIdAuthenticated(){
+        Authentication authentication = mock(Authentication.class);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        when(authentication.isAuthenticated()).thenReturn(true);
+        when(authentication.getName()).thenReturn("ROLE_USER");
+        when(userServiceUnderTest.getId("ROLE_USER")).thenReturn(1);
+        Integer userId = userServiceUnderTest.getCurrentUserId();
+        assertEquals(1,userId);
     }
 }
