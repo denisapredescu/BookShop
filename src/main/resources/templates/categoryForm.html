@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="htttp://www.thymeleaf.org">
+<html lang="en" xmlns:th="htttp://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>BookShop</title>
@@ -34,15 +34,28 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto topnav">
-                <li class="nav-item">
+
+                <li sec:authorize="hasAnyRole('ADMIN','USER')" class="nav-item">
+                    <a class="nav-link btn-primary" th:href="@{'/basket/myBasket'}">
+                        <i class="fa-solid fa-cart-shopping"></i> My Basket
+                    </a>
+                </li>
+                <li sec:authorize="isAnonymous()" class="nav-item">
                     <a class="nav-link btn-primary" th:href="@{'/login'}">
                         <i class="fas fa-sign-in-alt"></i> Sign In
                     </a>
                 </li>
-                <li class="nav-item">
+                <li sec:authorize="isAnonymous()" class="nav-item">
                     <a class="nav-link btn-primary" th:href="@{'/user/form'}">
                         <i class="fas fa-user-plus"></i> Register
                     </a>
+                </li>
+                <li sec:authorize="hasAnyRole('ADMIN','USER')" class="nav-item">
+                    <form id="logout-form" th:action="@{/logout}" method="post">
+                        <button type="submit" class="nav-link btn-primary">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>

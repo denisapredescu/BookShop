@@ -57,6 +57,13 @@ public class AuthorControllerTest {
                 .andExpect(redirectedUrl("/author"));
     }
     @Test
+    @WithMockUser(username = "ana", password = "pass", roles = "USER")
+    public void saveForb() throws Exception {
+
+        mockMvc.perform(post("/author"))
+                .andExpect(status().isForbidden());
+    }
+    @Test
     public void saveErr() throws Exception{
         Author author = new Author("","Simon","Romanian");
         System.out.println("Request JSON: " + objectMapper.writeValueAsString(author));
@@ -107,6 +114,13 @@ public class AuthorControllerTest {
                 .andExpect(model().attributeExists("author"))
                 .andExpect(view().name("authorForm"));
     }
+    @Test
+    @WithMockUser(username = "ana", password = "pass", roles = "USER")
+    public void saveAuthorUpdateForb() throws Exception {
+
+        mockMvc.perform(post("/author/update"))
+                .andExpect(status().isForbidden());
+    }
 
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
@@ -118,7 +132,13 @@ public class AuthorControllerTest {
                 .andExpect(model().attributeExists("author"))
                 .andExpect(view().name("authorAddForm"));
     }
+    @Test
+    @WithMockUser(username = "ana", password = "pass", roles = "USER")
+    public void addAuthorForb() throws Exception {
 
+        mockMvc.perform(get("/author/add"))
+                .andExpect(status().isForbidden());
+    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void updateAuthor() throws Exception {
@@ -131,7 +151,13 @@ public class AuthorControllerTest {
                 .andExpect(model().attribute("author",author));
         verify(authorService,times(1)).getAuthorById(id);
     }
+    @Test
+    @WithMockUser(username = "ana", password = "pass", roles = "USER")
+    public void updateAuthorForb() throws Exception {
 
+        mockMvc.perform(get("/author/update/{id}","1"))
+                .andExpect(status().isForbidden());
+    }
     @Test
     @WithMockUser(username = "miruna",password = "pass",roles = {"ADMIN"})
     public void deleteAuthor() throws Exception{
@@ -142,7 +168,13 @@ public class AuthorControllerTest {
                 .andExpect(redirectedUrl("/author"));
         verify(authorService).deleteAuthor(id);
     }
+    @Test
+    @WithMockUser(username = "ana", password = "pass", roles = "USER")
+    public void deleteAuthorForb() throws Exception {
 
+        mockMvc.perform(delete("/author/delete/{id}","1"))
+                .andExpect(status().isForbidden());
+    }
     @Test
     public void getAuthors() throws Exception{
         Author author1 = new Author(1,"Lara","Simoni","Romanian");
