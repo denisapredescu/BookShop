@@ -8,7 +8,6 @@
 CREATE TABLE IF NOT EXISTS authorities (
                                            id INT NOT NULL,
                                            authority VARCHAR(50) NOT NULL,
-                                           user_id INT NULL DEFAULT NULL,
                                            PRIMARY KEY (id)
                                        );
 -- -----------------------------------------------------
@@ -59,7 +58,6 @@ CREATE TABLE IF NOT EXISTS books (
                                     price DOUBLE NOT NULL,
                                     series_name VARCHAR(255) NULL DEFAULT NULL,
                                     volume INT NULL DEFAULT NULL,
-                                    `year` INT NULL DEFAULT NULL,
                                     author_id INT NULL DEFAULT NULL,
                                     year_date INT NULL DEFAULT NULL,
                                     PRIMARY KEY (id),
