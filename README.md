@@ -1,8 +1,6 @@
 # BookShop
 
-https://docs.google.com/document/d/1DM2_K6RMbRv7PmBai0MUdk9NYFlW_kCtvDij6Wjzn6I/edit?usp=sharing
-
-## Schema
+## Database schema
 
 <p align="center">
   <img src="Management/MySQLWorkbench.png" alt="MySQLWorkbench" width="70%">
@@ -85,6 +83,7 @@ used in the same time with @Valid annotation in functions.
 <p align="center">
     <img src="Management/Model_FormsAndDataValidation.png" alt="Model_FormsAndDataValidation">
 </p>
+
 - How it looks in *Controller*
 
 We need to use BindingResult to detect errors caused by not filling fields correctly.
@@ -93,6 +92,7 @@ by the form with the given name from the .html file.
 <p align="center">
     <img src="Management/Controller_FormsDataValidation.png" alt="Controller_FormsDataValidation">
 </p>
+
 - How it looks in *Frontend*
 <p align="center">
     <img src="Management/FormsDataValidation.png" alt="FormsDataValidation" width="50%">
