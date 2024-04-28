@@ -27,6 +27,21 @@ https://docs.google.com/document/d/1DM2_K6RMbRv7PmBai0MUdk9NYFlW_kCtvDij6Wjzn6I/
 
 </details>
 
+## CRUD OPERATIONS
+
+<p align="center">
+  <img src="Management/Controller1.png" alt="Controller1">
+</p>
+
+<p align="center">
+  <img src="Management/Controller2.png" alt="Controller2">
+</p>
+
+<p align="center">
+  <img src="Management/Controller3.png" alt="Controller3">
+</p>
+
+
 ## Switching between profiles 
 If you set the active profile to MySQL (mysql), the H2 tests will not fail by default, but they won't run either. The tests annotated with @ActiveProfiles("h2") will be ignored because the active profile is set to MySQL.
 
