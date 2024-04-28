@@ -1,4 +1,4 @@
-# BookShop
+![image](https://github.com/denisapredescu/BookShop/assets/86727047/bd2f7ef0-18ef-47d5-a0e7-1b3320b1b705)# BookShop
 
 https://docs.google.com/document/d/1DM2_K6RMbRv7PmBai0MUdk9NYFlW_kCtvDij6Wjzn6I/edit?usp=sharing
 
@@ -48,8 +48,8 @@ Run your tests.
 
 <details><summary><b>Present all the tests <br>
 The classes are named after the following logic: <br>
-- ModelNameServiceTest if the tests are made with MySql Profile <br>
-- ModelNameServiceH2Test if the tests are made with H2 Profile
+- ModelNameRepositoryTest if the tests are made with MySql Profile <br>
+- ModelNameRepositoryH2Test if the tests are made with H2 Profile
 </b></summary>
 
 <p align="center">
