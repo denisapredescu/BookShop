@@ -70,9 +70,61 @@ The classes are named after the following logic: <br>
 </details>
 
 <details><summary><b>Present all the tests on controller</b></summary>
-
+<div style="display: flex;">
+  <img src="Management/ControllerTest1.png" alt="ControllerTest1" width="50%">
+  <img src="Management/ControllerTest2.png" alt="ControllerTest2" width="50%">
+</div>
 </details>
 
+## Forms data validation
+- The Model
+
+The annotations like @NotNull, @Min, @Positive will be validated when the object will be
+used in the same time with @Valid annotation in functions.
+
+<p align="center">
+    <img src="Management/Model_FormsAndDataValidation.png" alt="Model_FormsAndDataValidation">
+</p>
+- How it looks in *Controller*
+
+We need to use BindingResult to detect errors caused by not filling fields correctly.
+Also after @ModelAttribute annotation we need to specify the object that it is return
+by the form with the given name from the .html file.
+<p align="center">
+    <img src="Management/Controller_FormsDataValidation.png" alt="Controller_FormsDataValidation">
+</p>
+- How it looks in *Frontend*
+<p align="center">
+    <img src="Management/FormsDataValidation.png" alt="FormsDataValidation" width="50%">
+</p>
+
+### Exception custom pages
+When the user has no books in the basket and he/she click on sent button from the "My Basket" page 
+the "NoFoundElementException" is caught and a custom error page will appear on the screen.
+<p align="center">
+    <img src="Management/NoFoundElementException.png" alt="Controller_PaginateAndSort">
+</p>
+<p align="center">
+    <img src="Management/handleNoSuchElementException.png" alt="Controller_PaginateAndSort">
+</p>
+
+- How it looks the custom page
+<p align="center">
+    <img src="Management/Exception_noBooks.png" alt="Controller_PaginateAndSort" width="50%">
+</p>
+
+- Another example is when on register a user entered an email that already exists
+
+<p align="center">
+    <img src="Management/EmailAlreadyUsedException.png" alt="EmailAlreadyExists">
+</p>
+<p align="center">
+    <img src="Management/handleEmailAlreadyUsedException.png" alt="handleEmailAlreadyUsedException">
+</p>
+
+<p align="center">
+    <img src="Management/EmailAlreadyExists.png" alt="EmailAlreadyExists" width="50%">
+</p>
 
 ## Logging
 To be able to insert and use logs, the `@Slf4j` annotation is inserted to the h2 test class.
@@ -101,6 +153,26 @@ The information is display after the test is run in the command prompt
 </p>
 
 - How it looks in *Controller* 
-
+<p align="center">
+    <img src="Management/Controller_PaginateAndSort.png" alt="Controller_PaginateAndSort">
+</p>
 
 - How it looks in *Frontend*
+<p align="center">
+    <img src="Management/Frontend_PagingAndSorting.png" alt="Controller_PaginateAndSort">
+</p>
+
+## Spring Security - JDBC Authentication
+<details><summary><b>Security, Role Permissions</b></summary>
+
+<p align="center">
+    <img src="Management/SpringSecurity.png" alt="SpringSecurity">
+</p>
+</details>
+
+<details><summary><b>Login Form</b></summary>
+
+<p align="center">
+    <img src="Management/LoginForm.png" alt="LoginForm">
+</p>
+</details>
