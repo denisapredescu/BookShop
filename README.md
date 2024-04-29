@@ -1,5 +1,10 @@
 # BookShop
 
+<p align="center">
+  <sub>Project made by <i>Denisa Predescu</i> and <i>Miruna Andreea Postolache</i> for AWBD course, gr 405, 2nd Semester of 1st Year of Databases and Software Tehnologies Master Domain at University of Bucharest, 2024
+  </sub>
+</p>
+
 ## Database schema
 
 <p align="center">
