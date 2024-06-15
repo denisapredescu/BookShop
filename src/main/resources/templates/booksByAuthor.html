@@ -19,17 +19,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto topnav">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/author'}">Authors</a>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link" th:href="@{'/book/getAvailable/0'}">Books available</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{'/book'}">Books</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{'/category'}">Categories</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto topnav">
@@ -61,7 +54,7 @@
 </div>
 <div class="panel panel-default">
     <div class="panel-heading text-center mt-3">
-        <h3>Available books written by <span th:text="${firstname} + ' ' + ${lastname}"></span></h3>
+        <h3>Available books written by <span th:text="${authorName}"></span></h3>
     </div>
 </div>
 <br>
@@ -85,16 +78,16 @@
             <td th:text="${book.year}">2000</td>
             <td th:text="${book.volume}">1</td>
             <td th:text="${book.series_name}">Series 1</td>
-
-            <td>
-                <span th:if="${book.bookCategories.size() > 0}" th:with="categoryNames=${''}">
-                    <span th:each="category : ${book.bookCategories}">
-                        <span th:text="${category.name}" th:remove="tag"></span>
-                        <span th:if="${!category.equals(book.bookCategories[book.bookCategories.size() - 1])}">,</span>
-                    </span>
-                </span>
-            </td>
-            <td th:unless="${book.bookCategories != null}">No Categories</td>
+            <td th:text="${book.categories}">Series 1</td>
+<!--            <td>-->
+<!--                <span th:if="${book.bookCategories.size() > 0}" th:with="categoryNames=${''}">-->
+<!--                    <span th:each="category : ${book.bookCategories}">-->
+<!--                        <span th:text="${category.name}" th:remove="tag"></span>-->
+<!--                        <span th:if="${!category.equals(book.bookCategories[book.bookCategories.size() - 1])}">,</span>-->
+<!--                    </span>-->
+<!--                </span>-->
+<!--            </td>-->
+<!--            <td th:unless="${book.bookCategories != null}">No Categories</td>-->
 
         </tr>
     </table>
