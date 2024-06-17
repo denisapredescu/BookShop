@@ -1,5 +1,7 @@
 # BookShop
 
+![image](https://github.com/postolache-andreea-miruna/BookShop-Spring-Cloud/assets/86727047/445307c5-d2cd-4693-95a4-2383a173d987)
+
 <p align="center">
   <sub>Project made by <i>Denisa Predescu</i> and <i>Miruna Andreea Postolache</i> for AWBD course, gr 405, 2nd Semester of 1st Year of Databases and Software Tehnologies Master Domain at University of Bucharest, 2024
   </sub>
