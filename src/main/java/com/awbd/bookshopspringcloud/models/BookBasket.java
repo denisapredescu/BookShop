@@ -1,11 +1,14 @@
 package com.awbd.bookshopspringcloud.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import org.springframework.hateoas.RepresentationModel;
 
 @Entity
 @Table(name = "book_baskets")
-public class BookBasket {
+public class BookBasket extends RepresentationModel<BookBasket> {
     @Id
     @GeneratedValue
     private int id;
@@ -19,10 +22,12 @@ public class BookBasket {
 
     @ManyToOne(targetEntity = Book.class)
     @PrimaryKeyJoinColumn(name = "book_id")
+    @JsonBackReference
     private Book book;
 
     @ManyToOne(targetEntity = Basket.class)
     @PrimaryKeyJoinColumn(name = "basket_id")
+    @JsonBackReference
     private Basket basket;
 
     public BookBasket() {

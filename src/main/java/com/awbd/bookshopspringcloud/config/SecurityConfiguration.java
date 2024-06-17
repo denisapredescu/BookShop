@@ -34,24 +34,24 @@ public class SecurityConfiguration {
 
                 .authorizeRequests(requests -> requests
 
-                        .requestMatchers("/","/author","/book","/category","/login").permitAll()
+                        .requestMatchers("/","/book/**","/login/**").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-                                .requestMatchers("/author/update/**","/author/add","/author/delete/**").hasRole("ADMIN")
-                                .requestMatchers("/book/update/**","/book/add","/book/addAuthorToBook/**",
-                                        "/book/addCategBook/**","/book/delete/**").hasRole("ADMIN")
-                                .requestMatchers("category/add","category/update/**","category/delete/**").hasRole("ADMIN")
+                              .requestMatchers("/book/update/**","/book/add","/book/addAuthorToBook/**",
+                                   "/book/addCategBook/**","/book/delete/**").hasRole("ADMIN")
                 )
                 .userDetailsService(userDetailsService)
                 .headers((headers) -> headers.disable())
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
-                .formLogin(formLogin ->
-                        formLogin
-                                .loginPage("/login")
-                                .permitAll()
-                                .loginProcessingUrl("/perform_login")
-                )
-                .exceptionHandling(ex -> ex.accessDeniedPage("/access_denied"));
+//                .csrf(csrf -> csrf
+//                        .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
+                .csrf(csrf -> csrf.disable());
+
+//                .formLogin(formLogin ->
+//                        formLogin
+//                                .loginPage("/login")
+//                                .permitAll()
+//                                .loginProcessingUrl("/perform_login")
+//                )
+                //.exceptionHandling(ex -> ex.accessDeniedPage("/access_denied"));
         return http.build();
     }
 

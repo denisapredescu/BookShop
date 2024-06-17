@@ -18,30 +18,17 @@ import java.util.Map;
 
 @ControllerAdvice
 public class ExceptionHandler extends BaseExceptionHandler {
-
-@org.springframework.web.bind.annotation.ExceptionHandler(EmailAlreadyUsedException.class)
-public ModelAndView handleEmailAlreadyUsedException(EmailAlreadyUsedException ex, WebRequest request) {
-    ModelAndView modelAndView = new ModelAndView();
-    modelAndView.getModel().put("exception",ex);
-    modelAndView.setViewName("sameEmailException");
-    return modelAndView;
-}
-
-    @org.springframework.web.bind.annotation.ExceptionHandler(DeletedBookException.class)
-    public ModelAndView handleDeletedBookException(DeletedBookException ex, WebRequest request) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.getModel().put("exception",ex);
-        modelAndView.setViewName("deletedBookException");
-        return modelAndView;
+    @org.springframework.web.bind.annotation.ExceptionHandler(EmailAlreadyUsedException.class)
+    public ResponseEntity<Object> handleEmailAlreadyUsedException(EmailAlreadyUsedException ex, WebRequest request) {
+        return buildResponse(ex, request);
     }
-
+    @org.springframework.web.bind.annotation.ExceptionHandler(DeletedBookException.class)
+    public ResponseEntity<Object> handleDeletedBookException(DeletedBookException ex, WebRequest request) {
+        return buildResponse(ex, request);
+    }
     @org.springframework.web.bind.annotation.ExceptionHandler(NoFoundElementException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ModelAndView handleNoSuchElementException(NoFoundElementException ex, WebRequest request) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.getModel().put("exception",ex);
-        modelAndView.setViewName("notFoundException");
-        return modelAndView;
+    public ResponseEntity<Object> handleNoSuchElementException(NoFoundElementException ex, WebRequest request) {;
+        return setResponseBody(ex, request, HttpStatus.NOT_FOUND, "Not Found");
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(ConstraintViolationException.class)

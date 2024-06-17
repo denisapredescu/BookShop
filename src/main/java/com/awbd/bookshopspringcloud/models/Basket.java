@@ -1,13 +1,15 @@
 package com.awbd.bookshopspringcloud.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "baskets")
-public class Basket {
+public class Basket extends RepresentationModel<Basket> {
     @Id
     @GeneratedValue
     private int id;
@@ -23,6 +25,7 @@ public class Basket {
     private User user;
 
     @OneToMany(mappedBy = "basket")
+    @JsonManagedReference
     private List<BookBasket> baskets = null;
 
     public Basket() {

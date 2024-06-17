@@ -23,5 +23,5 @@ public interface IBookService {
     Book getBookById(Integer bookId);
     int numberAvailableBooks();
     List<String> getAllCategories();
-   // List<Book> getAllAvailableBooks();
+    List<Book> getAllAvailableBooks();
 }

@@ -1,17 +1,21 @@
 package com.awbd.bookshopspringcloud.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "books")
-public class Book {
+//public class Book {
+public class Book extends RepresentationModel<Book> {//extends RepresentationModel<Book>  for links
     @Id
     @GeneratedValue
     private int id;
@@ -57,6 +61,7 @@ public class Book {
 //    private List<Category> bookCategories = null;
 
     @OneToMany(mappedBy = "book")
+    @JsonManagedReference
     private List<BookBasket> bookBaskets = null;
 
     public Book() {

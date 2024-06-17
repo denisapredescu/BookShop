@@ -8,15 +8,18 @@ public class UserDetails {
     private String username;
     private String email;
 
+    private String password;
+
     public UserDetails() {
     }
 
-    public UserDetails(Integer id, String firstName, String lastName, String username, String email) {
+    public UserDetails(Integer id, String firstName, String lastName, String username, String email,String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -37,5 +40,9 @@ public class UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

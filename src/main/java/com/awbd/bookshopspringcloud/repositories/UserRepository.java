@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query("SELECT DISTINCT user FROM User user WHERE user.email = :email")
     Optional<User> getUserByEmail(String email);
 
-    @Query("SELECT NEW com.awbd.bookshopspringcloud.dtos.UserDetails(user.id, user.firstName, user.lastName, user.username, user.email) FROM User user")
+    @Query("SELECT NEW com.awbd.bookshopspringcloud.dtos.UserDetails(user.id, user.firstName, user.lastName, user.username, user.email,user.password) FROM User user")
     List<UserDetails> getUsers();
 
     @Query("SELECT user.id FROM User user WHERE user.username = :username")

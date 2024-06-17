@@ -72,11 +72,11 @@ public class BookService implements IBookService {
             return new ArrayList<Book>();
         }
     }
-//@Override
-//public List<Book> getAllAvailableBooks() {
-//
-//    return bookRepository.getAllAvailableBooks();
-//}
+    @Override
+    public List<Book> getAllAvailableBooks() {
+
+        return bookRepository.getAllAvailableBooks();
+    }
 
 
 //    @Override

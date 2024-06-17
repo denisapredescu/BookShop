@@ -18,10 +18,10 @@ public class MainController {
         return new ModelAndView("main");
     }
 
-    @GetMapping("/login")
-    public String showLogInForm(){ return "login"; }
+//    @GetMapping("/login")
+//    public String showLogInForm(){ return "login"; }
 
-    @GetMapping("/access_denied")
-    public String accessDeniedPage(){ return "accessDenied"; }
+//    @GetMapping("/access_denied")
+//    public String accessDeniedPage(){ return "accessDenied"; }
 
 }
